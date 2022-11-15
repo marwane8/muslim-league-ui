@@ -1,6 +1,10 @@
 name: Next JS Test
 
-on: [push]
+on:
+  push:
+    branches: ["feature"]
+  pull_request:
+    branches: ["feature"]
 
 jobs:
   test:
