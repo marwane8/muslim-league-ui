@@ -33,8 +33,8 @@ const Home = ({standings}: Props) => {
               alt='Picture of Championship Team'
               date='August 7th, 2022'>
             <p> 
-              Top Akhs defeat The Springfield Rockets in close battle to 
-              defend there tile and are now back to back Muslim League champions.
+              Top Akhs defeat The Springfield Rockets in a close battle to 
+              defend their title as back to back Muslim League champions.
             </p>
             </ImageCard>
           </div>
