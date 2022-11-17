@@ -11,15 +11,15 @@ export default function Navbar() {
     
 
     const [open, setOpen] = useState<boolean>(false)
-    const [subMenu, setSubMenu] = useState<string>('opacity-50')
+    const [subMenu, setSubMenu] = useState<string>('opacity-0 left-[-150px] top-[32px]')
 
     const toggleMenu = () => {
         if(open) {
             setOpen(false);
-            setSubMenu('opacity-70 left-[-150px] top-[32px]');
+            setSubMenu('opacity-0 left-[-150px] top-[32px]');
         } else {
             setOpen(true);
-            setSubMenu('bg-primary shadow-xl shadow-black rounded-b-lg left-[-4px] top-[32px] shadow-2xl')
+            setSubMenu('bg-primary shadow-black rounded-b-lg left-[-4px] top-[32px] shadow-2xl')
         }
     }
 
