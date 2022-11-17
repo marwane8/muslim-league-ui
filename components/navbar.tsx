@@ -11,15 +11,15 @@ export default function Navbar() {
     
 
     const [open, setOpen] = useState<boolean>(false)
-    const [subMenu, setSubMenu] = useState<string>('opacity-0 top-[-200px]')
+    const [subMenu, setSubMenu] = useState<string>('opacity-0 left-[-150px] top-[32px]')
 
     const toggleMenu = () => {
         if(open) {
             setOpen(false);
-            setSubMenu('opacity-0 top-[-200px]');
+            setSubMenu('opacity-0 left-[-150px] top-[32px]');
         } else {
             setOpen(true);
-            setSubMenu('bg-primary rounded-b-lg top-[32px] shadow-2xl')
+            setSubMenu('bg-primary shadow-black rounded-b-lg left-[-4px] top-[32px] shadow-2xl')
         }
     }
 
@@ -44,10 +44,13 @@ export default function Navbar() {
     ]
 
     return (
-        <div className="bg-primary w-full shadow-sm shadow-gray-500 fixed z-20">
+        <>
+        <div className="p-3"> spacer </div>
+        <div className="bg-primary w-full shadow-sm shadow-gray-500 fixed z-30">
+            
         <nav className="container max-w-screen-xl p-1 md:flex md:items-center md:justify-between">
-            <div className="flex items-center justify-between">
-                <span className="flex items-center text-xl font-bold text-white duration-500 cursor-pointer hover:text-primary-500">
+            <div className="flex flex-row-reverse justify-end items-center md:justify-between">
+                <span className="flex items-center m-auto text-xl font-bold text-white duration-500 cursor-pointer hover:text-primary-500">
                     <Link href='/'>
                          <div>
                          <Basketball className="w-10 mx-2" />
@@ -58,13 +61,13 @@ export default function Navbar() {
                     </Link>
                </span>
 
-               <div className="pr-2" onClick={() => toggleMenu()}>
+               <div className="ml-2" onClick={() => toggleMenu()}>
                  {open ? <Close className="block text-white cursor-pointer md:hidden w-7"/> : <Menu className="block text-white cursor-pointer md:hidden w-7"/> }
                 </div> 
 
             </div>
 
-            <ul className={`z-[1] md:flex my-4 pb-2 md:shadow-none md:my-0 md:items-center tansition-all absolute ease-in duration-500 md:bg-primary md:opacity-100 md:static  ${subMenu}`}>
+            <ul className={`z-[1] md:flex my-4 pb-2 md:shadow-none md:my-0 md:items-center h-screen md:h-[10px] tansition-all absolute ease-in duration-500 md:bg-primary md:opacity-100 md:static  ${subMenu}`}>
 
                 { pages.map((page,index) => (
                 <li key={index} onClick={() => toggleMenu()} className="pt-2 pb-1 mx-3 text-lg font-bold text-white duration-500 border-b pr-9 md:pb-0 md:pr-0 md:border-none md:my-0 hover:text-primary-500">
@@ -78,6 +81,7 @@ export default function Navbar() {
             </ul>
         </nav>
         </div>
+        </>
     )    
 }
     
