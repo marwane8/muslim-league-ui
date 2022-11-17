@@ -40,11 +40,11 @@ export default function Footer() {
     
   })
   
-  const goToInsta = () => {document.location.href="https://www.instagram.com/muslimleaguect/"}
-  const goToFacebook = () => {document.location.href="https://www.facebook.com/MuslimLeagueCT"}
+  const goToInsta = () => {window.open("https://www.instagram.com/muslimleaguect/")}
+  const goToFacebook = () => {window.open("https://www.facebook.com/MuslimLeagueCT")}
 
   return (
-    <footer className="border-t border-gray-100 max-auto bg-gray"> 
+    <footer className="border-t border-gray-100 max-auto"> 
         <Container>
           <div className="flex justify-between w-20 pt-3 m-auto g-red"> 
             <button onClick={goToInsta}>

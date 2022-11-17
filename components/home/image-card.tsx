@@ -5,7 +5,7 @@ import Image from 'next/image'
 const ImageCard: NextPage<Props> = ({title,date,src,alt,children}: Props) => {
   return (            
   
-        <div className='text-center bg-gradient-to-r mb-5 from-primary-400 to-secondary-300 rounded-xl overflow-hidden mx-5 shadow-md max-w-[650px] '>
+        <div className='text-center bg-gradient-to-r mb-2 from-primary-400 to-secondary-300 rounded-xl overflow-hidden mx-3 shadow-md max-w-[650px] '>
             <Image
                 src={src}
                 alt={alt}
