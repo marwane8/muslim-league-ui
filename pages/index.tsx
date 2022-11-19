@@ -61,7 +61,7 @@ const Home = ({standings}: Props) => {
           <p className='text-l'> 
             Details for the 2023  Season will roll out early next year Inshallah.
             <span className='hidden pl-1 sm:inline'>
-              Comeback for updates and visit our social media for the latest content.
+              Come back for updates and visit our social media for the latest content.
             </span>
           </p>
         </Panel> 

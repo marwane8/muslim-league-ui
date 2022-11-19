@@ -23,6 +23,7 @@ module.exports = {
 
       'gray': '#edf6f9',
       'gray-100': '#dee9eb',
+      'gray-150': '#afccd5',
       'gray-200': '#78969f',
       'gray-300': '#455459',
       'gray-500': '#00171b',
@@ -30,6 +31,13 @@ module.exports = {
       'red-50': '#FCEFF1',
       'red': '#eb5e28',
       'red-300': '#FB2F3C'
+    },
+    minWidth: {
+      '0': '0',
+      '1/4': '25%',
+      '1/2': '50%',
+      '3/4': '75%',
+      'full': '100%',
     },
     container: {
       center: true

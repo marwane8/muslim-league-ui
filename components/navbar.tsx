@@ -19,7 +19,7 @@ export default function Navbar() {
             setSubMenu('opacity-0 left-[-150px] top-[32px]');
         } else {
             setOpen(true);
-            setSubMenu('bg-primary shadow-black rounded-b-lg left-[-4px] top-[32px] shadow-2xl')
+            setSubMenu('bg-primary rounded-b-lg left-[-4px] top-[32px] ')
         }
     }
 
@@ -45,8 +45,8 @@ export default function Navbar() {
 
     return (
         <>
-        <div className="p-3"> spacer </div>
-        <div className="bg-primary w-full shadow-sm shadow-gray-500 fixed z-30">
+        <div className="p-6">  </div>
+        <div className="bg-primary w-full fixed z-30">
             
         <nav className="container max-w-screen-xl p-1 md:flex md:items-center md:justify-between">
             <div className="flex flex-row-reverse justify-end items-center md:justify-between">

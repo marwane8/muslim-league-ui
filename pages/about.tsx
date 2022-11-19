@@ -16,8 +16,7 @@ const About = () => {
           <p className='pt-2 text-xl'> 
            <span className='font-bold'> Our Mission </span> is to unit the Ummah through sports! 
           </p>
-
-       </div>
+        </div>
       </Container>
    </div>
   )
