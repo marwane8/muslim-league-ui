@@ -44,10 +44,10 @@ export default function Login() {
   return (
     <>
     <Header title="Login | Muslim League CT"/>
-    <div className="flex flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex flex-col items-center justify-center pt-10 ">
         {error ? <ErrorCard message={error}/> : null} 
-        <div className="w-full max-w-md p-5 space-y-8 border border-gray-100 rounded-md bg-gray"> 
-            <h2 className="text-3xl font-bold text-center text-primary"> 
+        <div className="w-full max-w-md p-5 space-y-8 border border-gray-100 rounded-md bg-white"> 
+            <h2 className="text-3xl font-bold text-center text-primary-200"> 
                 Admin Sign In 
             </h2>
             <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
@@ -63,7 +63,7 @@ export default function Login() {
                       type="text"
                       autoComplete="username"
                       required
-                      className="relative block w-full px-3 py-2 border border-gray-100 rounded-none appearance-none rounded-t-md focus:z-10 focus:outline-none sm:text-sm"
+                      className="relative block w-full px-3 mb-3 py-2 border focus:ring-2  border-gray-100 rounded-md appearance-none focus:z-10 focus:outline-none sm:text-sm"
                       placeholder="Username"
                       value={username}
                       onChange={handleUserChange}
@@ -79,7 +79,7 @@ export default function Login() {
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="relative block w-full px-3 py-2 border border-gray-100 rounded-none appearance-none rounded-b-md focus:z-10 focus:outline-none sm:text-sm"
+                      className="relative block w-full px-3 py-2 border focus:ring-2 border-gray-100 rounded-md appearance-none focus:z-10 focus:outline-none sm:text-sm"
                       placeholder="Password"
                       value={password}
                       onChange={handlePasswordChange}
@@ -90,7 +90,7 @@ export default function Login() {
                 <div>
                   <button
                     type="submit"
-                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border-transparent rounded-md bg-primary group hover:bg-primary-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:bg-primary-400 disabled:text-primary-100"
+                    className="relative flex justify-center w-full px-4 py-2 text-sm font-medium text-white border-transparent rounded-md bg-primary group hover:bg-primary-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:bg-primary-400 disabled:text-primary-100"
                     disabled={isLoading}
                   >
                     Sign in
