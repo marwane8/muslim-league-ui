@@ -33,6 +33,10 @@ export default function Navbar() {
             link: '/teams'
         },
         {
+            name: 'Stats',
+            link: '/stats'
+        },
+        {
             name: 'Awards',
             link: '/awards'
         },

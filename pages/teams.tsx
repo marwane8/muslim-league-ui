@@ -75,7 +75,8 @@ const Teams = () => {
     </div>
       <div className='max-w-[500px] m-auto mb-6'>
 
-      <h1 className='font-bold text-xl my-2'> Player Stats </h1>
+
+      <h2 className='font-bold text-xl my-2'> Player Stats </h2>
       <div className="w-full  mb-3 mx-auto overflow-y-auto">
 
       <table className="w-full text-left">
