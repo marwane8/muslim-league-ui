@@ -43,7 +43,7 @@ export default function Standings({standings}: Props) {
       <DropDown/>
 
     </Panel>
-    <Panel title="Summer Rankings" removeBorder={true}>
+    <Panel title="Rankings" removeBorder={true}>
       <div className="w-full mb-3 overflow-y-auto">
       <table className="w-full text-right">
         <thead className='text-gray-300 border-gray-100 border-t-2 border-b-2'>
@@ -55,7 +55,7 @@ export default function Standings({standings}: Props) {
                 <th className='min-w-[50px]'> % </th>
                 <th className='min-w-[50px]'>PF</th>
                 <th className='min-w-[50px]'>PA</th>
-                <th className='min-w-[50px] pr-4'>+/-</th>
+                <th className='min-w-[50px] pr-2'>+/-</th>
           </tr>
         </thead>
         <tbody>
@@ -66,9 +66,9 @@ export default function Standings({standings}: Props) {
               <td className='py-1'> {teams.wins} </td>
               <td className=''> {teams.loss} </td>
               <td className=''> {calculateWinPercentage(teams.wins,teams.loss)} </td>
-              <td className=''> {teams.diff} </td>
-              <td className=''> {teams.diff} </td>
-              <td className='pr-4'> {teams.diff} </td>
+              <td className=''> {teams.points_for} </td>
+              <td className=''> {teams.points_against} </td>
+              <td className={ teams.diff<0 ? 'pr-2 text-red-300' : 'pr-2 text-primary'}> {teams.diff} </td>
             </tr>
          ))}
         </tbody>
