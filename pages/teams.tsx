@@ -3,19 +3,15 @@ import Container from '../components/container'
 import Panel from '../components/home/panel'
 import DropDown from "../components/drop-down"
 import { TeamName } from '../utils/models'
-import { getTeams } from '../utils/api/team-api'
+import { getRoster, getTeams } from '../utils/api/team-api'
+import React, { useState } from 'react'
 
 
 
 
 export default function Teams({teams}: Props) {
 
-  const borderStyle = 'border-b border-gray-100 '
-  const teamColStyle = 'absolute  pl-2 py-1 text-left  pl-3 border-r-2 w-[120px] border-gray-100'
-  const grayBG = 'bg-gray '
-  const whiteBG = 'bg-white '
- 
-  const ateams = [
+  let default_roster = [
     {
       player: "Mike",
       number: 8,
@@ -43,13 +39,37 @@ export default function Teams({teams}: Props) {
     }
   ]
  
+  const [currTeam,setTeam] = useState<number>(1);
+  const [roster,setRoster] = useState(default_roster);
+  const handleTeamChange = async (e: any) => {
+    setTeam(e.target.value)
+    const r = await updateRoster(e.target.value)
+    console.log(r)    
+    setRoster(r)
+  }  
+  const updateRoster = async (team_id: number) => {
+    console.log('updating to team: ', team_id)
+    let roster = await getRoster(team_id)
+    return roster
+  }
+  const borderStyle = 'border-b border-gray-100 '
+  const teamColStyle = 'absolute  pl-2 py-1 text-left  pl-3 border-r-2 w-[120px] border-gray-100'
+  const grayBG = 'bg-gray '
+  const whiteBG = 'bg-white '
+
  return (
   <>
+    {console.log(currTeam)}
     <Header title='Teams | Muslim League CT'/>
     <Container>
     <Panel title='Teams'>
     <div className='my-5  max-w-lg m-auto'>
-      <DropDown title='TEAMS' options={teams}/>
+      <DropDown 
+        title='TEAMS'
+        options={teams}
+        curentOption={currTeam} 
+        changeOption={handleTeamChange}
+        />
     </div>
     <h1 className='mt-7 text-center text-4xl font-bold'> Akastuski </h1>
     <div className='flex justify-between max-w-lg my-5 mx-auto'>
@@ -91,12 +111,12 @@ export default function Teams({teams}: Props) {
           </tr>
         </thead>
         <tbody>
-          { ateams.map((team,index) => (
+          { roster.map((team,index) => (
             <tr key={index} className={ index%2 ? borderStyle + grayBG : borderStyle + whiteBG } > 
-              <td className={ index%2 ? teamColStyle : whiteBG + teamColStyle }> {team.player} </td>
+              <td className={ index%2 ? teamColStyle : whiteBG + teamColStyle }> {team.name} </td>
               <th className= 'mr-5 w-[130px]'>   </th>
-              <td className='py-1'> {team.pos} </td>
-              <td className=''> {team.number} </td>
+              <td className='py-1'> -- </td>
+              <td className=''> {team.pos} </td>
               <td className='pr-4'> - - </td>
             </tr>
          ))}
