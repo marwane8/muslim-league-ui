@@ -25,7 +25,7 @@ export default DropDown
 
 type Props = {
   title?: string,
-  curentOption: string,
-  changeOption: any,
+  curentOption: number,
+  changeOption?: any,
   options: {key: number, value: string}[]
 }

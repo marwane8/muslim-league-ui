@@ -47,7 +47,7 @@ export default function Footer() {
     <footer className="border-t pt-5 border-gray-100 max-auto"> 
 
         <Container>
-           <div className="flex justify-between  text-sm w-3/4 sm:w-80 mb-1 m-auto">
+           <div className="flex justify-between  text-sm w-80 mb-1 m-auto">
             <NextLink href='/about'>
                 <a className="font-bold text-primary"> About Us</a>
             </NextLink>

@@ -1,138 +1,129 @@
-import Header from '../components/header'
-import Container from '../components/container'
-import Panel from '../components/home/panel'
-import DropDown from "../components/drop-down"
-import { TeamName } from '../utils/models'
-import { getRoster, getTeams } from '../utils/api/team-api'
 import React, { useState } from 'react'
 
+import Header from '../components/header'
+import Container from '../components/container'
+import Panel from '../components/panel'
+
+import DropDown from "../components/widgets/drop-down"
+import Badge from '../components/widgets/badge'
+import RosterTable from '../components/tables/roster-table'
+
+import { PlayerData, TeamData, TeamName } from '../utils/models'
+import { getRoster, getTeams, getStandings } from '../utils/api/team-api'
+
+type Props = {
+  teams: {key: number, value: string}[],
+  standings: TeamData[]
+}
+type ranking = {
+  ovr: number,
+  pts: number,
+  reb: number 
+}
 
 
 
-export default function Teams({teams}: Props) {
+export default function Teams({teams,standings}: Props) {
 
-  let default_roster = [
-    {
-      player: "Mike",
-      number: 8,
-      pos: "C"
-    },
-    {
-      player: "Abdullah",
-      number: 8,
-      pos: "PG"
-    },
-    {
-      player: "Mohammed",
-      number: 24,
-      pos: "SG"
-    },
-    {
-      player: "Salah",
-      number: 7,
-      pos: "PF"
-    },
-    {
-      player: "AJ",
-      number: 1,
-      pos: "SF"
-    }
-  ]
- 
+  const default_roster: PlayerData[] = [
+  {id: 1, name: 'Syed', number: 1, pos: 'G'},
+  {id: 2, name: 'Emaad', number: 1, pos: 'G'},
+  {id: 3, name: 'Azeem', number: 1, pos: 'F'},
+  {id: 4, name: 'Akwasi', number: 1, pos: 'F'},
+  {id: 5, name: 'Mobeen', number: 1, pos: 'F'},
+  {id: 6, name: 'Abubaker', number: 1, pos: 'G'},
+  {id: 7, name: 'Athar', number: 1, pos: 'G'},
+  {id: 8, name: 'Syeed', number: 1, pos: 'G'},
+  {id: 9, name: 'Hasnain', number: 1, pos: 'F'},
+  {id: 10, name: 'Hadi', number: 1, pos: 'F'},
+  ] 
+  let defaultRank = { ovr: 6, pts: 5, reb: 4}
+
   const [currTeam,setTeam] = useState<number>(1);
+  const [rank,setRank] = useState<ranking>(defaultRank);
   const [roster,setRoster] = useState(default_roster);
+  
+  
   const handleTeamChange = async (e: any) => {
     setTeam(e.target.value)
-    const r = await updateRoster(e.target.value)
-    console.log(r)    
-    setRoster(r)
+    setTeamRankings(e.target.value)
+    const new_roster = await updateRoster(e.target.value)
+    setRoster(new_roster)
   }  
+
   const updateRoster = async (team_id: number) => {
-    console.log('updating to team: ', team_id)
     let roster = await getRoster(team_id)
     return roster
   }
-  const borderStyle = 'border-b border-gray-100 '
-  const teamColStyle = 'absolute  pl-2 py-1 text-left  pl-3 border-r-2 w-[120px] border-gray-100'
-  const grayBG = 'bg-gray '
-  const whiteBG = 'bg-white '
+  
+  const setTeamRankings = (team_id: number) => {
+    const overall = getTeamStatRank(team_id);
+    const points = getTeamStatRank(team_id,'points');
+    const rebounds = getTeamStatRank(team_id,'rebounds');
+   
+    const teamRank = {  ovr: overall, pts: points, reb: rebounds}
+    setRank(teamRank)
+  }
 
+  const getTeamStatRank = (team_id: number, stat: string | null=null) => {
+    let stands = [...standings]
+    switch(stat) {
+      case 'points':
+        stands.sort((team1,team2) =>  team2.points_for - team1.points_for)
+        break;
+      case 'rebounds':
+        stands.sort((team1,team2) =>  team2.rebounds_total - team1.rebounds_total)
+        break;
+    }
+
+    for (let i = 0; i<stands.length;i++){
+      if (team_id == stands[i].id) {
+        return i+1
+      }
+    }
+    return 0;
+  }
  return (
   <>
-    {console.log(currTeam)}
     <Header title='Teams | Muslim League CT'/>
     <Container>
-    <Panel title='Teams'>
-    <div className='my-5  max-w-lg m-auto'>
-      <DropDown 
-        title='TEAMS'
-        options={teams}
-        curentOption={currTeam} 
-        changeOption={handleTeamChange}
+      <Panel title='Teams'>
+      <div className='my-5  max-w-md m-auto'>
+        <DropDown 
+          title='TEAM'
+          options={teams}
+          curentOption={currTeam} 
+          changeOption={handleTeamChange}
+          />
+      </div>
+      <h1 className='mt-7 text-center text-4xl font-bold'> {teams[currTeam-1].value}</h1>
+      <div className='flex justify-between max-w-md my-5 mx-auto'>
+        <Badge 
+          stat="OVR" 
+          rank={rank.ovr}
         />
-    </div>
-    <h1 className='mt-7 text-center text-4xl font-bold'> Akastuski </h1>
-    <div className='flex justify-between max-w-lg my-5 mx-auto'>
-      <div className='w-20'>
-        <div className=' flex justify-center items-center bg-primary h-20  text-center m-auto rounded-3xl'>  
-          <div className='text-white text-3xl font-bold'> 1st </div>
-        </div>
-        <h1 className='pt-1 font-bold text-center'> OVR </h1>
+        <Badge 
+          stat="PPG" 
+          rank={rank.pts}
+        />
+        <Badge 
+          stat="RPG" 
+          rank={rank.reb}
+        />
       </div>
+      <RosterTable
+          title='Player Stats' 
+          players={roster}
+      />
 
-      <div className='w-20'>
-        <div className=' flex justify-center items-center bg-primary h-20  text-center m-auto rounded-3xl'>  
-          <div className='text-white text-3xl font-bold'> 1st </div>
-        </div>
-        <h1 className='pt-1 font-bold text-center'> PPG </h1>
-      </div>
-
-      <div className='w-20'>
-        <div className=' flex justify-center items-center bg-primary h-20  text-center m-auto rounded-3xl'>  
-          <div className='text-white text-3xl font-bold'> 1st </div>
-        </div>
-        <h1 className='pt-1 font-bold text-center'> RPG </h1>
-      </div>
-    </div>
-      <div className='max-w-lg m-auto mb-6'>
-
-
-      <h2 className='font-bold text-xl mb-2 mt-7 text-gray-300'> Player Stats </h2>
-
-      <table className="w-full text-left">
-        <thead className='text-gray-300 border-gray-100 border-t-2 border-b-2'>
-          <tr >
-
-                <td className='absolute  pl-3 border-r-2 w-[120px] bg-white text-gray-300 font-bold text-left border-gray-100'> Name </td>
-                <th className= 'px-3 w-[130px]'>   </th>
-                <th className='min-w-[30px]'>#</th>
-                <th className='min-w-[30px]'> POS </th>
-                <th className='min-w-[30px]'> AGE </th>
-          </tr>
-        </thead>
-        <tbody>
-          { roster.map((team,index) => (
-            <tr key={index} className={ index%2 ? borderStyle + grayBG : borderStyle + whiteBG } > 
-              <td className={ index%2 ? teamColStyle : whiteBG + teamColStyle }> {team.name} </td>
-              <th className= 'mr-5 w-[130px]'>   </th>
-              <td className='py-1'> -- </td>
-              <td className=''> {team.pos} </td>
-              <td className='pr-4'> - - </td>
-            </tr>
-         ))}
-        </tbody>
-      </table>
-    </div>
-    </Panel>
+      </Panel>
     </Container>
   </>
 
  )
 }
 
-type Props = {
-  teams: {key: number, value: string}[] 
-}
+
 
 
 export async function getServerSideProps() {
@@ -147,24 +138,16 @@ export async function getServerSideProps() {
 
   
 
-  let teams =  [
-    {
-      id: 1,
-      name: "Team 1",
-    },
-    {
-      id: 2,
-      name: "Team 2",
-    }
-  ]
-
+  let teams: TeamName[] = [{id: 1, name: 'Team'}]
+  let standings: TeamData[] = []
   try {
     teams = await getTeams(3)
-
+    standings = await getStandings(3)
   } catch (e) {
     console.error('Unable to get data')
   }
+
   let team_options = teams.map((team) => makeTeamOptions(team))
-  return { props: {teams: team_options}}
+  return { props: {teams: team_options, standings: standings}}
 
 }

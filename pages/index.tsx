@@ -2,9 +2,10 @@ import championpic from '/public/champions.jpg'
 
 import Header from '../components/header'
 import Container from '../components/container'
-import Panel from '../components/home/panel'
-import ImageCard from '../components/home/image-card'
-import FancyButton from '../components/home/fancy-button'
+import Panel from '../components/panel'
+import ImageCard from '../components/widgets/image-card'
+import FancyButton from '../components/widgets/fancy-button'
+import MiniStandings from '../components/tables/mini-standings'
 
 import { getStandings } from '../utils/api/team-api'
 import { TeamData } from '../utils/models'
@@ -41,7 +42,10 @@ const Home = ({standings}: Props) => {
 
           <div className='max-w-5xl m-auto md:grid md:grid-cols-2'> 
             <div className='row-span-2'>
-              <MiniStats standings={standings}/>
+              <MiniStandings
+                title='2022 Standings'
+                standings={standings}
+              />
             </div>
             <FancyButton 
               title='INDIVIDUAL WINNERS'
@@ -73,27 +77,7 @@ const Home = ({standings}: Props) => {
 
 export async function getServerSideProps() {
 
-  let standings_data =  [
-    {
-      id: 1,
-      name: "Team 1",
-      wins: 8,
-      loss: 0
-    },
-    {
-      id: 2,
-      name: "Team 2",
-      wins: 7,
-      loss: 1
-    },
-    {
-      id: 2,
-      name: "Team 2",
-      wins: 7,
-      loss: 1
-    }
-
-  ]
+  let standings_data = []
 
   try {
     standings_data = await getStandings(3)
@@ -103,49 +87,6 @@ export async function getServerSideProps() {
   return { props: {standings: standings_data}}
 }
 
-const MiniStats = ({standings}: Props) => {
 
-   function calculateWinPercentage(wins: number, losses: number): string {
-
-      let winPct = (wins/(wins+losses));
-      let num = winPct.toString();
-      if (num == '1'){
-        return '1.00'
-      } else if (num == '0') {
-        return '0.00'
-      } 
-
-      let placeholder = 5 - num.length 
-      return num.substring(1) + '0'.repeat(placeholder)
-  }
- 
-  return(
-    <div className='m-3 overflow-hidden border-2 border-gray-200 rounded-xl'>
-      <div className='py-2 text-lg font-bold text-center text-white border-b border-gray-200 bg-primary'> 2022 Standings </div>
-      <div className='px-3'>
-      <table className="w-full text-center text-gray-300 table-fixed">
-        <thead className=''>
-          <tr>
-            <th className= 'w-2/3 px-1 py-2 text-left '>Team</th>
-            <th className='px-1 py-2 '>W</th>
-            <th className='px-1 py-2 '>L</th>
-            <th className='px-1 py-2'>%</th>
-          </tr>
-        </thead>
-        <tbody>
-          { standings.map((teams,index) => (
-            <tr key={index} className="border-t border-gray-200" > 
-              <td className='px-1 py-2 text-left'><span className='font-bold'>{index+1}</span> {teams.name} </td>
-              <td className='px-1 py-2'> {teams.wins}  </td>
-              <td className='px-1 py-2'> {teams.loss} </td>
-              <td className='px-1 py-2 text-sm'> {calculateWinPercentage(teams.wins,teams.loss)} </td>
-            </tr>
-         ))}
-        </tbody>
-      </table>
-      </div>
-    </div>
-  )
-}
 
 export default Home

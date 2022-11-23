@@ -1,9 +1,9 @@
 import React from "react"
 import Container from "../components/container"
-import DropDown from "../components/drop-down"
+import DropDown from "../components/widgets/drop-down"
 
 import Header from '../components/header'
-import Panel from '../components/home/panel'
+import Panel from '../components/panel'
 
 import { getStandings } from "../utils/api/team-api"
 import { TeamData } from "../utils/models"
@@ -12,7 +12,6 @@ import { TeamData } from "../utils/models"
 type Props = {
   standings: TeamData[]
 }
-
 
 export default function Standings({standings}: Props) {
 
@@ -40,7 +39,11 @@ export default function Standings({standings}: Props) {
     <Container>
     <Header title='Standings | Muslim League CT'/> 
     <Panel title="Standings" >
-      <DropDown/>
+      <DropDown 
+        title="SEASON"
+        options={[{key: 1, value: 'SUMMER 2022'}]}
+        curentOption={1}
+        />
 
     </Panel>
     <Panel title="Rankings" removeBorder={true}>
@@ -81,20 +84,7 @@ export default function Standings({standings}: Props) {
 
 export async function getServerSideProps() {
 
-  let standings_data =  [
-    {
-      id: 1,
-      name: "Team 1",
-      wins: 8,
-      loss: 0
-    },
-    {
-      id: 2,
-      name: "Team 2",
-      wins: 7,
-      loss: 1
-    }
-  ]
+  let standings_data: TeamData[]=[]
 
   try {
     standings_data = await getStandings(3)
