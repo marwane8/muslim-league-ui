@@ -1,5 +1,5 @@
 import { PlayerData, PlayerStat, TeamData, TeamName} from "../models";
-import { API_BASE_URL } from "./api-utils";
+import { API_BASE_URL, API_CLIENT_URL } from "./api-utils";
 
 export async function getStandings(season_id: number): Promise<TeamData[]> {
     const query = "/api/v1/teams/"+ season_id  + "/standings";
@@ -50,7 +50,7 @@ export async function getTeams(season_id: number): Promise<TeamName[]> {
 
 export async function getRoster(team_id: number): Promise<PlayerData[]> {
     const query = "/api/v1/players/" + team_id;
-    const url = API_BASE_URL + query;
+    const url = API_CLIENT_URL + query;
 
     const options: RequestInit =  {
         method: 'GET',
