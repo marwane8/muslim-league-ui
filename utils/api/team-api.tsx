@@ -5,7 +5,6 @@ export async function getStandings(season_id: number): Promise<TeamData[]> {
     const query = "/api/v1/teams/"+ season_id  + "/standings";
     const url = API_BASE_URL + query;
 
-    console.log(url)
     const options: RequestInit =  {
         method: 'GET',
         headers: {
@@ -28,7 +27,6 @@ export async function getStandings(season_id: number): Promise<TeamData[]> {
 export async function getTeams(season_id: number): Promise<TeamName[]> {
     const query = "/api/v1/teams/" + season_id;
     const url = API_BASE_URL + query;
-    console.log(url)
 
     const options: RequestInit =  {
         method: 'GET',

@@ -77,7 +77,7 @@ const Home = ({standings}: Props) => {
 
 export async function getServerSideProps() {
 
-  let standings_data = []
+  let standings_data: TeamData[] = []
 
   try {
     standings_data = await getStandings(3)
