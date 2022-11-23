@@ -1,9 +1,9 @@
 import React from "react"
 import Container from "../components/container"
-import DropDown from "../components/drop-down"
+import DropDown from "../components/widgets/drop-down"
 
 import Header from '../components/header'
-import Panel from '../components/home/panel'
+import Panel from '../components/panel'
 
 import { getStandings } from "../utils/api/team-api"
 import { TeamData } from "../utils/models"
@@ -12,7 +12,6 @@ import { TeamData } from "../utils/models"
 type Props = {
   standings: TeamData[]
 }
-
 
 export default function Standings({standings}: Props) {
 
@@ -40,10 +39,14 @@ export default function Standings({standings}: Props) {
     <Container>
     <Header title='Standings | Muslim League CT'/> 
     <Panel title="Standings" >
-      <DropDown/>
+      <DropDown 
+        title="SEASON"
+        options={[{key: 1, value: 'SUMMER 2022'}]}
+        curentOption={1}
+        />
 
     </Panel>
-    <Panel title="Summer Rankings" removeBorder={true}>
+    <Panel title="Rankings" removeBorder={true}>
       <div className="w-full mb-3 overflow-y-auto">
       <table className="w-full text-right">
         <thead className='text-gray-300 border-gray-100 border-t-2 border-b-2'>
@@ -55,7 +58,7 @@ export default function Standings({standings}: Props) {
                 <th className='min-w-[50px]'> % </th>
                 <th className='min-w-[50px]'>PF</th>
                 <th className='min-w-[50px]'>PA</th>
-                <th className='min-w-[50px] pr-4'>+/-</th>
+                <th className='min-w-[50px] pr-2'>+/-</th>
           </tr>
         </thead>
         <tbody>
@@ -66,9 +69,9 @@ export default function Standings({standings}: Props) {
               <td className='py-1'> {teams.wins} </td>
               <td className=''> {teams.loss} </td>
               <td className=''> {calculateWinPercentage(teams.wins,teams.loss)} </td>
-              <td className=''> {teams.diff} </td>
-              <td className=''> {teams.diff} </td>
-              <td className='pr-4'> {teams.diff} </td>
+              <td className=''> {teams.points_for} </td>
+              <td className=''> {teams.points_against} </td>
+              <td className={ teams.diff<0 ? 'pr-2 text-red-300' : 'pr-2 text-primary'}> {teams.diff} </td>
             </tr>
          ))}
         </tbody>
@@ -81,20 +84,7 @@ export default function Standings({standings}: Props) {
 
 export async function getServerSideProps() {
 
-  let standings_data =  [
-    {
-      id: 1,
-      name: "Team 1",
-      wins: 8,
-      loss: 0
-    },
-    {
-      id: 2,
-      name: "Team 2",
-      wins: 7,
-      loss: 1
-    }
-  ]
+  let standings_data: TeamData[]=[]
 
   try {
     standings_data = await getStandings(3)

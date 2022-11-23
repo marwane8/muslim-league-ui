@@ -24,7 +24,7 @@ function LogoutButton() {
   },[token,hide])
  
   return (
-    <button className={`${hide} px-2 py-1 font-bold text-white rounded-md bg-primary-400`}
+    <button className={`${hide} px-2 py-1  mt-2 font-bold text-sm text-white rounded-md bg-secondary`}
       onClick={logout}>
       Logout
     </button>
@@ -44,37 +44,37 @@ export default function Footer() {
   const goToFacebook = () => {window.open("https://www.facebook.com/MuslimLeagueCT")}
 
   return (
-    <footer className="border-t border-gray-100 max-auto"> 
-        <Container>
-          <div className="flex justify-between w-20 pt-3 m-auto g-red"> 
-            <button onClick={goToInsta}>
-              <Iglogo className="w-[30px]"/>
-            </button>
-            <button onClick={goToFacebook}>
-              <Fblogo className="w-[30px]"/>
-            </button>
-          </div>
+    <footer className="border-t pt-5 border-gray-100 max-auto"> 
 
-            <h3 className="text-center">Muslim League CT est. 2020</h3>
-           <div className="flex justify-between w-64 pb-1 m-auto">
+        <Container>
+           <div className="flex justify-between  text-sm w-80 mb-1 m-auto">
             <NextLink href='/about'>
                 <a className="font-bold text-primary"> About Us</a>
+            </NextLink>
+            <NextLink href='/contact'>
+               <a className="font-bold text-primary"> Contact </a>
             </NextLink>
              <NextLink href='/policy'>
                 <a className="font-bold text-primary"> Policy </a>
             </NextLink>
-              <NextLink href='/contact'>
-                <a className="font-bold text-primary"> Contact Us </a>
+            <NextLink href='/admin'>
+                <a className="font-bold text-primary"> Admin </a>
             </NextLink>
-      
+
            </div>
 
+          <h3 className="text-center text-sm">Muslim League CT est. 2020</h3>
+
+          <div className="flex justify-between w-16 mt-1 m-auto g-red"> 
+            <button onClick={goToInsta}>
+              <Iglogo className="w-6"/>
+            </button>
+            <button onClick={goToFacebook}>
+              <Fblogo className="w-6"/>
+            </button>
+          </div>
+
          <div className="pb-5 text-center">
-            <NextLink href='/admin'>
-              <button className="px-2 py-1 mx-2 bg-black rounded-md">
-                  <a className="font-bold text-white"> Admin </a>
-              </button>
-            </NextLink>
             <LogoutButton/>
          </div>
            

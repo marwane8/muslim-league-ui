@@ -29,12 +29,16 @@ export default function Navbar() {
             link: '/standings'
         },
         {
-            name: 'Awards',
-            link: '/awards'
+            name: 'Stats',
+            link: '/stats'
         },
         {
             name: 'Teams',
             link: '/teams'
+        },
+        {
+            name: 'Awards',
+            link: '/awards'
         },
 
         {
