@@ -88,7 +88,7 @@ export default function Teams({teams,standings}: Props) {
     <Header title='Teams | Muslim League CT'/>
     <Container>
       <Panel title='Teams'>
-      <div className='my-5  max-w-md m-auto'>
+      <div className='mb-5  max-w-md m-auto'>
         <DropDown 
           title='TEAM'
           options={teams}

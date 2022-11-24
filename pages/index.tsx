@@ -20,8 +20,8 @@ const Home = ({standings}: Props) => {
       <Header /> 
       <div className='flex items-end bg-right bg-no-repeat lg:bg-right py-7 bg-[length:700px] sm:bg-cover bg-prayer_img h-[300px] sm:h-[600px]'>
         <Container>
-         <h1 className='my-2 ml-2 text-4xl font-extrabold text-white md:text-7xl'>The Muslim League</h1>
-          <p className='mt-3 ml-2 font-bold text-white text-l md:text-xl'>Uniting muslim athletes across CT.</p>
+         <h1 className='my-1 ml-2 text-4xl font-extrabold text-white md:text-7xl'>The Muslim League</h1>
+          <p className='mt-1 ml-2 font-bold text-white text-l md:text-xl'>Uniting muslim athletes across CT.</p>
         </Container> 
       </div>
 
@@ -48,13 +48,13 @@ const Home = ({standings}: Props) => {
               />
             </div>
             <FancyButton 
-              title='INDIVIDUAL WINNERS'
-              button='AWARDS'
-              link='/awards'
+              title='OUR LEAGUE LEADERS'
+              button='LEADERS'
+              link='/stats'
               tailWindImage='bg-award_img'
             />
             <FancyButton 
-              title='OUR LEAGUE LEADERS'
+              title='2022 RANKINGS'
               button='STANDINGS'
               link='/standings'
               tailWindImage='bg-scoring_img'

@@ -37,11 +37,6 @@ export default function Navbar() {
             link: '/teams'
         },
         {
-            name: 'Awards',
-            link: '/awards'
-        },
-
-        {
             name: 'About',
             link: '/about'
         },
@@ -54,7 +49,7 @@ export default function Navbar() {
             
         <nav className="container max-w-screen-xl p-1 md:flex md:items-center md:justify-between">
             <div className="flex flex-row-reverse justify-end items-center md:justify-between">
-                <span className="flex items-center m-auto text-xl font-bold text-white duration-500 cursor-pointer hover:text-primary-500">
+                <span className="flex items-center m-auto text-xl pr-9 font-bold text-white duration-500 cursor-pointer hover:text-primary-500">
                     <Link href='/'>
                          <div>
                          <Basketball className="w-10 mx-2" />
