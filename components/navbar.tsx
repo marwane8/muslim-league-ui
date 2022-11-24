@@ -25,6 +25,11 @@ export default function Navbar() {
 
     const pages = [
         {
+            name: 'Games',
+            link: '/games'
+        },
+
+        {
             name: 'Standings',
             link: '/standings'
         },
