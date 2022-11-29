@@ -1,4 +1,5 @@
-import Link from "next/link"
+
+import NextLink from 'next/link';
 import React from "react"
 
 import { useState } from 'react'
@@ -55,14 +56,14 @@ export default function Navbar() {
         <nav className="container max-w-screen-xl p-1 md:flex md:items-center md:justify-between">
             <div className="flex flex-row-reverse justify-end items-center md:justify-between">
                 <span className="flex items-center m-auto text-xl pr-9 font-bold text-white duration-500 cursor-pointer hover:text-primary-500">
-                    <Link href='/'>
+                    <NextLink href='/'>
                          <div>
                          <Basketball className="w-10 mx-2" />
                         </div>
-                    </Link>
-                    <Link href='/'>
+                    </NextLink>
+                    <NextLink href='/'>
                         Muslim League CT
-                    </Link>
+                    </NextLink>
                </span>
 
                <div className="ml-2" onClick={() => toggleMenu()}>
@@ -71,14 +72,15 @@ export default function Navbar() {
 
             </div>
 
-            <ul className={`z-[1] md:flex my-4 pb-2 md:shadow-none md:my-0 md:items-center h-screen md:h-[10px] tansition-all absolute ease-in duration-500 md:bg-primary md:opacity-100 md:static  ${subMenu}`}>
+            <ul className={`z-[1] md:flex my-4 pb-2 md:shadow-none md:my-0 md:items-center h-screen md:h-[10px] tansition-all absolute md:bg-primary md:opacity-100 md:static  ${subMenu}`}>
 
                 { pages.map((page,index) => (
-                <li key={index} onClick={() => toggleMenu()} className="pt-2 pb-1 mx-3 text-lg font-bold text-white duration-500 border-b pr-9 md:pb-0 md:pr-0 md:border-none md:my-0 hover:text-primary-500">
-                    <Link href={page.link}>
-                        {page.name}
-                    </Link>
-                </li>
+
+                    <NextLink key={index} href={page.link}>
+                        <li  onClick={() => toggleMenu()} className="pt-2 pb-1 mx-3 text-lg cursor-pointer font-bold text-white border-b pr-9 md:pb-0 md:pr-0 md:border-none md:my-0 hover:text-primary-500">
+                            <a > {page.name} </a>  
+                        </li>
+                    </NextLink>
  
                 ))}
             
