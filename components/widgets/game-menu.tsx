@@ -8,15 +8,6 @@ import Panel from '../panel'
 import LeftArrow from '/public/svgs/left.svg'
 import RightArrow from '/public/svgs/right.svg'
 
-const GameMenu: NextPage<Props> = ({stat,rank}: Props) => {
-    const [currentGame, setGame] = useState<number>(0);
-   
-    const baseCSS = 'flex flex-col w-20 my-auto text-center cursor-pointer hover:font-bold';
-
-    const selectGame = (gameIndex: number) => {
-      setGame(gameIndex)
-    }
-
     const dates = [
         {
             weekday: 'MON',
@@ -34,7 +25,63 @@ const GameMenu: NextPage<Props> = ({stat,rank}: Props) => {
             weekday: 'THU',
             date: 'NOV 27'
         },
-    ]
+        {
+            weekday: 'FRI',
+            date: 'DEC 28'
+        },
+        {
+            weekday: 'SAT',
+            date: 'DEC 29'
+        },
+        {
+            weekday: 'TUE',
+            date: 'JAN 01'
+        },
+        {
+            weekday: 'TUE',
+            date: 'JAN 01'
+        },
+        {
+            weekday: 'TUE',
+            date: 'JAN 01'
+        },
+
+      ]
+ 
+const GameMenu: NextPage<Props> = ({pageLength}: Props) => {
+    const [currentGame, setGame] = useState<number | null>(0);
+    const [pageStart, setStart] = useState<number>(0);
+    const [pageEnd, setEnd] = useState<number>(pageLength);
+
+    let isFirstPage = pageStart <= 0;
+    let isLastPage = pageEnd >= dates.length
+
+    const baseCSS = 'flex flex-col w-20 my-auto text-center cursor-pointer hover:font-bold';
+
+    const selectGame = (gameIndex: number) => {
+      setGame(gameIndex)
+    }
+
+    const pageBack = () => {
+      if (!isFirstPage) {
+        let nextPageStart = pageStart-pageLength;
+        let nextPageEnd = pageEnd - pageLength;
+        setStart(nextPageStart);
+        setEnd(nextPageEnd);
+        setGame(null);
+      }
+    }
+
+    const pageFront = () => {
+      if (!isLastPage) {
+        let nextPageStart = pageStart+pageLength;
+        let nextPageEnd = nextPageStart + pageLength;
+        setStart(nextPageStart)
+        setEnd(nextPageEnd)
+        setGame(null);
+      }
+    }
+
     return (
           <Panel
             title='Muslim League CT Games'
@@ -42,10 +89,13 @@ const GameMenu: NextPage<Props> = ({stat,rank}: Props) => {
             >
           <div className='flex justify-between '> 
           <div className='flex items-center h-12 '>
-            <LeftArrow className="h-6 cursor-pointer"/>
+            <button onClick={pageBack}>
+              <LeftArrow className={isFirstPage ? "h-6 text-gray-100" : "h-6 cursor-pointer hover:text-blue"}/>
+            </button>
           </div>
-            { dates.map((date,index) => (
+            { dates.slice(pageStart,pageEnd).map((date,index) => (
               <NextLink href='#' key={index}>
+
                 <div className={ 
                   index===currentGame
                   ? "flex flex-col w-20 my-auto text-center cursor-pointer font-bold text-primary"
@@ -59,8 +109,10 @@ const GameMenu: NextPage<Props> = ({stat,rank}: Props) => {
               </NextLink>
             ))} 
           <div className='flex items-center h-12'>
+            <button onClick={pageFront}>
+              <RightArrow className={isLastPage ? "h-6 text-gray-100" : "h-6 cursor-pointer hover:text-blue"}/>
+            </button>
 
-            <RightArrow className="h-6 cursor-pointer"/>
           </div>
           </div>
           </Panel>
@@ -71,6 +123,5 @@ const GameMenu: NextPage<Props> = ({stat,rank}: Props) => {
 export default GameMenu 
 
 type Props = {
-  stat: string,
-  rank: number 
+  pageLength: number 
 }

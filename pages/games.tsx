@@ -11,7 +11,7 @@ const Games = () => {
       <Container>
         <Header title='Games | Muslim League CT'/> 
 
-          <GameMenu/>
+          <GameMenu pageLength={4}/>
 
           <div className='bg-white max-w-lg my-5 rounded-md mx-auto overflow-hidden'> 
               <div className='flex justify-end h-32'>
@@ -20,7 +20,7 @@ const Games = () => {
                         <h3 className='font-bold'> Top Akhs </h3>
                         <h4 className='text-gray-200'> 6 - 2 </h4>
                       </div>
-                      <div className='w-14 text-center my-auto mr-3 text-2xl font-extrabold'> 98  </div>
+                      <div className='w-15 text-center my-auto mr-3 text-2xl font-extrabold'> 98  </div>
                 </div>
                 <div className='flex my-auto justify-between items-center w-36 text-center '>
 
