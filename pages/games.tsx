@@ -2,45 +2,98 @@ import Header from '../components/header'
 import Container from '../components/container'
 
 import GameMenu from '../components/widgets/game-menu'
+import GameCard from '../components/widgets/game-card'
 
-import WinArrowRight from '/public/svgs/win-arrow-right.svg'
-import WinArrowLeft from '/public/svgs/win-arrow-left.svg'
 
-const Games = () => {
+type Props = {
+  gamesData: []
+}
+
+const gameDay = [
+  {
+    team1: 'Top Akhs',
+    record1: '6 - 2',
+    score1: 98,
+    team2: 'Rockets',
+    record2: '8 - 0',
+    score2: 102
+  },
+  {
+    team1: 'Islam Dunk',
+    record1: '5 - 3',
+    score1: 76,
+    team2: 'The Akatsuki',
+    record2: '3 - 5',
+    score2: 88 
+  }
+]
+
+const Games = ({gamesData}: Props) => {
   return (
       <Container>
         <Header title='Games | Muslim League CT'/> 
 
-          <GameMenu pageLength={4}/>
+        <GameMenu pageLength={4} games={gamesData}/>
+        {
+          gameDay.map((game,index) => (
+            <GameCard key={index} gameScore={game}/>
+        ))}
 
-          <div className='bg-white max-w-lg my-5 rounded-md mx-auto overflow-hidden'> 
-              <div className='flex justify-end h-32'>
-                <div className='w-2/3 flex justify-end'>
-                      <div className='flex flex-col w-1/2 justify-center text-center'>
-                        <h3 className='font-bold'> Top Akhs </h3>
-                        <h4 className='text-gray-200'> 6 - 2 </h4>
-                      </div>
-                      <div className='w-15 text-center my-auto mr-3 text-2xl font-extrabold'> 98  </div>
-                </div>
-                <div className='flex my-auto justify-between items-center w-36 text-center '>
-
-                  <WinArrowLeft className='h-4'/> 
-                   FINAL 
-
-                  <WinArrowRight className='h-4'/> 
-                </div>
-                <div className='w-2/3 flex flex-row-reverse justify-end'>
-                      <div className='flex flex-col justify-center w-1/2 text-center'>
-                        <h3 className='font-bold'> Springfield Rockets</h3>
-                        <h4 className='text-gray-200'> 8 - 0 </h4>
-                      </div>
-                      <div className='w-14 text-center my-auto ml-3 text-2xl font-extrabold'> 122  </div>
-                </div>  
-              </div>
-            <div className='border-t py-1 text-center border-gray-100 my-auto text-gray-200'> BOX SCORE </div>
-          </div>
       </Container>
   )
+}
+
+export async function getServerSideProps() {
+
+    const dates = [
+        {
+            weekday: 'MON',
+            date: 'NOV 24'
+        },
+        {
+            weekday: 'TUE',
+            date: 'NOV 25'
+        },
+        {
+            weekday: 'WED',
+            date: 'NOV 26'
+        },
+        {
+            weekday: 'THU',
+            date: 'NOV 27'
+        },
+        {
+            weekday: 'FRI',
+            date: 'DEC 28'
+        },
+        {
+            weekday: 'SAT',
+            date: 'DEC 29'
+        },
+        {
+            weekday: 'TUE',
+            date: 'JAN 01'
+        },
+        {
+            weekday: 'TUE',
+            date: 'JAN 01'
+        },
+        {
+            weekday: 'TUE',
+            date: 'JAN 01'
+        },
+
+      ]
+ 
+  let games_data = dates
+
+  try {
+    //games_data = await getStandings(3)
+  } catch (e) {
+    console.error('Unable to get data')
+  }
+  return { props: {gamesData: games_data}}
+
 }
 
 export default Games 
