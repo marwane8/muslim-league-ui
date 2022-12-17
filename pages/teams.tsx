@@ -25,7 +25,7 @@ type ranking = {
 
 export default function Teams({teams,standings}: Props) {
 
-  const default_roster: PlayerData[] = [
+  let default_roster: PlayerData[] = [
   {id: 1, name: 'Syed', number: 1, pos: 'G'},
   {id: 2, name: 'Emaad', number: 1, pos: 'G'},
   {id: 3, name: 'Azeem', number: 1, pos: 'F'},
@@ -37,12 +37,12 @@ export default function Teams({teams,standings}: Props) {
   {id: 9, name: 'Hasnain', number: 1, pos: 'F'},
   {id: 10, name: 'Hadi', number: 1, pos: 'F'},
   ] 
+
   let defaultRank = { ovr: 6, pts: 5, reb: 4}
 
   const [currTeam,setTeam] = useState<number>(1);
   const [rank,setRank] = useState<ranking>(defaultRank);
   const [roster,setRoster] = useState(default_roster);
-  
   
   const handleTeamChange = async (e: any) => {
     setTeam(e.target.value)

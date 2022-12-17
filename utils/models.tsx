@@ -31,3 +31,28 @@ export type TeamData= {
     rebounds_total: number,
     diff: number
 }
+
+export type GameDates= {
+    games: number[]
+}
+
+export type Game = {
+    game_id: number,
+    team1_id: number,
+    team1: string,
+    team2_id: number,
+    team2: string,
+    date: number,
+    start_time: string,
+    court: number,
+    playoff: number
+}
+
+export type GameStats = {
+    game_id: number,
+    team_id: number,
+    tame_name: string,
+    points: number,
+    rebounds: number,
+    fouls: number
+}[]

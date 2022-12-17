@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+
 import { NextPage } from "next"
 
 import NextLink from 'next/link';
@@ -9,8 +10,7 @@ import LeftArrow from '/public/svgs/left.svg'
 import RightArrow from '/public/svgs/right.svg'
 
 
-const GameMenu: NextPage<Props> = ({pageLength,games}: Props) => {
-    const [currentGame, setGame] = useState<number | null>(0);
+const GameMenu: NextPage<Props> = ({pageLength,games,currentGame,changeGame}: Props) => {
     const [pageStart, setStart] = useState<number>(0);
     const [pageEnd, setEnd] = useState<number>(pageLength);
 
@@ -19,17 +19,13 @@ const GameMenu: NextPage<Props> = ({pageLength,games}: Props) => {
 
     const baseCSS = 'flex flex-col w-20 my-auto text-center cursor-pointer hover:font-bold';
 
-    const selectGame = (gameIndex: number) => {
-      setGame(gameIndex)
-    }
-
     const pageBack = () => {
       if (!isFirstPage) {
         let nextPageStart = pageStart-pageLength;
         let nextPageEnd = pageEnd - pageLength;
         setStart(nextPageStart);
         setEnd(nextPageEnd);
-        setGame(null);
+        changeGame(null);
       }
     }
 
@@ -39,7 +35,7 @@ const GameMenu: NextPage<Props> = ({pageLength,games}: Props) => {
         let nextPageEnd = nextPageStart + pageLength;
         setStart(nextPageStart)
         setEnd(nextPageEnd)
-        setGame(null);
+        changeGame(null);
       }
     }
 
@@ -47,7 +43,7 @@ const GameMenu: NextPage<Props> = ({pageLength,games}: Props) => {
           <Panel
             title='Muslim League CT Games'
             removeBorder={true}
-            >
+           >
           <div className='flex justify-between '> 
           <div className='flex items-center h-12 '>
             <button onClick={pageBack}>
@@ -55,16 +51,16 @@ const GameMenu: NextPage<Props> = ({pageLength,games}: Props) => {
             </button>
           </div>
             { games.slice(pageStart,pageEnd).map((date,index) => (
-              <NextLink href='#' key={index}>
+              <NextLink href={'/games/' + date } key={index}>
 
                 <div className={ 
                   index===currentGame
                   ? "flex flex-col w-20 my-auto text-center cursor-pointer font-bold text-primary"
                   : baseCSS
                 
-                } onClick={() => selectGame(index)}>
-                    <h3 className='text-sm'>{date.weekday}</h3>
-                    <h4 className='text-xs'> {date.date}</h4>
+                } onClick={() => changeGame(index)}>
+                    <h3 className='text-sm'>{date}</h3>
+                    <h4 className='text-xs'> {date}</h4>
                 </div> 
 
               </NextLink>
@@ -85,5 +81,7 @@ export default GameMenu
 
 type Props = {
   pageLength: number,
-  games: any
+  currentGame: number,
+  changeGame?: any,
+  games: number[] 
 }

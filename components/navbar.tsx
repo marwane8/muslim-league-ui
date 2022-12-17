@@ -27,7 +27,7 @@ export default function Navbar() {
     const pages = [
         {
             name: 'Games',
-            link: '/games'
+            link: '/games/220220610'
         },
 
         {
