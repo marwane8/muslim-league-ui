@@ -39,6 +39,23 @@ const GameMenu: NextPage<Props> = ({pageLength,games,currentGame,changeGame}: Pr
       }
     }
 
+    const getWeekDay = (date: number) => {
+      let dates = convertDate(date)
+    }
+    const convertDate: {weekday: string, month_date: string} = (date: number) => {
+      const weekdays: string[] = ["MON","TUE","WED","THU","FRI","SAT","SUN"]
+      const months: string[] = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
+
+      const str_date = date.toString()
+      const format_date = str_date.slice(0,4) + '-' + str_date.slice(4,6)  + '-' + str_date.slice(6,8)
+      const d: Date = new Date(format_date)
+      const month_date = months[d.getMonth()]  + ' ' + d.getDate().toString()
+      const f_date = { weekday: weekdays[d.getDay()], month_date: month_date}
+      return f_date
+    }
+    const getMonth = (date: number) => {
+
+    }
     return (
           <Panel
             title='Muslim League CT Games'
@@ -59,8 +76,8 @@ const GameMenu: NextPage<Props> = ({pageLength,games,currentGame,changeGame}: Pr
                   : baseCSS
                 
                 } onClick={() => changeGame(index)}>
-                    <h3 className='text-sm'>{date}</h3>
-                    <h4 className='text-xs'> {date}</h4>
+                    <h3 className='text-sm'> {convertDate(date).weekday} </h3>
+                    <h4 className='text-xs'> {convertDate(date).month_date}</h4>
                 </div> 
 
               </NextLink>
