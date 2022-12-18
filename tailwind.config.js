@@ -30,7 +30,10 @@ module.exports = {
 
       'red-50': '#FCEFF1',
       'red': '#eb5e28',
-      'red-300': '#FB2F3C'
+      'red-300': '#FB2F3C',
+
+      'blue': '#4084D4'
+
     },
     minWidth: {
       '0': '0',

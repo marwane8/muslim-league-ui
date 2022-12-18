@@ -36,10 +36,6 @@ function LogoutButton() {
 export default function Footer() {
 
   
-  useEffect(() => {
-    
-  })
-  
   const goToInsta = () => {window.open("https://www.instagram.com/muslimleaguect/")}
   const goToFacebook = () => {window.open("https://www.facebook.com/MuslimLeagueCT")}
 

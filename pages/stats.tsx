@@ -40,7 +40,7 @@ export default function Standings({scoringList,reboundList}: Props) {
         />
 
       <StatTable 
-        title="Rebounding Leader"
+        title="Rebounding Leaders"
         players={reboundList}
         stat="REB"
         />
