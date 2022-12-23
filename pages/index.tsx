@@ -8,10 +8,10 @@ import FancyButton from '../components/widgets/fancy-button'
 import MiniStandings from '../components/tables/mini-standings'
 
 import { getStandings } from '../utils/api/team-api'
-import { TeamData } from '../utils/models'
+import { Team } from '../utils/models'
 
 type Props = {
-  standings: TeamData[]
+  standings: Team[]
 } 
 
 const Home = ({standings}: Props) => {
@@ -77,7 +77,7 @@ const Home = ({standings}: Props) => {
 
 export async function getServerSideProps() {
 
-  let standings_data: TeamData[] = []
+  let standings_data: Team[] = []
 
   try {
     standings_data = await getStandings(3)

@@ -8,12 +8,12 @@ import DropDown from "../components/widgets/drop-down"
 import Badge from '../components/widgets/badge'
 import RosterTable from '../components/tables/roster-table'
 
-import { PlayerData, TeamData, TeamName } from '../utils/models'
+import { Player, Team, TeamName } from '../utils/models'
 import { getRoster, getTeams, getStandings } from '../utils/api/team-api'
 
 type Props = {
   teams: {key: number, value: string}[],
-  standings: TeamData[]
+  standings: Team[]
 }
 type ranking = {
   ovr: number,
@@ -25,7 +25,7 @@ type ranking = {
 
 export default function Teams({teams,standings}: Props) {
 
-  let default_roster: PlayerData[] = [
+  let default_roster: Player[] = [
   {id: 1, name: 'Syed', number: 1, pos: 'G'},
   {id: 2, name: 'Emaad', number: 1, pos: 'G'},
   {id: 3, name: 'Azeem', number: 1, pos: 'F'},
@@ -139,7 +139,7 @@ export async function getServerSideProps() {
   
 
   let teams: TeamName[] = [{id: 1, name: 'Team'}]
-  let standings: TeamData[] = []
+  let standings: Team[] = []
   try {
     teams = await getTeams(3)
     standings = await getStandings(3)

@@ -1,9 +1,9 @@
-export type UserData = {
+export type User = {
     username: string,
     admin: number
 }
 
-export type PlayerData = {
+export type Player = {
     id: number,
     name: string, 
     number: number,
@@ -21,7 +21,7 @@ export type TeamName = {
     name: string
 }
 
-export type TeamData= {
+export type Team = {
     id: number,
     name: string, 
     wins: number,
@@ -48,11 +48,11 @@ export type Game = {
     playoff: number
 }
 
-export type GameStats = {
+export type GameStat = {
     game_id: number,
     team_id: number,
     tame_name: string,
     points: number,
     rebounds: number,
     fouls: number
-}[]
+}
