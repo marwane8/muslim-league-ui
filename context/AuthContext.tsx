@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Cookie from "js-cookie";
-import { API_CLIENT_URL, credentialPostFetchOptions, makeAuthorizedRequestOptions } from '../utils/api/api-utils';
+import { CLIENT_URL, credentialPostFetchOptions, makeAuthorizedRequestOptions } from '../utils/api/api-utils';
 
 
 // Set Up and Export Functoins to use Auth Context
@@ -24,7 +24,7 @@ export const AuthProvider = ({children}: Props) => {
     const login = async (userCredentials: FormData) => {
         console.log('Logging In')
         setIsLoading(true);
-        const loginUrl = API_CLIENT_URL + '/api/v1/login';
+        const loginUrl = CLIENT_URL + '/api/v1/login';
         const loginRequestOptions = credentialPostFetchOptions(userCredentials);
         await handleLoginAPIRequest(loginUrl,loginRequestOptions) 
         setIsLoading(false);
@@ -35,7 +35,7 @@ export const AuthProvider = ({children}: Props) => {
         console.log('Logging Out');
         setIsLoading(true);
         const jwt = Cookie.get('token');
-        const logoutUrl = API_CLIENT_URL + '/api/v1/logout';
+        const logoutUrl = CLIENT_URL + '/api/v1/logout';
         const logoutRequestOptions = makeAuthorizedRequestOptions(jwt)
         await handleLogoutAPIRequest(logoutUrl,logoutRequestOptions)
         setIsLoading(false);

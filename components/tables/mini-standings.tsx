@@ -1,11 +1,11 @@
 import React from "react"
 import { NextPage } from "next"
 
-import { TeamData } from "../../utils/models"
+import { Team } from "../../utils/models"
 
 type Props = {
   title: string,
-  standings: TeamData[] 
+  standings: Team[] 
 }
 
 

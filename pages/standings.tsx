@@ -6,11 +6,11 @@ import Header from '../components/header'
 import Panel from '../components/panel'
 
 import { getStandings } from "../utils/api/team-api"
-import { TeamData } from "../utils/models"
+import { Team } from "../utils/models"
 
 
 type Props = {
-  standings: TeamData[]
+  standings: Team[]
 }
 
 export default function Standings({standings}: Props) {
@@ -84,7 +84,7 @@ export default function Standings({standings}: Props) {
 
 export async function getServerSideProps() {
 
-  let standings_data: TeamData[]=[]
+  let standings_data: Team[]=[]
 
   try {
     standings_data = await getStandings(3)

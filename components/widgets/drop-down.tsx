@@ -1,14 +1,35 @@
 import React from "react"
 import { NextPage } from "next"
-import { useState } from 'react'
 
-const DropDown: NextPage<Props> = ({title,options=[],curentOption,changeOption}) => {
+type Props = {
+  title?: string,
+  options: {key: number, value: string}[]
+  dropDownSize?: string,
+  curentOption: number,
+  changeOption?: any
+}
+
+const DropDown: NextPage<Props> = ({title,options=[],dropDownSize='',curentOption,changeOption}) => {
+    let dropDownWidth = 'w-64'
+    switch(dropDownSize) {
+        case 'small':
+            dropDownWidth = 'w-42';
+            break;
+        case 'medium':
+            dropDownWidth = 'w-52';
+            break;
+        case 'large':
+            dropDownWidth = 'w-64';
+            break;
+    }
+
 
     return (
         <>
             <h2 className="text-xs mb-1 ml-1 font-bold text-gray-200"> {title} </h2>
             <div>
-                <select className="bg-gray-100 focus:ring-2 hover:bg-gray-150 flex justify-between font-bold mb-2 py-1 px-2 text-sm rounded-md w-64" 
+                <select className={`bg-gray-100 ${dropDownWidth} focus:ring-2 hover:bg-gray-150 flex justify-between font-bold mb-2 py-1 px-2 text-sm rounded-md`} 
+
                         value={curentOption}
                         onChange={changeOption}
                 >
@@ -23,9 +44,3 @@ const DropDown: NextPage<Props> = ({title,options=[],curentOption,changeOption})
 
 export default DropDown
 
-type Props = {
-  title?: string,
-  curentOption: number,
-  changeOption?: any,
-  options: {key: number, value: string}[]
-}
