@@ -1,9 +1,8 @@
-import {fireEvent, render, act} from '@testing-library/react'
+import {fireEvent, render, act, cleanup} from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import Login from '../pages/login'
 import { useAuth } from '../context/AuthContext';
-
 
 
 jest.mock('../context/AuthContext');
@@ -14,6 +13,11 @@ describe('LogIn', () => {
     beforeEach(() => {
         expectedRedirect = jest.fn();
     });
+
+    afterEach(() => {
+        cleanup();
+    })
+
 
     test("Login Redirects on Success" , async () => {
 
@@ -42,6 +46,7 @@ describe('LogIn', () => {
 
 
     test("SignIn is disabled while loading" , () => {
+        
         //ARRANGE
          useAuth.mockReturnValue({
             isLoading: true,
@@ -78,6 +83,7 @@ describe('LogIn', () => {
         fireEvent.click(signInButton);
 
         const errorAlert = await getByText(errorMessage) 
+
         //ASSERT
         expect(expectedLoginFailure).toHaveBeenCalledTimes(1);
         expect(errorAlert).toBeInTheDocument();

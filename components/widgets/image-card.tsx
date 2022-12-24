@@ -14,7 +14,7 @@ const ImageCard: NextPage<Props> = ({title,date,src,alt,children}: Props) => {
             <div className='px-5 text-left bg-white text-md'> 
                 {children}
             </div>
-            <p className='px-5 pb-1 text-sm text-left text-gray-200 bg-white'> {date} </p>
+            <p data-testid='date' className='px-5 pb-1 text-sm text-left text-gray-200 bg-white'> {date} </p>
         </div>
   )
 }
