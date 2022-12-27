@@ -60,7 +60,7 @@ describe('Mini Standings', () => {
         const tableTitle = screen.getByTestId('title');
         expect(tableTitle).toHaveTextContent('Test Standings');
 
-        //rows are rendered successfully
+        //rows are rendered successfully 
         const row1Name = screen.getByTestId('team-name-0');
         const row1Wins = screen.getByTestId('team-wins-0');
         const row1Loss = screen.getByTestId('team-loss-0');
