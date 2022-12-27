@@ -87,6 +87,4 @@ export async function getServerSideProps() {
   return { props: {standings: standings_data}}
 }
 
-
-
 export default Home
