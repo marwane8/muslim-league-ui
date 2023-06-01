@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 
-import Header from '../../components/header'
-import Container from '../../components/container'
+import Header from '../../../components/header'
+import Container from '../../../components/container'
 
-import GameDatesMenu from '../../components/widgets/game-dates-menu'
-import GameCard from '../../components/widgets/game-card'
+import GameDatesMenu from '../../../components/widgets/game-dates-menu'
+import GameCard from '../../../components/widgets/game-card'
 
-import { Game, GameDates, Team } from '../../utils/models'
-import { getGameDates, getGameForDate, getStandings } from '../../utils/api/team-api'
+import { Game, GameDates, Team } from '../../../utils/models'
+import { getGameDates, getGameForDate, getStandings } from '../../../utils/api/team-api'
 
 
 type Props = {

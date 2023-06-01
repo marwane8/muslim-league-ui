@@ -35,33 +35,33 @@ export default function Navbar() {
             toggle: true,
             sport: Sport.SOCCER
         },
- 
+        {
+            name: 'About',
+            link: '/about',
+            toggle: false 
+        },
     ]
+
     const basketballNav = [
         {
             name: 'Games',
-            link: '/games/20220610',
+            link: '/basketball/games/20220610',
             toggle: false 
         },
 
         {
             name: 'Standings',
-            link: '/standings',
+            link: '/basketball/standings',
             toggle: false 
         },
         {
             name: 'Stats',
-            link: '/stats',
+            link: '/basketball/stats',
             toggle: false 
         },
         {
             name: 'Teams',
-            link: '/teams',
-            toggle: false 
-        },
-        {
-            name: 'About',
-            link: '/about',
+            link: '/basketball/teams',
             toggle: false 
         },
 

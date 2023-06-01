@@ -1,12 +1,12 @@
 import React from "react"
-import Container from "../components/container"
-import DropDown from "../components/widgets/drop-down"
+import Container from "../../components/container"
+import DropDown from "../../components/widgets/drop-down"
 
-import Header from '../components/header'
-import Panel from '../components/panel'
+import Header from '../../components/header'
+import Panel from '../../components/panel'
 
-import { getStandings } from "../utils/api/team-api"
-import { Team } from "../utils/models"
+import { getStandings } from "../../utils/api/team-api"
+import { Team } from "../../utils/models"
 
 
 type Props = {
@@ -14,7 +14,6 @@ type Props = {
 }
 
 export default function Standings({standings}: Props) {
-
 
   const borderStyle = 'border-b border-gray-100 '
   const teamColStyle = 'absolute  pl-2 py-1 text-left  border-r-2 min-w-[180px] w-[25vw] max-w-[280px] border-gray-100'

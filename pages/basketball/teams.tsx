@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
-import Header from '../components/header'
-import Container from '../components/container'
-import Panel from '../components/panel'
+import Header from '../../components/header'
+import Container from '../../components/container'
+import Panel from '../../components/panel'
 
-import DropDown from "../components/widgets/drop-down"
-import Badge from '../components/widgets/badge'
-import RosterTable from '../components/tables/roster-table'
+import DropDown from "../../components/widgets/drop-down"
+import Badge from '../../components/widgets/badge'
+import RosterTable from '../../components/tables/roster-table'
 
-import { Player, Team, TeamName } from '../utils/models'
-import { getRoster, getTeams, getStandings } from '../utils/api/team-api'
+import { Player, Team, TeamName } from '../../utils/models'
+import { getRoster, getTeams, getStandings } from '../../utils/api/team-api'
 
 type Props = {
   teams: {key: number, value: string}[],
