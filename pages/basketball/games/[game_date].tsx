@@ -37,7 +37,7 @@ const Games = ({gameDates,standings,games}: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { game_date } = context.query
-    let gameDates: GameDates | null = null
+    let gameDates: GameDates | null = { "games":[]}
     let standings: Team[] = []
     let games: Game[] = []
     try {
