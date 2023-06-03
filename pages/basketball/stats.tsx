@@ -1,13 +1,13 @@
 import React from "react"
-import Container from "../components/container"
-import DropDown from "../components/widgets/drop-down"
-import StatTable from "../components/tables/stat-table"
+import Container from "../../components/container"
+import DropDown from "../../components/widgets/drop-down"
+import StatTable from "../../components/tables/stat-table"
 
-import Header from '../components/header'
-import Panel from '../components/panel'
+import Header from '../../components/header'
+import Panel from '../../components/panel'
 
-import { getStatLeaders } from "../utils/api/team-api"
-import { PlayerStat } from "../utils/models"
+import { getStatLeaders } from "../../utils/api/team-api"
+import { PlayerStat } from "../../utils/models"
 
 
 type Props = {

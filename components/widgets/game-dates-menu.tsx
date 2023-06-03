@@ -81,7 +81,7 @@ const GameDatesMenu: NextPage<Props> = ({pageLength,gameDatesArray,currentGame,c
                 </button>
               </div>
                 { gameDatesArray.slice(pageStart,pageEnd).map((date,index) => (
-                  <NextLink href={'/games/' + date } key={index}>
+                  <NextLink href={'/basketball/games/' + date } key={index}>
 
                     <div className={ 
                       index===currentGame

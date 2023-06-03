@@ -26,44 +26,17 @@ const Home = ({standings}: Props) => {
       </div>
 
       <Container>
-        <Panel title='2022 Season Recap'>
-          <div className='flex justify-center'>
-            <ImageCard 
-              title='Top Akhs win 2022 Championship'
-              src={championpic}
-              alt='Picture of Championship Team'
-              date='August 7th, 2022'>
-            <p> 
-              Top Akhs defeat The Springfield Rockets in a close battle to 
-              defend their title as back to back Muslim League champions.
-            </p>
-            </ImageCard>
-          </div>
 
-          <div className='max-w-5xl m-auto md:grid md:grid-cols-2'> 
-            <div className='row-span-2'>
-              <MiniStandings
-                title='2022 Standings'
-                standings={standings}
-              />
-            </div>
-            <FancyButton 
-              title='OUR LEAGUE LEADERS'
-              button='LEADERS'
-              link='/stats'
-              tailWindImage='bg-award_img'
-            />
-            <FancyButton 
-              title='2022 RANKINGS'
-              button='STANDINGS'
-              link='/standings'
-              tailWindImage='bg-scoring_img'
-            />
-          </div>
-        </Panel>
-        <Panel title='2023 Season Coming Soon'>
+        <Panel title='2023 Soccer Season Live!'>
           <p className='text-l'> 
-            Details for the 2023  Season will roll out early next year Inshallah.
+            Visit the soccer page for live updates on the Muslim League Soccer League 
+          </p>
+        </Panel> 
+
+
+        <Panel title='2023 Basketball Season Coming Soon'>
+          <p className='text-l'> 
+            Details for the 2023  Season will roll out next month Inshallah.
             <span className='hidden pl-1 sm:inline'>
               Come back for updates and visit our social media for the latest content.
             </span>
