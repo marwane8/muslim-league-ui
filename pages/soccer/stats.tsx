@@ -6,17 +6,18 @@ import StatTable from "../../components/tables/stat-table"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { getStatLeaders } from "../../utils/api/basketball-api"
+import { getStatLeaders } from "../../utils/api/soccer-api"
+import { PlayerTotals } from "../../utils/soccer-models"
 import { PlayerStat } from "../../utils/bball-models"
 
 
 type Props = {
-  scoringList: PlayerStat[],
-  reboundList: PlayerStat[]
+  goalStats:{id: number, name:  string, stat: number }[]
+  assistsStats:{id: number, name:  string, stat: number }[]
 }
 
 
-export default function Standings({scoringList,reboundList}: Props) {
+export default function Standings({goalStats,assistsStats}: Props) {
 
   return(
     <Container>
@@ -34,14 +35,14 @@ export default function Standings({scoringList,reboundList}: Props) {
 
       <div className="sm:grid mb-3 grid-cols-2 gap-6">
         <StatTable 
-        title="Scoring Leaders"
-        players={scoringList}
+        title="Goal Leaders"
+        players={goalStats}
         stat="PTS"
         />
 
       <StatTable 
-        title="Rebounding Leaders"
-        players={reboundList}
+        title="Assit Leaders"
+        players={assistsStats}
         stat="REB"
         />
       </div>
@@ -53,14 +54,34 @@ export default function Standings({scoringList,reboundList}: Props) {
 
 export async function getServerSideProps() {
 
-  let pointsLeaders:PlayerStat[] = []
-  let reboundLeaders:PlayerStat[] = []
+  let goalLeaders: PlayerTotals[] = []
+  let assistsLeaders: PlayerTotals[] = []
+
+  let goalStats:{id: number, name:  string, stat: number }[] = []
+  let assistsStats:{id: number, name:  string, stat: number }[] = []
   
   try {
-    reboundLeaders = await getStatLeaders('rebounds') 
-    pointsLeaders = await getStatLeaders('points') 
+    goalLeaders = await getStatLeaders('goals') 
+    assistsLeaders = await getStatLeaders('assists') 
+    goalStats = goalLeaders.map((leader) => {
+      return {
+        id: leader.player_id,
+        name: leader.player_name,
+        stat: leader.goals
+      }
+    })
+    assistsStats = assistsLeaders.map((leader) => {
+      return {
+        id: leader.player_id,
+        name: leader.player_name,
+        stat: leader.assists
+      }
+    })
+
+    console.log(goalStats)
+    console.log(assistsStats)
   } catch (e) {
     console.error('Unable to get data')
   }
-  return { props: {scoringList:pointsLeaders, reboundList:reboundLeaders}}
+  return { props: {goalStats, assistsStats}}
 }
