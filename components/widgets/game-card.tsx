@@ -3,8 +3,8 @@ import { NextPage } from "next"
 
 import WinArrowRight from '/public/svgs/win-arrow-right.svg'
 import WinArrowLeft from '/public/svgs/win-arrow-left.svg'
-import { Game, GameStat, Team } from "../../utils/models"
-import { getGameStats } from "../../utils/api/team-api"
+import { Game, GameStat, Team } from "../../utils/bball-models"
+import { getGameStats } from "../../utils/api/basketball-api"
 
 
 type GameCardProps = {

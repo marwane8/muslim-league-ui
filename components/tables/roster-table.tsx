@@ -1,7 +1,7 @@
 import React from "react"
 import { NextPage } from "next"
 
-import { Player } from "../../utils/models"
+import { Player } from "../../utils/bball-models"
 
 type Props = {
   title: string,

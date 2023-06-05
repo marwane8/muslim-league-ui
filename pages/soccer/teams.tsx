@@ -15,13 +15,12 @@ type Props = {
   teams: {key: number, value: string}[],
   standings: Team[]
 }
+
 type ranking = {
   ovr: number,
   pts: number,
   reb: number 
 }
-
-
 
 export default function Teams({teams,standings}: Props) {
 

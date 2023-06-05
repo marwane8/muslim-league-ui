@@ -1,4 +1,4 @@
-import { Player, PlayerStat, Team, TeamName, GameDates, Game, GameStat } from "../models";
+import { Player, PlayerStat, Team, TeamName, GameDates, Game, GameStat } from "../bball-models";
 import { getRequest } from "./api-utils";
 
 export async function getStandings(season_id: number): Promise<Team[]> {

@@ -68,16 +68,20 @@ export default function Navbar() {
     ]
     const soccerNav = [
         {
-            name: 'Teams',
-            link: '/teams',
+            name: 'Standings',
+            link: '/soccer/standings',
             toggle: false 
         },
         {
-            name: 'About',
-            link: '/about',
+            name: 'Stats',
+            link: '/soccer/stats',
             toggle: false 
         },
-
+        {
+            name: 'Teams',
+            link: '/soccer/teams',
+            toggle: false 
+        },
     ]
 
     const [sport, setSport]  = useState<Sport>(Sport.HOME)

@@ -8,8 +8,8 @@ import Container from '../../../components/container'
 import GameDatesMenu from '../../../components/widgets/game-dates-menu'
 import GameCard from '../../../components/widgets/game-card'
 
-import { Game, GameDates, Team } from '../../../utils/models'
-import { getGameDates, getGameForDate, getStandings } from '../../../utils/api/team-api'
+import { Game, GameDates, Team } from '../../../utils/bball-models'
+import { getGameDates, getGameForDate, getStandings } from '../../../utils/api/basketball-api'
 
 
 type Props = {
