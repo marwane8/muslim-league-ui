@@ -9,30 +9,22 @@ import Badge from '../../components/widgets/badge'
 import RosterTable from '../../components/tables/roster-table'
 
 import { Player, Team} from '../../utils/soccer-models'
-import { getRoster, getTeams, getStandings } from '../../utils/api/soccer-api'
+import { getRoster, getStandings } from '../../utils/api/soccer-api'
 
 type Props = {
-
   team_options: {key: number, value: string}[],
-  teams: Team[]
+  teams: Team[],
+  default_roster: { id: number, name: string, number: string, pos: string }[]
+  default_rank: { ovr: 0 },
 }
 
 type ranking = {
   ovr: number,
-  pts: number,
-  reb: number 
 }
 
-export default function Teams({team_options,teams}: Props) {
+export default function Teams({team_options,teams,default_roster,default_rank}: Props) {
 
-  let default_roster: { id: number, name: string, number: string, pos: string }[] = [];
-
-  let defaultRank = { ovr: 0, pts: 0, reb: 0}
-
-  const [currTeam,setTeam] = useState<number>(1);
-  const [rank,setRank] = useState<ranking>(defaultRank);
-  const [roster,setRoster] = useState(default_roster);
-  
+ 
   const handleTeamChange = async (e: any) => {
     setTeam(e.target.value)
     setTeamRankings(e.target.value)
@@ -59,31 +51,33 @@ export default function Teams({team_options,teams}: Props) {
   
   const setTeamRankings = (team_id: number) => {
     const overall = getTeamStatRank(team_id);
-    const points = getTeamStatRank(team_id,'points');
-    const rebounds = getTeamStatRank(team_id,'rebounds');
-   
-    const teamRank = {  ovr: overall, pts: points, reb: rebounds}
+    const teamRank = {  ovr: overall }
     setRank(teamRank)
   }
 
-  const getTeamStatRank = (team_id: number, stat: string | null=null) => {
+  const getTeamStatRank = (team_id: number) => {
     let stands = [...teams]
-    switch(stat) {
-      case 'points':
-        stands.sort((team1,team2) =>  team2.points_for - team1.points_for)
-        break;
-      case 'rebounds':
-        stands.sort((team1,team2) =>  team2.rebounds_total - team1.rebounds_total)
-        break;
-    }
 
     for (let i = 0; i<stands.length;i++){
-      if (team_id == stands[i].id) {
+      if (team_id == stands[i].team_id) {
         return i+1
       }
     }
     return 0;
   }
+
+  const displayTeamName = (currTeam: number) => {
+    for (let i = 0; i< team_options.length;i++){
+      if (currTeam == team_options[i].key) {
+        return team_options[i].value
+      }
+    }
+  }
+
+  const [currTeam,setTeam] = useState<number>(1);
+  const [rank,setRank] = useState<ranking>(default_rank);
+  const [roster,setRoster] = useState(default_roster);
+
  return (
   <>
     <Header title='Teams | Muslim League CT'/>
@@ -97,19 +91,11 @@ export default function Teams({team_options,teams}: Props) {
           changeOption={handleTeamChange}
           />
       </div>
-      <h1 className='mt-7 text-center text-4xl font-bold'> {team_options[currTeam-1].value}</h1>
-      <div className='flex justify-between max-w-md my-5 mx-auto'>
+      <h1 className='mt-7 text-center text-4xl font-bold'> {displayTeamName(currTeam)}</h1>
+      <div className='flex justify-center max-w-md my-5 mx-auto'>
         <Badge 
           stat="OVR" 
           rank={rank.ovr}
-        />
-        <Badge 
-          stat="PPG" 
-          rank={rank.pts}
-        />
-        <Badge 
-          stat="RPG" 
-          rank={rank.reb}
         />
       </div>
       <RosterTable
@@ -126,6 +112,11 @@ export default function Teams({team_options,teams}: Props) {
 
 export async function getServerSideProps() {
  
+  let teams: Team[] = []
+  let default_players: Player[] = []
+  let default_rank = { ovr: 0 }; 
+
+  
   const makeTeamOptions = (team: Team) => {
     let team_option = {
       key: team.team_id,
@@ -133,19 +124,37 @@ export async function getServerSideProps() {
     }
     return team_option
   }
+  const makeRoster = (player: Player) => {
+    let roster = { 
+      id: player.player_id, 
+      name: player.player_name, 
+      number: player.player_number, 
+      pos: player.player_pos 
+    }
+    return roster
+  }
 
 
 
-  
-
-  let teams: Team[] = []
   try {
-    teams = await getTeams(1)
+    teams = await getStandings(1)
+    default_players = await getRoster(1);
+    
+    for (let i = 0; i<teams.length;i++){
+      if ( teams[i].team_id == 1) {
+        const rank = i+1
+        default_rank = {ovr: rank } 
+      }
+    }
+ 
   } catch (e) {
     console.error('Unable to get data')
   }
 
   let team_options: { key: number, value: string }[] = teams.map((team) => makeTeamOptions(team))
-  return { props: {team_options, teams}}
+  let default_roster: { id: number, name: string, number: string, pos: string }[] = default_players.map((player) => makeRoster(player))
+
+  console.log(teams,team_options)
+  return { props: {team_options, teams, default_rank, default_roster}}
 
 }
