@@ -11,6 +11,17 @@ export type Team = {
     points: number
 }
 
+export type Player = {
+    player_id: number, 
+    team_id: number, 
+    team_name: string, 
+    player_name: string, 
+    player_number: string, 
+    player_pos: string
+}
+
+
+
 export type PlayerTotals = {
     player_id: number,
     player_name: string,

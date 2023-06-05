@@ -8,12 +8,13 @@ import DropDown from "../../components/widgets/drop-down"
 import Badge from '../../components/widgets/badge'
 import RosterTable from '../../components/tables/roster-table'
 
-import { Player, Team, TeamName } from '../../utils/bball-models'
-import { getRoster, getTeams, getStandings } from '../../utils/api/basketball-api'
+import { Player, Team} from '../../utils/soccer-models'
+import { getRoster, getTeams, getStandings } from '../../utils/api/soccer-api'
 
 type Props = {
-  teams: {key: number, value: string}[],
-  standings: Team[]
+
+  team_options: {key: number, value: string}[],
+  teams: Team[]
 }
 
 type ranking = {
@@ -22,22 +23,11 @@ type ranking = {
   reb: number 
 }
 
-export default function Teams({teams,standings}: Props) {
+export default function Teams({team_options,teams}: Props) {
 
-  let default_roster: Player[] = [
-  {id: 1, name: 'Syed', number: 1, pos: 'G'},
-  {id: 2, name: 'Emaad', number: 1, pos: 'G'},
-  {id: 3, name: 'Azeem', number: 1, pos: 'F'},
-  {id: 4, name: 'Akwasi', number: 1, pos: 'F'},
-  {id: 5, name: 'Mobeen', number: 1, pos: 'F'},
-  {id: 6, name: 'Abubaker', number: 1, pos: 'G'},
-  {id: 7, name: 'Athar', number: 1, pos: 'G'},
-  {id: 8, name: 'Syeed', number: 1, pos: 'G'},
-  {id: 9, name: 'Hasnain', number: 1, pos: 'F'},
-  {id: 10, name: 'Hadi', number: 1, pos: 'F'},
-  ] 
+  let default_roster: { id: number, name: string, number: string, pos: string }[] = [];
 
-  let defaultRank = { ovr: 6, pts: 5, reb: 4}
+  let defaultRank = { ovr: 0, pts: 0, reb: 0}
 
   const [currTeam,setTeam] = useState<number>(1);
   const [rank,setRank] = useState<ranking>(defaultRank);
@@ -50,8 +40,20 @@ export default function Teams({teams,standings}: Props) {
     setRoster(new_roster)
   }  
 
+  const makeRoster = (player: Player) => {
+    let player_info = {
+        id: player.player_id,
+        name: player.player_name, 
+        number: player.player_number,
+        pos: player.player_pos 
+    }
+    return player_info
+  }
+
+
   const updateRoster = async (team_id: number) => {
-    let roster = await getRoster(team_id)
+    let players = await getRoster(team_id)
+    let roster: { id: number, name: string, number: string, pos: string }[] = players.map((player) => makeRoster(player))
     return roster
   }
   
@@ -65,7 +67,7 @@ export default function Teams({teams,standings}: Props) {
   }
 
   const getTeamStatRank = (team_id: number, stat: string | null=null) => {
-    let stands = [...standings]
+    let stands = [...teams]
     switch(stat) {
       case 'points':
         stands.sort((team1,team2) =>  team2.points_for - team1.points_for)
@@ -90,12 +92,12 @@ export default function Teams({teams,standings}: Props) {
       <div className='mb-5  max-w-md m-auto'>
         <DropDown 
           title='TEAM'
-          options={teams}
+          options={team_options}
           curentOption={currTeam} 
           changeOption={handleTeamChange}
           />
       </div>
-      <h1 className='mt-7 text-center text-4xl font-bold'> {teams[currTeam-1].value}</h1>
+      <h1 className='mt-7 text-center text-4xl font-bold'> {team_options[currTeam-1].value}</h1>
       <div className='flex justify-between max-w-md my-5 mx-auto'>
         <Badge 
           stat="OVR" 
@@ -122,31 +124,28 @@ export default function Teams({teams,standings}: Props) {
  )
 }
 
-
-
-
 export async function getServerSideProps() {
  
-  const makeTeamOptions = (team: TeamName) => {
+  const makeTeamOptions = (team: Team) => {
     let team_option = {
-      key: team.id,
-      value: team.name 
+      key: team.team_id,
+      value: team.team_name
     }
     return team_option
   }
 
+
+
   
 
-  let teams: TeamName[] = [{id: 1, name: 'Team'}]
-  let standings: Team[] = []
+  let teams: Team[] = []
   try {
-    teams = await getTeams(3)
-    standings = await getStandings(3)
+    teams = await getTeams(1)
   } catch (e) {
     console.error('Unable to get data')
   }
 
-  let team_options = teams.map((team) => makeTeamOptions(team))
-  return { props: {teams: team_options, standings: standings}}
+  let team_options: { key: number, value: string }[] = teams.map((team) => makeTeamOptions(team))
+  return { props: {team_options, teams}}
 
 }
