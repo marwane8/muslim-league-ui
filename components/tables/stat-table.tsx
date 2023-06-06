@@ -1,14 +1,13 @@
 import React from "react"
 import { NextPage } from "next"
 
-import { PlayerStat } from "../../utils/models"
+import { PlayerStat } from "../../utils/bball-models"
 
 type Props = {
   title: string,
   stat: string,
-  players: PlayerStat[] 
+  players: {id: number, name:  string, stat: number }[]
 }
-
 
 const StatTable: NextPage<Props> = ({title,stat,players}: Props) => {
 

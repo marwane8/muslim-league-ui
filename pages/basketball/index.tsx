@@ -8,8 +8,8 @@ import ImageCard from '../../components/widgets/image-card'
 import FancyButton from '../../components/widgets/fancy-button'
 import MiniStandings from '../../components/tables/mini-standings'
 
-import { getStandings } from '../../utils/api/team-api'
-import { Team } from '../../utils/models'
+import { getStandings } from '../../utils/api/basketball-api'
+import { Team } from '../../utils/bball-models'
 
 type Props = {
   standings: Team[]
