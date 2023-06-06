@@ -44,7 +44,7 @@ const BasketballHome = ({standings}: Props) => {
             <FancyButton 
               title='OUR LEAGUE LEADERS'
               button='LEADERS'
-              link='/stats'
+              link='/basketball/stats'
               tailWindImage='bg-award_img'
             />
             <FancyButton 

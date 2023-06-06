@@ -154,7 +154,6 @@ export async function getServerSideProps() {
   let team_options: { key: number, value: string }[] = teams.map((team) => makeTeamOptions(team))
   let default_roster: { id: number, name: string, number: string, pos: string }[] = default_players.map((player) => makeRoster(player))
 
-  console.log(teams,team_options)
   return { props: {team_options, teams, default_rank, default_roster}}
 
 }

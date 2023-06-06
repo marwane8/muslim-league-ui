@@ -6,10 +6,10 @@ import Header from '../../../components/header'
 import Container from '../../../components/container'
 
 import GameDatesMenu from '../../../components/widgets/game-dates-menu'
-import GameCard from '../../../components/widgets/basketball-game-card'
+import SoccerGameCard from '../../../components/widgets/soccer-game-card'
 
-import { Game, GameDates, Team } from '../../../utils/bball-models'
-import { getGameDates, getGameForDate, getStandings } from '../../../utils/api/basketball-api'
+import { Game, GameDates, Team } from '../../../utils/soccer-models'
+import { getGameDates, getGameForDate, getStandings } from '../../../utils/api/soccer-api'
 
 
 type Props = {
@@ -26,10 +26,10 @@ const Games = ({gameDates,standings,games}: Props) => {
   return (
       <Container>
         <Header title='Games | Muslim League CT'/> 
-        <GameDatesMenu pageLength={4} currentGame={currGameDay} changeGame={setGameDay} gameDatesArray={gameDates.games} pageLink='/basketball'/>
+        <GameDatesMenu pageLength={4} currentGame={currGameDay} changeGame={setGameDay} gameDatesArray={gameDates.games} pageLink='/soccer'/>
         {
           games.map((game,index) => (
-            <GameCard key={index} gameData={game} standings={standings}/>
+            <SoccerGameCard key={index} gameData={game} standings={standings}/>
         ))}
       </Container>
   )
@@ -41,8 +41,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     let standings: Team[] = []
     let games: Game[] = []
     try {
-      gameDates = await getGameDates()
-      standings=  await getStandings(3)
+      gameDates = await getGameDates(1)
+      standings=  await getStandings(1)
       if (typeof game_date === 'string'){
         let date = parseInt(game_date)
         games = await getGameForDate(date)
