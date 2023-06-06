@@ -90,7 +90,6 @@ export async function getServerSideProps() {
 
   try {
     standings_data = await getStandings(1)
-    console.log('getting statndings', standings_data)
   } catch (e) {
     console.error('Unable to get data')
   }

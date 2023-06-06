@@ -78,8 +78,6 @@ export async function getServerSideProps() {
       }
     })
 
-    console.log(goalStats)
-    console.log(assistsStats)
   } catch (e) {
     console.error('Unable to get data')
   }

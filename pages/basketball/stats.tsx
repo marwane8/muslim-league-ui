@@ -11,12 +11,12 @@ import { PlayerStat } from "../../utils/bball-models"
 
 
 type Props = {
-  scoringList: PlayerStat[],
-  reboundList: PlayerStat[]
+  pointsStats:{id: number, name:  string, stat: number}[],
+  reboundStats:{id: number, name:  string, stat: number }[]
 }
 
 
-export default function Standings({scoringList,reboundList}: Props) {
+export default function Standings({pointsStats,reboundStats}: Props) {
 
   return(
     <Container>
@@ -35,13 +35,13 @@ export default function Standings({scoringList,reboundList}: Props) {
       <div className="sm:grid mb-3 grid-cols-2 gap-6">
         <StatTable 
         title="Scoring Leaders"
-        players={scoringList}
+        players={pointsStats}
         stat="PTS"
         />
 
       <StatTable 
         title="Rebounding Leaders"
-        players={reboundList}
+        players={reboundStats}
         stat="REB"
         />
       </div>
@@ -53,14 +53,35 @@ export default function Standings({scoringList,reboundList}: Props) {
 
 export async function getServerSideProps() {
 
-  let pointsLeaders:PlayerStat[] = []
-  let reboundLeaders:PlayerStat[] = []
+  let pointsLeaders: PlayerStat[] = []
+  let reboundLeaders: PlayerStat[] = []
   
+  let pointsStats:{id: number, name:  string, stat: string }[] = []
+  let reboundStats:{id: number, name:  string, stat: string }[] = []
+ 
   try {
     reboundLeaders = await getStatLeaders('rebounds') 
     pointsLeaders = await getStatLeaders('points') 
+    pointsStats = pointsLeaders.map((leader) => {
+      return {
+        id: leader.id,
+        name: leader.name,
+        stat: leader.stat
+      }
+    })
+
+    reboundStats = reboundLeaders.map((leader) => {
+      return {
+        id: leader.id,
+        name: leader.name,
+        stat: leader.stat
+      }
+    })
+
+
   } catch (e) {
     console.error('Unable to get data')
   }
-  return { props: {scoringList:pointsLeaders, reboundList:reboundLeaders}}
+  return { props: {pointsStats, reboundStats}}
 }
+

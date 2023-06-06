@@ -5,7 +5,7 @@ import { Player } from "../../utils/bball-models"
 
 type Props = {
   title: string,
-  players: Player[] 
+  players: { id: number; name: string; number: string; pos: string; }[] 
 }
 
 

@@ -25,17 +25,7 @@ type ranking = {
 
 export default function Teams({teams,standings}: Props) {
 
-  let default_roster: Player[] = [
-  {id: 1, name: 'Syed', number: 1, pos: 'G'},
-  {id: 2, name: 'Emaad', number: 1, pos: 'G'},
-  {id: 3, name: 'Azeem', number: 1, pos: 'F'},
-  {id: 4, name: 'Akwasi', number: 1, pos: 'F'},
-  {id: 5, name: 'Mobeen', number: 1, pos: 'F'},
-  {id: 6, name: 'Abubaker', number: 1, pos: 'G'},
-  {id: 7, name: 'Athar', number: 1, pos: 'G'},
-  {id: 8, name: 'Syeed', number: 1, pos: 'G'},
-  {id: 9, name: 'Hasnain', number: 1, pos: 'F'},
-  {id: 10, name: 'Hadi', number: 1, pos: 'F'},
+  let default_roster: { id: number, name: string, number: string, pos: string }[] = [
   ] 
 
   let defaultRank = { ovr: 6, pts: 5, reb: 4}
