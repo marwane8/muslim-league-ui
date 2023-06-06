@@ -13,9 +13,10 @@ type Props = {
   currentGame: number,
   changeGame?: any,
   gameDatesArray: number[] 
+  pageLink: string
 }
 
-const GameDatesMenu: NextPage<Props> = ({pageLength,gameDatesArray,currentGame,changeGame}: Props) => {
+const GameDatesMenu: NextPage<Props> = ({pageLength,gameDatesArray,currentGame,changeGame,pageLink}: Props) => {
     const [pageStart, setStart] = useState<number>(0);
     const [pageEnd, setEnd] = useState<number>(pageLength);
 
@@ -52,15 +53,18 @@ const GameDatesMenu: NextPage<Props> = ({pageLength,gameDatesArray,currentGame,c
     function formatMonthDay(date: number): string {
       const months: string[] = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
       const monthIndex = convertDate(date).getMonth();
-      const day = convertDate(date).getDate().toString();
+      const day = convertDate(date).getDate();
       const monthDay = months[monthIndex]  + ' ' + day ;
       return monthDay ;
     }
 
     function convertDate(date: number): Date {
       const dateString = date.toString();
-      const formatedDate = dateString.slice(0,4) + '-' + dateString.slice(4,6)  + '-' + dateString.slice(6,8);
-      return new Date(formatedDate);
+      const formatedDate = dateString.slice(0,4) + '-' + dateString.slice(4,6)  + '-' + dateString.slice(6,8) + 'T12:00:00';
+      
+      const dateObj = new Date(formatedDate);
+
+      return dateObj;
     }
 
     return (
@@ -81,7 +85,7 @@ const GameDatesMenu: NextPage<Props> = ({pageLength,gameDatesArray,currentGame,c
                 </button>
               </div>
                 { gameDatesArray.slice(pageStart,pageEnd).map((date,index) => (
-                  <NextLink href={'/basketball/games/' + date } key={index}>
+                  <NextLink href={ pageLink +'/games/' + date } key={index}>
 
                     <div className={ 
                       index===currentGame

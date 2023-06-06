@@ -68,6 +68,11 @@ export default function Navbar() {
     ]
     const soccerNav = [
         {
+            name: 'Games',
+            link: '/soccer/games/20220610',
+            toggle: false 
+        },
+        {
             name: 'Standings',
             link: '/soccer/standings',
             toggle: false 
