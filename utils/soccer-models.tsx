@@ -68,3 +68,22 @@ export const makeSeasonOptions = (season: Season) => {
     return season_option
   }
 
+export const makeRoster = (player: Player) => {
+    let player_info = {
+        id: player.player_id,
+        name: player.player_name, 
+        number: player.player_number,
+        pos: player.player_pos 
+    }
+    return player_info
+}
+
+export const makeTeamOptions = (team: Team) => {
+    let team_option = {
+      key: team.team_id,
+      value: team.team_name
+    }
+    return team_option
+}
+
+

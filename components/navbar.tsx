@@ -69,7 +69,7 @@ export default function Navbar() {
     const soccerNav = [
         {
             name: 'Games',
-            link: '/soccer/games/20220610',
+            link: '/soccer/2/games/20220610',
             toggle: false 
         },
         {
@@ -84,7 +84,7 @@ export default function Navbar() {
         },
         {
             name: 'Teams',
-            link: '/soccer/teams',
+            link: '/soccer/2/teams',
             toggle: false 
         },
     ]

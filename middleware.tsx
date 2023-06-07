@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
                 await jwtVerify(token, new TextEncoder().encode(JWT_KEY))
                 return NextResponse.redirect(new URL('/admin', request.url));
             } catch(e) {
-                console.error("/login JWT Verification Failed: ", e)
+                console.error("login JWT Verification Failed: ", e)
                 return NextResponse.next();
             }
         }            
