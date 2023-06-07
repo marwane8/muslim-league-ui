@@ -36,6 +36,7 @@ export default function Teams({team_options,teams,default_roster,default_rank}: 
  
   const handleTeamChange = async (e: any) => {
     setTeam(e.target.value)
+    console.log("EVENt", e.target.value)
     setTeamRankings(e.target.value)
     const new_roster = await updateRoster(e.target.value)
     setRoster(new_roster)
@@ -85,7 +86,7 @@ export default function Teams({team_options,teams,default_roster,default_rank}: 
         <DropDown 
           title='TEAM'
           options={team_options}
-          curentOption={currTeam} 
+          currentOption={currTeam} 
           changeOption={handleTeamChange}
           />
       </div>
