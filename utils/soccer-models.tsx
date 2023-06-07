@@ -1,3 +1,10 @@
+
+export type Season = {
+    season_id: number, 
+    season_name: string, 
+    year: number
+}
+
 export type Team = {
     team_id: number,
     season_id: string, 
@@ -19,8 +26,6 @@ export type Player = {
     player_number: string, 
     player_pos: string
 }
-
-
 
 export type PlayerTotals = {
     player_id: number,
@@ -53,4 +58,32 @@ export type GameStat = {
     goals: number,
     assists: number
 }
+
+export const makeSeasonOptions = (season: Season) => {
+    const season_value = season.season_name.toUpperCase() + " " + season.year
+    let season_option = {
+      key: season.season_id,
+      value: season_value
+    }
+    return season_option
+  }
+
+export const makeRoster = (player: Player) => {
+    let player_info = {
+        id: player.player_id,
+        name: player.player_name, 
+        number: player.player_number,
+        pos: player.player_pos 
+    }
+    return player_info
+}
+
+export const makeTeamOptions = (team: Team) => {
+    let team_option = {
+      key: team.team_id,
+      value: team.team_name
+    }
+    return team_option
+}
+
 

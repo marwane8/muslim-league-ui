@@ -1,8 +1,6 @@
 import React from "react"
 import { NextPage } from "next"
 
-import { Player } from "../../utils/bball-models"
-
 type Props = {
   title: string,
   players: { id: number; name: string; number: string; pos: string; }[] 

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Container from "../../components/container"
 import DropDown from "../../components/widgets/drop-down"
 import StatTable from "../../components/tables/stat-table"
@@ -6,18 +6,58 @@ import StatTable from "../../components/tables/stat-table"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { getStatLeaders } from "../../utils/api/soccer-api"
-import { PlayerTotals } from "../../utils/soccer-models"
-import { PlayerStat } from "../../utils/bball-models"
-
+import { getStatLeaders,getSeasons } from "../../utils/api/soccer-api"
+import { PlayerTotals, Season, makeSeasonOptions } from "../../utils/soccer-models"
 
 type Props = {
+  season_options: {key: number, value: string}[],
+  default_season: number,
   goalStats:{id: number, name:  string, stat: number }[]
   assistsStats:{id: number, name:  string, stat: number }[]
 }
 
+const GOAL_STAT = 1;
+const ASSIST_STAT = 2;
 
-export default function Standings({goalStats,assistsStats}: Props) {
+const makeSoccerStat = (player_stat: PlayerTotals, stat_num: number) => {
+    let stat = {
+        id: player_stat.player_id,
+        name: player_stat.player_name,
+        stat: 0 
+    }
+    switch(stat_num) {
+      case 1:
+        stat.stat = player_stat.goals;
+        break;
+      case 2:
+        stat.stat = player_stat.assists;
+        break;
+    }
+    return stat 
+}
+
+
+
+
+export default function Standings({season_options, default_season, goalStats,assistsStats}: Props) {
+
+  const [currSeason,setSeason] = useState<number>(default_season);
+  const [currGoalStats,setGoalStats] = useState(goalStats);
+  const [currAssistStats,setAssistStats] = useState(assistsStats);
+
+  const handleSeasonChange = async (e: any) => {
+    const new_season_id: number = e.target.value;
+    setSeason(new_season_id);
+
+    let goals = await getStatLeaders(new_season_id,'goals',true) 
+    let assists  = await getStatLeaders(new_season_id,'assists',true) 
+
+    const goalStats = goals.map((player) =>makeSoccerStat(player,GOAL_STAT))
+    const assistsStats = assists.map((player) =>makeSoccerStat(player,ASSIST_STAT))
+
+    setGoalStats(goalStats);
+    setAssistStats(assistsStats);
+  }
 
   return(
     <Container>
@@ -26,24 +66,25 @@ export default function Standings({goalStats,assistsStats}: Props) {
     <Panel title="Stat Leaders" >
       <DropDown 
         title="SEASON"
-        options={[{key: 1, value: 'SUMMER 2022'}]}
-        curentOption={1}
+        options={season_options}
+        currentOption={currSeason}
+        changeOption={handleSeasonChange}
       />
     </Panel>
 
-    <Panel title="2022 Summer League Leaders" removeBorder={true}>
+    <Panel title="League Leaders" removeBorder={true}>
 
       <div className="sm:grid mb-3 grid-cols-2 gap-6">
         <StatTable 
         title="Goal Leaders"
-        players={goalStats}
-        stat="PTS"
+        players={currGoalStats}
+        stat="GOALS"
         />
 
       <StatTable 
-        title="Assit Leaders"
-        players={assistsStats}
-        stat="REB"
+        title="Assist Leaders"
+        players={currAssistStats}
+        stat="ASSISTS"
         />
       </div>
 
@@ -54,6 +95,9 @@ export default function Standings({goalStats,assistsStats}: Props) {
 
 export async function getServerSideProps() {
 
+  let seasons: Season[]=[]
+  let default_season: number = 0
+
   let goalLeaders: PlayerTotals[] = []
   let assistsLeaders: PlayerTotals[] = []
 
@@ -61,25 +105,19 @@ export async function getServerSideProps() {
   let assistsStats:{id: number, name:  string, stat: number }[] = []
   
   try {
-    goalLeaders = await getStatLeaders('goals') 
-    assistsLeaders = await getStatLeaders('assists') 
-    goalStats = goalLeaders.map((leader) => {
-      return {
-        id: leader.player_id,
-        name: leader.player_name,
-        stat: leader.goals
-      }
-    })
-    assistsStats = assistsLeaders.map((leader) => {
-      return {
-        id: leader.player_id,
-        name: leader.player_name,
-        stat: leader.assists
-      }
-    })
+    seasons = await getSeasons();
+    default_season = seasons.slice(-1)[0].season_id;
+
+    goalLeaders = await getStatLeaders(default_season,'goals') 
+    assistsLeaders = await getStatLeaders(default_season,'assists') 
+
+    goalStats = goalLeaders.map((player) =>makeSoccerStat(player,GOAL_STAT))
+    assistsStats = assistsLeaders.map((player) =>makeSoccerStat(player,ASSIST_STAT))
 
   } catch (e) {
     console.error('Unable to get data')
   }
-  return { props: {goalStats, assistsStats}}
+
+  let season_options = seasons.map((season) => makeSeasonOptions(season))
+  return { props: {season_options, default_season, goalStats, assistsStats}}
 }

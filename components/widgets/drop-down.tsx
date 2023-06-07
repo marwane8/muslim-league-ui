@@ -5,11 +5,11 @@ type Props = {
   title?: string,
   options: {key: number, value: string}[]
   dropDownSize?: string,
-  curentOption: number,
+  currentOption: number,
   changeOption?: any
 }
 
-const DropDown: NextPage<Props> = ({title,options=[],dropDownSize='',curentOption,changeOption}) => {
+const DropDown: NextPage<Props> = ({title,options=[],dropDownSize='',currentOption,changeOption}) => {
     let dropDownWidth = 'w-64'
     switch(dropDownSize) {
         case 'small':
@@ -30,7 +30,7 @@ const DropDown: NextPage<Props> = ({title,options=[],dropDownSize='',curentOptio
             <div>
                 <select className={`bg-gray-100 ${dropDownWidth} focus:ring-2 hover:bg-gray-150 flex justify-between font-bold mb-2 py-1 px-2 text-sm rounded-md`} 
 
-                        value={curentOption}
+                        value={currentOption}
                         onChange={changeOption}
                 >
                     { options.map((ops,index) => (

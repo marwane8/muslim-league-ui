@@ -15,11 +15,11 @@ type GameCardProps = {
  const SoccerGameCard: NextPage<GameCardProps> = ({gameData,standings}: GameCardProps) => {
 
     let isGamePlayed;
-    isGamePlayed = true;
+    isGamePlayed = false;
 
     const getTeamRecord = (team_id: number) => {
-      let teamStanding = standings.find(team => {return team.team_id === team_id}) 
-      let teamRecord = teamStanding?.wins + '-' + teamStanding?.draws +'-' + teamStanding?.losses
+      let teamStanding = standings.find(team => {return team.team_id === team_id});
+      let teamRecord = teamStanding?.wins + '-' + teamStanding?.draws + '-' + teamStanding?.losses;
       return teamRecord
     }
    
@@ -97,7 +97,7 @@ function GameTime({time,court}: GameTimeProps) {
     return (
                 <div className='my-auto w-[160px] text-center '>
                    <div className='font-extrabold text-xl'> {time} </div>
-                   <div className='text-sm'> COURT {court} </div>
+                   <div className='text-sm'> FIELD {court} </div>
                 </div>
     )
 }
