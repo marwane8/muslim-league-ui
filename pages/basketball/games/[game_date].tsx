@@ -26,7 +26,16 @@ const Games = ({gameDates,standings,games}: Props) => {
   return (
       <Container>
         <Header title='Games | Muslim League CT'/> 
-        <GameDatesMenu pageLength={4} currentGame={currGameDay} changeGame={setGameDay} gameDatesArray={gameDates.games} pageLink='/basketball'/>
+        <GameDatesMenu 
+          pageLength={4} 
+          pageLink='/basketball'          
+          seasonsArray={[]}
+          currentSeason={0}
+          currentGame={currGameDay} 
+          changeGame={setGameDay} 
+          gameDatesArray={gameDates.games} 
+          />
+
         {
           games.map((game,index) => (
             <GameCard key={index} gameData={game} standings={standings}/>

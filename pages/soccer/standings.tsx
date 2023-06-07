@@ -28,7 +28,7 @@ export default function Standings({season_options,default_season,default_standin
 
   const handleSeasonChange = async (e: any) => {
     setSeason(e.target.value);
-    const new_standings = await getStandings(e.target.value);
+    const new_standings = await getStandings(e.target.value,true);
     setStandings(new_standings);
   }  
 

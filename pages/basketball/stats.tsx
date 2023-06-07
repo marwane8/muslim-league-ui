@@ -26,7 +26,7 @@ export default function Standings({pointsStats,reboundStats}: Props) {
       <DropDown 
         title="SEASON"
         options={[{key: 1, value: 'SUMMER 2022'}]}
-        curentOption={1}
+        currentOption={1}
       />
     </Panel>
 
@@ -39,7 +39,7 @@ export default function Standings({pointsStats,reboundStats}: Props) {
         stat="PTS"
         />
 
-      <StatTable 
+        <StatTable 
         title="Rebounding Leaders"
         players={reboundStats}
         stat="REB"

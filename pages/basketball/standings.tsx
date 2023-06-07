@@ -41,7 +41,7 @@ export default function Standings({standings}: Props) {
       <DropDown 
         title="SEASON"
         options={[{key: 1, value: 'SUMMER 2022'}]}
-        curentOption={1}
+        currentOption={1}
         />
 
     </Panel>

@@ -49,8 +49,8 @@ export default function Standings({season_options, default_season, goalStats,ass
     const new_season_id: number = e.target.value;
     setSeason(new_season_id);
 
-    let goals = await getStatLeaders(new_season_id,'goals') 
-    let assists  = await getStatLeaders(new_season_id,'assists') 
+    let goals = await getStatLeaders(new_season_id,'goals',true) 
+    let assists  = await getStatLeaders(new_season_id,'assists',true) 
 
     const goalStats = goals.map((player) =>makeSoccerStat(player,GOAL_STAT))
     const assistsStats = assists.map((player) =>makeSoccerStat(player,ASSIST_STAT))
