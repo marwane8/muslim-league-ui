@@ -10,13 +10,21 @@ import DropDown from "./drop-down";
 
 type Props = {
   pageLength: number,
+  currentSeason: number,
+  seasonsArray: {key: number, value: string }[],
+  changeSeason?: any,
   currentGame: number,
   changeGame?: any,
   gameDatesArray: number[] 
   pageLink: string
 }
 
-const GameDatesMenu: NextPage<Props> = ({pageLength,gameDatesArray,currentGame,changeGame,pageLink}: Props) => {
+const GameDatesMenu: NextPage<Props> = ({
+        pageLength, pageLink,
+        currentSeason, seasonsArray,changeSeason, 
+        gameDatesArray, currentGame,changeGame 
+      }: Props) => {
+
     const [pageStart, setStart] = useState<number>(0);
     const [pageEnd, setEnd] = useState<number>(pageLength);
 
@@ -72,9 +80,10 @@ const GameDatesMenu: NextPage<Props> = ({pageLength,gameDatesArray,currentGame,c
             <div className="sm:flex justify-between">
               <h1 className="text-2xl font-bold mb-2"> Muslim League CT Games </h1>
               <DropDown
-                options={[{key: 1, value: 'SUMMER 2022'}]}
-                curentOption={1}
                 dropDownSize='medium'
+                options={seasonsArray}
+                currentOption={currentSeason}
+                changeOption={changeSeason}
               />
             </div>
 

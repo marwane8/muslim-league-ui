@@ -72,7 +72,7 @@ export default function Standings({season_options, default_season, goalStats,ass
       />
     </Panel>
 
-    <Panel title="2022 Summer League Leaders" removeBorder={true}>
+    <Panel title="League Leaders" removeBorder={true}>
 
       <div className="sm:grid mb-3 grid-cols-2 gap-6">
         <StatTable 
@@ -82,7 +82,7 @@ export default function Standings({season_options, default_season, goalStats,ass
         />
 
       <StatTable 
-        title="Assit Leaders"
+        title="Assist Leaders"
         players={currAssistStats}
         stat="ASSISTS"
         />
@@ -97,7 +97,6 @@ export async function getServerSideProps() {
 
   let seasons: Season[]=[]
   let default_season: number = 0
-
 
   let goalLeaders: PlayerTotals[] = []
   let assistsLeaders: PlayerTotals[] = []

@@ -21,8 +21,6 @@ type ranking = {
   reb: number 
 }
 
-
-
 export default function Teams({teams,standings}: Props) {
 
   let default_roster: { id: number, name: string, number: string, pos: string }[] = [
@@ -82,7 +80,7 @@ export default function Teams({teams,standings}: Props) {
         <DropDown 
           title='TEAM'
           options={teams}
-          curentOption={currTeam} 
+          currentOption={currTeam} 
           changeOption={handleTeamChange}
           />
       </div>
