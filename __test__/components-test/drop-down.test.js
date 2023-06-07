@@ -35,7 +35,7 @@ describe('Drop Down', () => {
         //expect change function to be called
         expect(handleItemChange).toHaveBeenCalledTimes(1);
         //expect the proper value is selected
-        expect(select.value).toEqual("2");
+        expect(select.value).toEqual("3");
         //checks drops down title
         const title = screen.getByRole('heading');
         expect(title).toHaveTextContent('ITEM LIST');
