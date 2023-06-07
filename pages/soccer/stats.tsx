@@ -8,14 +8,11 @@ import Panel from '../../components/panel'
 
 import { getStatLeaders } from "../../utils/api/soccer-api"
 import { PlayerTotals } from "../../utils/soccer-models"
-import { PlayerStat } from "../../utils/bball-models"
-
 
 type Props = {
   goalStats:{id: number, name:  string, stat: number }[]
   assistsStats:{id: number, name:  string, stat: number }[]
 }
-
 
 export default function Standings({goalStats,assistsStats}: Props) {
 

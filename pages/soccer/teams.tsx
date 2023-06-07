@@ -11,6 +11,16 @@ import RosterTable from '../../components/tables/roster-table'
 import { Player, Team} from '../../utils/soccer-models'
 import { getRoster, getStandings } from '../../utils/api/soccer-api'
 
+const makeRoster = (player: Player) => {
+    let player_info = {
+        id: player.player_id,
+        name: player.player_name, 
+        number: player.player_number,
+        pos: player.player_pos 
+    }
+    return player_info
+}
+
 type Props = {
   team_options: {key: number, value: string}[],
   teams: Team[],
@@ -23,7 +33,6 @@ type ranking = {
 }
 
 export default function Teams({team_options,teams,default_roster,default_rank}: Props) {
-
  
   const handleTeamChange = async (e: any) => {
     setTeam(e.target.value)
@@ -31,17 +40,6 @@ export default function Teams({team_options,teams,default_roster,default_rank}: 
     const new_roster = await updateRoster(e.target.value)
     setRoster(new_roster)
   }  
-
-  const makeRoster = (player: Player) => {
-    let player_info = {
-        id: player.player_id,
-        name: player.player_name, 
-        number: player.player_number,
-        pos: player.player_pos 
-    }
-    return player_info
-  }
-
 
   const updateRoster = async (team_id: number) => {
     let players = await getRoster(team_id)
@@ -83,7 +81,7 @@ export default function Teams({team_options,teams,default_roster,default_rank}: 
     <Header title='Teams | Muslim League CT'/>
     <Container>
       <Panel title='Teams'>
-      <div className='mb-5  max-w-md m-auto'>
+      <div className='mb-5 max-w-md m-auto'>
         <DropDown 
           title='TEAM'
           options={team_options}
@@ -124,16 +122,6 @@ export async function getServerSideProps() {
     }
     return team_option
   }
-  const makeRoster = (player: Player) => {
-    let roster = { 
-      id: player.player_id, 
-      name: player.player_name, 
-      number: player.player_number, 
-      pos: player.player_pos 
-    }
-    return roster
-  }
-
 
 
   try {

@@ -19,19 +19,6 @@ export default function Standings({standings}: Props) {
   const teamColStyle = 'absolute  pl-2 py-1 text-left  border-r-2 min-w-[180px] w-[25vw] max-w-[280px] border-gray-100'
   const grayBG = 'bg-gray '
   const whiteBG = 'bg-white '
-  function calculateWinPercentage(wins: number, losses: number): string {
-
-      let winPct = (wins/(wins+losses));
-      let num = winPct.toString();
-      if (num == '1'){
-        return '1.00'
-      } else if (num == '0') {
-        return '0.00'
-      } 
-
-      let placeholder = 5 - num.length 
-      return num.substring(1) + '0'.repeat(placeholder)
-  }
 
   return(
 
@@ -86,13 +73,13 @@ export default function Standings({standings}: Props) {
 
 export async function getServerSideProps() {
 
-  let standings_data: Team[]=[]
+  let standings: Team[]=[]
 
   try {
-    standings_data = await getStandings(1)
+    standings = await getStandings(1)
   } catch (e) {
     console.error('Unable to get data')
   }
-  return { props: {standings: standings_data}}
+  return { props: {standings}}
 
 }
