@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import Container from '../../components/container';
 import Header from '../../components/header';
 import Panel from '../../components/panel';
+import { useState } from 'react';
 
 
 
@@ -9,12 +10,20 @@ import Panel from '../../components/panel';
 export default function Admin() {
 
     const router = useRouter();
-
+    const [seasonID,setSeasonID] = useState<number>(1);
+    const [sport,setSport] = useState<string>('Basketball');
+ 
 
     const handleInsertGamesClick = async () => {
-        const teamsLink = '/admin/insert-games';
-        router.push(teamsLink);
+        const link = '/admin/insert-games';
+        router.push(link);
     }
+
+    const handleSeasonClick = async () => {
+        const link = '/admin/select-season';
+        router.push(link);
+    }
+
 
     return (
       <>
@@ -57,7 +66,8 @@ export default function Admin() {
                     </button>
                 </div>
                 <div className='h-24'>
-                    <button className='font-bold text-2xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
+                    <button className={`font-bold text-3xl rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
+                                onClick={handleSeasonClick}>
                         Select Season 
                     </button>
                 </div>
