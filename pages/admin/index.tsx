@@ -24,7 +24,9 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
  
 
     const handleInsertGamesClick = async () => {
-        const link = '/admin/insert-games';
+        const sportId: string = sport;
+        const seasonId: number = season.season_id;
+        const link = '/admin/input-stats/'+ sportId +'/' + seasonId;
         router.push(link);
     }
 
@@ -100,7 +102,7 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
                     { soccerSeasons.map((season,index) => (
                         <div key={index}
                          className='bg-primary cursor-pointer hover:bg-primary-100 py-1 text-center font-bold text-lg text-white rounded-md'
-                         onClick={() => handleSelectSeason(season,'Soccer')}                         
+                         onClick={() => handleSelectSeason(season,'soccer')}                         
                          > 
                             {"Soccer - " + season.season_name + " " + season.year}
                         </div>

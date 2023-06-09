@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { NextPage } from "next"
 
-import { Game } from "../../utils/types"
+import { Game } from "../../utils/league-types"
 import { formatDate } from "../../utils/utils"
 import Modal from "../modal"
 import InputStatsTable from "./input-stats-table"
-import { Player } from "../../utils/types"
+import { Player } from "../../utils/league-types"
 import { getRoster } from "../../utils/api/soccer-api"
 
 type StatProps = {
@@ -30,7 +30,7 @@ type GameStats = {
 
 
 
-const StatsForm: NextPage<StatProps> = ({game,stats, showTable, setShowTable}: StatProps) => {
+const InputStatsForm: NextPage<StatProps> = ({game,stats, showTable, setShowTable}: StatProps) => {
 
   const [team1StatData, setTeam1StatData] = useState<any>([]);
   const [team2StatData, setTeam2StatData] = useState<any>([]);
@@ -148,6 +148,4 @@ const StatsForm: NextPage<StatProps> = ({game,stats, showTable, setShowTable}: S
   )
 }
 
-
-
-export default StatsForm 
+export default InputStatsForm 
