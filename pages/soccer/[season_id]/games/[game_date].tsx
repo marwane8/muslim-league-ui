@@ -8,7 +8,7 @@ import Container from '../../../../components/container'
 import GameDatesMenu from '../../../../components/widgets/game-dates-menu'
 import SoccerGameCard from '../../../../components/widgets/soccer-game-card'
 
-import { Season, Game, GameDates, Team, makeSeasonOptions } from '../../../../utils/soccer-models'
+import { Season, Game, GameDates, Team, makeSeasonOptions } from '../../../../utils/soccer-types'
 import { getGameDates, getGameForDate, getSeasons, getStandings } from '../../../../utils/api/soccer-api'
 
 

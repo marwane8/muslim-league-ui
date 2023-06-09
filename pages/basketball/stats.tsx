@@ -7,7 +7,7 @@ import Header from '../../components/header'
 import Panel from '../../components/panel'
 
 import { getStatLeaders } from "../../utils/api/basketball-api"
-import { PlayerStat } from "../../utils/bball-models"
+import { PlayerStat } from "../../utils/bball-types"
 
 
 type Props = {

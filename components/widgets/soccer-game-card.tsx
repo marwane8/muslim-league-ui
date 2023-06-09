@@ -3,7 +3,7 @@ import { NextPage } from "next"
 
 import WinArrowRight from '/public/svgs/win-arrow-right.svg'
 import WinArrowLeft from '/public/svgs/win-arrow-left.svg'
-import { Game, GameStat, Team } from "../../utils/soccer-models"
+import { Game, GameStat, Team } from "../../utils/soccer-types"
 import { getGameStats } from "../../utils/api/soccer-api"
 
 

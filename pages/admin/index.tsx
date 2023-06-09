@@ -6,7 +6,7 @@ import Header from '../../components/header';
 import Panel from '../../components/panel';
 import Modal from '../../components/modal';
 
-import {  Season } from "../../utils/soccer-models"
+import {  Season } from "../../utils/soccer-types"
 import { getSeasons } from "../../utils/api/soccer-api"
 
 type Props = {
@@ -64,7 +64,8 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
                 <div className='h-24 col-span-2'>
                     <button className={`font-bold text-3xl rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
                                 onClick={handleInsertGamesClick}>
-                        Insert Game Data 
+                       Input Stats
+                       <h2> {sport + " - "  + season.season_name + " " + season.year + " "} </h2>
                     </button>
                 </div>
             </div> 
@@ -74,15 +75,16 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
                 titleSize='medium'>
 
             <div className='m-auto grid grid-rows-2 max-w-3xl  gap-4 my-7'>
-                <div className='h-24'> 
-                    <button className='font-bold text-2xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
-                        Create a New Season 
-                    </button>
-                </div>
                 <div className='h-24'>
                     <button className={`font-bold text-3xl rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
                                 onClick={handleSeasonClick}>
                         Select Season 
+                    </button>
+                </div>
+
+                <div className='h-24'> 
+                    <button className='font-bold text-2xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
+                        Create a New Season 
                     </button>
                 </div>
             </div> 
@@ -93,7 +95,7 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
           isVisible={showSeasons}
           onClose={() => {setShowSeasons(false)}}>
             <div className='bg-white container max-w-screen-sm rounded-xl overflow-hidden'>
-                <h1 className='font-bold text-2xl text-center mt-3'> Seasons </h1>
+                <h1 className='font-bold text-2xl text-center mt-2'> Seasons </h1>
                 <div className='grid grid-cols-2 gap-4 m-4'>
                     { soccerSeasons.map((season,index) => (
                         <div key={index}
@@ -104,10 +106,7 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
                         </div>
 
                     ))}
-                   
-                 
                 </div>
-                
             </div>
         </Modal>
       </>
@@ -123,7 +122,7 @@ export async function getServerSideProps() {
   try {
     soccerSeasons = await getSeasons();
     defaultSeason = soccerSeasons.slice(-1)[0];
-    defaultSport = 'Soccer';
+    defaultSport = 'soccer';
   } catch (e) {
     console.error('Unable to get data')
   }

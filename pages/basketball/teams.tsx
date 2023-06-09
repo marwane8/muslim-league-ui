@@ -8,7 +8,7 @@ import DropDown from "../../components/widgets/drop-down"
 import Badge from '../../components/widgets/badge'
 import RosterTable from '../../components/tables/roster-table'
 
-import { Player, Team, TeamName } from '../../utils/bball-models'
+import { Player, Team, TeamName } from '../../utils/bball-types'
 import { getRoster, getTeams, getStandings } from '../../utils/api/basketball-api'
 
 type Props = {

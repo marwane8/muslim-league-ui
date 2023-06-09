@@ -7,7 +7,7 @@ import Header from '../../components/header'
 import Panel from '../../components/panel'
 
 import { getStatLeaders,getSeasons } from "../../utils/api/soccer-api"
-import { PlayerTotals, Season, makeSeasonOptions } from "../../utils/soccer-models"
+import { PlayerTotals, Season, makeSeasonOptions } from "../../utils/soccer-types"
 
 type Props = {
   season_options: {key: number, value: string}[],
