@@ -1,4 +1,6 @@
+
 export {SERVER_URL,CLIENT_URL,JWT_KEY}
+
 
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:8000'
@@ -33,8 +35,8 @@ export async function getRequest(query: string, useClient: boolean=false) {
     if (useClient) {
         url = CLIENT_URL
     }
-    
     url = url + query
+
     const options: RequestInit =  {
         method: 'GET',
         headers: {
@@ -50,4 +52,33 @@ export async function getRequest(query: string, useClient: boolean=false) {
         console.log(e)
     }
     throw Error("Stat not found")
+}
+
+export async function makeAuthorizedPutRequest(jwt_token: string,query: string,body: any, useClient: boolean=false) {
+    let url = SERVER_URL
+    if (useClient) {
+        url = CLIENT_URL
+    }
+    url = url + query
+
+    const options: RequestInit = {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt_token}`
+        },
+        body: JSON.stringify(body)
+    }
+    try{
+        const res  = await fetch(url,options);
+        if (!res.ok) {
+            return res.json().then(error => {
+                window.alert(`Error: ${res.status} - ${error.detail}`)
+            })
+        }
+        return res.json();
+    } catch (error) {
+        console.error('Error: ', error);
+    }
 }

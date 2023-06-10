@@ -8,14 +8,13 @@ import { Game } from '../../../../utils/league-types'
 import { formatDate } from '../../../../utils/utils';
 import InputStatsForm from '../../../../components/forms/input-stats-form';
 import { getGamesForSeason } from '../../../../utils/api/league-apis';
-import { assert } from 'console';
-import { type } from 'os';
 
 type Props = {
-  games: Game[],
+  sport: string,
+  games: Game[]
 }
 
-const InputStats = ({games}: Props) => {
+const InputStats = ({sport, games}: Props) => {
 
   const handleGameClick = async (game: Game) =>  {
     setCurrGame(game);
@@ -47,7 +46,7 @@ const InputStats = ({games}: Props) => {
                     <tr key={index} className={ 'cursor-pointer border-b border-gray-100 hover:bg-gray-100 hover:font-bold ' + (index%2 ?  'bg-gray' : 'bg-white') } 
                                       onClick={() => handleGameClick(game)}> 
                       <td className='flex justify-center py-2'> <span className='my-auto w-6 ml-1 font-bold'> {index+1} </span> <div className='w-full'> {game.team1} </div> </td>
-                      <td className=''> {game.team1} </td>
+                      <td className=''> {game.team2} </td>
                       <td className=''>  {formatDate(game.date)} </td>
                       <td className=''> {game.start_time} </td>
                       <td className=''> {game.court} </td>
@@ -60,6 +59,7 @@ const InputStats = ({games}: Props) => {
       </Container>
 
       <InputStatsForm
+        sport={sport}
         game={currGame}
         stats={['goals','assists']}
         showTable={showGameTable}
@@ -95,13 +95,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
       games = await getGamesForSeason(sportID, seasonID);
-      console.log(games);
   } catch (e) {
     console.error('Unable to fetch season games')
   }
 
 
-  return { props: { games }}
+  return { props: { sport: sportID, games }}
 
 }
 

@@ -19,9 +19,10 @@ export type Player = {
     player_name: string, 
 }
 
-export type PlayerStat = {
+export type GameStat = {
   game_id: number,
   player_id: number,
-  player_name: string,
+  [key: string]: number | string
 }
+
 

@@ -7,30 +7,26 @@ import Modal from "../modal"
 import InputStatsTable from "./input-stats-table"
 import { Player } from "../../utils/league-types"
 import { getRoster } from "../../utils/api/soccer-api"
+import { GameStat } from "../../utils/league-types"
+import { insertGamesForSeason } from "../../utils/api/league-apis"
+
+
+
+type PlayerStat = {
+  player_id: number,
+  player_name: string,
+  [key: string]: number | string
+}
 
 type StatProps = {
+  sport: string,
   game: Game,
   stats: string[], 
   showTable: boolean,
   setShowTable: (showTable: boolean) => void
 }
 
-type PlayersStat = {
-  player_id: number,
-  player_name: string,
-  [key: string]: number | string
-}
-
-type GameStats = {
-  game_id: number,
-  player_id: number,
-  [key: string]: number | string
-}
-
-
-
-
-const InputStatsForm: NextPage<StatProps> = ({game,stats, showTable, setShowTable}: StatProps) => {
+const InputStatsForm: NextPage<StatProps> = ({sport, game,stats, showTable, setShowTable}: StatProps) => {
 
   const [team1StatData, setTeam1StatData] = useState<any>([]);
   const [team2StatData, setTeam2StatData] = useState<any>([]);
@@ -51,10 +47,10 @@ const InputStatsForm: NextPage<StatProps> = ({game,stats, showTable, setShowTabl
     
     }
 
-    function calculatePlayersStat(players: Player[], stats: string[]): PlayersStat[] {
-        const playersStatList: PlayersStat[] = [];
+    function calculatePlayersStat(players: Player[], stats: string[]): PlayerStat[] {
+        const playersStatList: PlayerStat[] = [];
         players.forEach((player) => {
-          const playerStat: PlayersStat = {
+          const playerStat: PlayerStat = {
             player_id: player.player_id,
             player_name: player.player_name,
           };
@@ -86,18 +82,23 @@ const InputStatsForm: NextPage<StatProps> = ({game,stats, showTable, setShowTabl
   };
 
 
-  const handleGameSubmit = () => {
-    const gameStats = createGameStats(game.game_id,[team1StatData,team2StatData])
-    window.alert(JSON.stringify(gameStats));
-    //setShowTable(false);
+  const handleGameSubmit = async () => {
+    const gameStats = createGameStats(game.game_id,[team1StatData,team2StatData]);
+    const insertGamesResponse = await insertGamesForSeason(sport, gameStats,true);
+
+    if (insertGamesResponse) {
+      window.alert(JSON.stringify(insertGamesResponse.message));
+      setShowTable(false);
+    }
+
   };
  
-  function createGameStats(gameId: number, teamStatData: PlayersStat[][]) {
+  function createGameStats(gameId: number, teamStatData: PlayerStat[][]) {
 
-        const gameStatList: GameStats[] = [];
+        const gameStatList: GameStat[] = [];
         teamStatData.forEach((teamStats) => {
           teamStats.forEach((playerStats) => {
-            const gameStat: GameStats = {
+            const gameStat: GameStat = {
               game_id: gameId,
               player_id: playerStats.player_id
 
