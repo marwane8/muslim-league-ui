@@ -8,7 +8,7 @@ import Container from '../../../components/container'
 import GameDatesMenu from '../../../components/widgets/game-dates-menu'
 import GameCard from '../../../components/widgets/basketball-game-card'
 
-import { Game, GameDates, Team } from '../../../utils/bball-models'
+import { Game, GameDates, Team } from '../../../utils/bball-types'
 import { getGameDates, getGameForDate, getStandings } from '../../../utils/api/basketball-api'
 
 

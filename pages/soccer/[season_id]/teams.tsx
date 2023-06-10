@@ -9,7 +9,7 @@ import DropDown from "../../../components/widgets/drop-down"
 import Badge from '../../../components/widgets/badge'
 import RosterTable from '../../../components/tables/roster-table'
 
-import { Season, Player, Team, makeSeasonOptions, makeTeamOptions, makeRoster,} from '../../../utils/soccer-models'
+import { Season, Player, Team, makeSeasonOptions, makeTeamOptions, makeRoster,} from '../../../utils/soccer-types'
 import { getRoster, getSeasons, getStandings } from '../../../utils/api/soccer-api'
 import { useRouter } from 'next/router'
 

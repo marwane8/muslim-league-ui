@@ -6,7 +6,7 @@ import Header from '../../components/header'
 import Panel from '../../components/panel'
 
 import { getSeasons, getStandings } from "../../utils/api/soccer-api"
-import { makeSeasonOptions, Season, Team } from "../../utils/soccer-models"
+import { makeSeasonOptions, Season, Team } from "../../utils/soccer-types"
 
 
 type Props = {

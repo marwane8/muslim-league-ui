@@ -1,6 +1,13 @@
 import React from "react"
 import { NextPage } from "next"
 
+type Props = {
+  title?: string,
+  titleSize?: string,
+  removeBorder?: boolean,
+  children?: React.ReactNode
+}
+
 const Panel: NextPage<Props> = ({title,titleSize='',removeBorder=false,children}: Props) => {
   let border = 'border-b border-gray-100'  
   let titleHeadingSize = 'text-2xl md:text-3xl'
@@ -31,9 +38,3 @@ const Panel: NextPage<Props> = ({title,titleSize='',removeBorder=false,children}
 
 export default Panel
 
-type Props = {
-  title?: string,
-  titleSize?: string,
-  removeBorder?: boolean,
-  children?: React.ReactNode
-}

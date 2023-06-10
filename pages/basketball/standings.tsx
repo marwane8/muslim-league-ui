@@ -6,7 +6,7 @@ import Header from '../../components/header'
 import Panel from '../../components/panel'
 
 import { getStandings } from "../../utils/api/basketball-api"
-import { Team } from "../../utils/bball-models"
+import { Team } from "../../utils/bball-types"
 
 
 type Props = {

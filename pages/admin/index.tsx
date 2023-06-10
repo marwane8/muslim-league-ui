@@ -1,20 +1,45 @@
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+
 import Container from '../../components/container';
 import Header from '../../components/header';
 import Panel from '../../components/panel';
+import Modal from '../../components/modal';
 
+import {  Season } from "../../utils/soccer-types"
+import { getSeasons } from "../../utils/api/soccer-api"
 
+type Props = {
+  soccerSeasons: Season[],
+  defaultSeason: Season
+  defaultSport: string
+}
 
-
-export default function Admin() {
+export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Props) {
 
     const router = useRouter();
-
+    const [showSeasons,setShowSeasons] = useState<boolean>(false);
+    const [season,setSeason] = useState<Season>(defaultSeason);
+    const [sport,setSport] = useState<string>(defaultSport);
+ 
 
     const handleInsertGamesClick = async () => {
-        const teamsLink = '/admin/insert-games';
-        router.push(teamsLink);
+        const sportId: string = sport;
+        const seasonId: number = season.season_id;
+        const link = '/admin/input-stats/'+ sportId +'/' + seasonId;
+        router.push(link);
     }
+
+    const handleSeasonClick = async () => {
+        setShowSeasons(true);
+    }
+    const handleSelectSeason = (season: Season, sport: string) => {
+        setSport(sport);
+        setSeason(season);
+        setShowSeasons(false);
+    }
+
+
 
     return (
       <>
@@ -23,25 +48,26 @@ export default function Admin() {
 
             <h1 className='mt-5 py-5 text-4xl font-bold text-center grow  text-primary'>  League Admin </h1>
             <Panel 
-                title='Summer 2022 - Basketball'
+                title={ sport + " - " + season.season_name + " " + season.year}
                 titleSize='medium'>
 
             <div className='m-auto grid grid-cols-2 max-w-3xl  gap-4 my-7'>
                 <div className='h-24'> 
-                    <button className='font-bold text-2xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
-                        Edit 2022 Rosters
+                    <button className='font-bold text-xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
+                        Edit {season.season_name} {season.year} Rosters
                     </button>
                 </div>
                 <div className='h-24'> 
-                    <button className='font-bold text-2xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
-                        Edit 2022 Schedule 
+                    <button className='font-bold  text-xl  rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
+                        Edit {season.season_name} {season.year} Schedule 
                     </button>
                 </div>
 
                 <div className='h-24 col-span-2'>
                     <button className={`font-bold text-3xl rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
                                 onClick={handleInsertGamesClick}>
-                        Insert Game Data 
+                       Input Stats
+                       <h2> {sport + " - "  + season.season_name + " " + season.year + " "} </h2>
                     </button>
                 </div>
             </div> 
@@ -51,20 +77,58 @@ export default function Admin() {
                 titleSize='medium'>
 
             <div className='m-auto grid grid-rows-2 max-w-3xl  gap-4 my-7'>
+                <div className='h-24'>
+                    <button className={`font-bold text-3xl rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
+                                onClick={handleSeasonClick}>
+                        Select Season 
+                    </button>
+                </div>
+
                 <div className='h-24'> 
                     <button className='font-bold text-2xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
                         Create a New Season 
-                    </button>
-                </div>
-                <div className='h-24'>
-                    <button className='font-bold text-2xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
-                        Select Season 
                     </button>
                 </div>
             </div> 
             </Panel>
 
         </Container>
+        <Modal 
+          isVisible={showSeasons}
+          onClose={() => {setShowSeasons(false)}}>
+            <div className='bg-white container max-w-screen-sm rounded-xl overflow-hidden'>
+                <h1 className='font-bold text-2xl text-center mt-2'> Seasons </h1>
+                <div className='grid grid-cols-2 gap-4 m-4'>
+                    { soccerSeasons.map((season,index) => (
+                        <div key={index}
+                         className='bg-primary cursor-pointer hover:bg-primary-100 py-1 text-center font-bold text-lg text-white rounded-md'
+                         onClick={() => handleSelectSeason(season,'soccer')}                         
+                         > 
+                            {"Soccer - " + season.season_name + " " + season.year}
+                        </div>
+
+                    ))}
+                </div>
+            </div>
+        </Modal>
       </>
     );
+}
+
+export async function getServerSideProps() {
+
+  let soccerSeasons: Season[]=[];
+  let defaultSeason: Season = {season_id: 0, season_name: 'none', year: 0};
+  let defaultSport: string = "";
+
+  try {
+    soccerSeasons = await getSeasons();
+    defaultSeason = soccerSeasons.slice(-1)[0];
+    defaultSport = 'soccer';
+  } catch (e) {
+    console.error('Unable to get data')
+  }
+
+  return { props: { soccerSeasons, defaultSeason, defaultSport}}
+
 }

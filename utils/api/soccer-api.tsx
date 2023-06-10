@@ -1,4 +1,4 @@
-import { Season, PlayerTotals, Player, Team, Game, GameDates, GameStat } from "../soccer-models";
+import { Season, PlayerTotals, Player, Team, Game, GameDates, GameStat } from "../soccer-types";
 import { getRequest } from "./api-utils";
 
 //-----
@@ -26,9 +26,9 @@ export async function getStandings(season_id: number, useClient: boolean=false):
 //-----
 // Player Endpoints
 //-----
-export async function getRoster(team_id: number): Promise<Player[]> {
+export async function getRoster(team_id: number, useClient:boolean=false): Promise<Player[]> {
     const rosterQuery = "/api/v1/soccer/players/" + team_id;
-    return getRequest(rosterQuery,true);
+    return getRequest(rosterQuery,useClient);
 }
 
 export async function getStatLeaders(season_id: number, stat: string,useClient: boolean=false): Promise<PlayerTotals[]> {
