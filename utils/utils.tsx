@@ -33,3 +33,15 @@ export function formatDate(date: number): string {
         return 'th';
     }
   }
+
+export function capitalizeFirstLetter(word: string): string {
+  if (typeof word !== 'string' || word.length === 0) {
+    // Return the input as it is if it's not a string or empty
+    return word;
+  }
+
+  const firstLetter = word.charAt(0).toUpperCase();
+  const restOfWord = word.slice(1);
+
+  return firstLetter + restOfWord;
+}

@@ -8,7 +8,7 @@ import Modal from '../../components/modal';
 
 import {  Season } from "../../utils/soccer-types"
 import { getSeasons } from "../../utils/api/soccer-api"
-
+import { capitalizeFirstLetter } from '../../utils/utils';
 type Props = {
   soccerSeasons: Season[],
   defaultSeason: Season
@@ -48,7 +48,7 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
 
             <h1 className='mt-5 py-5 text-4xl font-bold text-center grow  text-primary'>  League Admin </h1>
             <Panel 
-                title={ sport + " - " + season.season_name + " " + season.year}
+                title={ capitalizeFirstLetter(sport) + " - " + season.season_name + " " + season.year}
                 titleSize='medium'>
 
             <div className='m-auto grid grid-cols-2 max-w-3xl  gap-4 my-7'>
@@ -67,7 +67,7 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
                     <button className={`font-bold text-3xl rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
                                 onClick={handleInsertGamesClick}>
                        Input Stats
-                       <h2> {sport + " - "  + season.season_name + " " + season.year + " "} </h2>
+                       <h2> {capitalizeFirstLetter(sport) + " - "  + season.season_name + " " + season.year + " "} </h2>
                     </button>
                 </div>
             </div> 
