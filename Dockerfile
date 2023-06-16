@@ -31,6 +31,10 @@ ENV NEXT_PUBLIC_SERVER_URL=http://ml-api:80
 ARG NEXT_PUBLIC_CLIENT_URL
 ENV NEXT_PUBLIC_CLIENT_URL=https://api.muslimleaguect.com
 
+ARG NEXT_PUBLIC_UI_URL
+ENV NEXT_PUBLIC_UI_URL=https://www.muslimleaguect.com
+
+
 RUN yarn build
 
 # If using npm comment out above and use below instead

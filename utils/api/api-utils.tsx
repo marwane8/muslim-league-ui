@@ -1,7 +1,9 @@
 
-export {SERVER_URL,CLIENT_URL,JWT_KEY}
+export {UI_URL,SERVER_URL,CLIENT_URL,JWT_KEY}
 
 
+
+const UI_URL = process.env.NEXT_PUBLIC_UI_URL || 'http://localhost:3000'
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:8000'
 
