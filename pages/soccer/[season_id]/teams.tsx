@@ -11,9 +11,8 @@ import RosterTable from '../../../components/tables/roster-table'
 
 import { Season, Player, Team, makeSeasonOptions, makeTeamOptions, makeRoster,} from '../../../utils/soccer-types'
 import { getRoster, getSeasons, getStandings } from '../../../utils/api/soccer-api'
-import { useRouter } from 'next/router'
 
-
+import { UI_URL } from '../../../utils/api/api-utils'
 
 
 type Props = {
@@ -21,15 +20,15 @@ type Props = {
   team_options: {key: number, value: string}[],
   season: number,
   teams: Team[],
+  curr_team: number;
   default_rank: { ovr: number },
   default_roster: { id: number, name: string, number: string, pos: string }[]
 }
 
 
-export default function Teams( {season_options,  team_options, season, teams, default_rank, default_roster}: Props) {
+export default function Teams( {season_options,  team_options, curr_team, season, teams, default_rank, default_roster}: Props) {
   
-  const router = useRouter();
-  const [currTeam,setTeam] = useState<number>(1);
+  const [currTeam,setTeam] = useState<number>(curr_team);
   const [rank,setRank] = useState(default_rank);
   const [roster,setRoster] = useState(default_roster);
 
@@ -44,11 +43,12 @@ export default function Teams( {season_options,  team_options, season, teams, de
   const handleSeasonChange = async (e: any) => {
     const new_season_id = e.target.value;
     const teamsLink = '/soccer/' + new_season_id + '/teams';
-    router.push(teamsLink);
+    const newUrl = UI_URL + teamsLink
+    window.location.assign(newUrl);
   }  
 
 const updateRoster = async (team_id: number) => {
-    let players = await getRoster(team_id)
+    let players = await getRoster(team_id,true);
     let roster: { id: number, name: string, number: string, pos: string }[] = players.map((player) => makeRoster(player))
     return roster
   }
@@ -128,6 +128,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let teams: Team[] = []
   let players: Player[] = []
   let default_rank = { ovr: 0 }; 
+  let curr_team = 0
 
 
   let season: number = 0;
@@ -141,24 +142,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     seasons = await getSeasons();
 
     teams = await getStandings(season)
-    players = await getRoster(1);
-    
+    curr_team = teams[0].team_id;
+    players = await getRoster(curr_team);
+
     for (let i = 0; i<teams.length;i++){
-      if ( teams[i].team_id == 1) {
+      if ( teams[i].team_id == curr_team) {
         const rank_value = i+1
         default_rank = {ovr: rank_value } 
       }
     }
  
   } catch (e) {
-    console.error('Unable to get data');
+    console.error('fetch error: ', e);
   }
 
   let season_options = seasons.map((season) => makeSeasonOptions(season));
   let team_options: { key: number, value: string }[] = teams.map((team) => makeTeamOptions(team));
   let default_roster: { id: number, name: string, number: string, pos: string }[] = players.map((player) => makeRoster(player));
 
-  return { props: {season_options,  team_options, season, teams, default_rank, default_roster}}
+  return { props: {season_options,  team_options, curr_team, season, teams, default_rank, default_roster}}
 
 }
 
