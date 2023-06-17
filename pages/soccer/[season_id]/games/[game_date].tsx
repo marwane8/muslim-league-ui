@@ -10,7 +10,7 @@ import SoccerGameCard from '../../../../components/widgets/soccer-game-card'
 
 import { Season, Game, GameDates, Team, makeSeasonOptions } from '../../../../utils/soccer-types'
 import { getGameDates, getGameForDate, getSeasons, getStandings } from '../../../../utils/api/soccer-api'
-
+import { formatNowToYYYYMMDD,getClosestDate } from '../../../../utils/utils'
 
 type Props = {
   season: number,
@@ -18,20 +18,21 @@ type Props = {
   standings: Team[],
   gameDates: GameDates,
   games: Game[]
+  default_game: number
 }
 
 
-const Games = ({season, season_options, standings, gameDates, games}: Props) => {
+const Games = ({season, season_options, standings, gameDates, games,default_game}: Props) => {
 
   const router = useRouter()
-  const { date } = router.query
 
-  const [currGameDay,setGameDay] = useState<number>(Number(date));
+  const [currGameDay,setGameDay] = useState<number>(default_game);
   
   const handleSeasonChange = async (e: any) => {
     const new_season_id: number = e.target.value;
 
-    const gamesLink = '/soccer/' + new_season_id + '/games/' + 20220610;
+    const today = formatNowToYYYYMMDD()
+    const gamesLink = '/soccer/' + new_season_id + '/games/' + today;
     router.push(gamesLink);
 
 
@@ -65,18 +66,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     let seasons: Season[]=[]
     let season: number = 0
+    let default_game: number = 0;
 
     if (typeof season_id === 'string') {
       season = parseInt(season_id);
     } else {
       console.log('Unable to parse season id');
     }
- 
+    
+    
 
     let gameDates: GameDates | null = { "games":[]}
     let standings: Team[] = []
     let games: Game[] = []
 
+    
     try {
       seasons = await getSeasons();
 
@@ -85,14 +89,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
       if (typeof game_date === 'string'){
         let date = parseInt(game_date)
-        games = await getGameForDate(date)
+        default_game = getClosestDate(date,gameDates.games);
+        games = await getGameForDate(default_game)
+
       }
     } catch (e) {
-      console.error('Unable to get data')
+      console.error('Fetch Error: ', e)
     }
 
     let season_options = seasons.map((season) => makeSeasonOptions(season))
-    return { props: {season, season_options,  standings, gameDates, games }}
+    return { props: {season, season_options,  standings, gameDates, games, default_game }}
 
 }
 

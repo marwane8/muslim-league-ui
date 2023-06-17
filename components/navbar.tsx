@@ -6,6 +6,7 @@ import Container from '../components/container'
 import Basketball from '/public/svgs/basketball.svg'
 import Soccer from '/public/svgs/soccer.svg'
 
+import { formatNowToYYYYMMDD } from '../utils/utils';
 
 enum Sport {
    HOME,
@@ -69,7 +70,7 @@ export default function Navbar() {
     const soccerNav = [
         {
             name: 'Games',
-            link: '/soccer/2/games/20220610',
+            link: '/soccer/2/games/' + formatNowToYYYYMMDD(),
             toggle: false 
         },
         {
