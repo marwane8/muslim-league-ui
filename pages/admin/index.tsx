@@ -6,8 +6,9 @@ import Header from '../../components/header';
 import Panel from '../../components/panel';
 import Modal from '../../components/modal';
 
-import {  Season } from "../../utils/soccer-types"
-import { getSeasons } from "../../utils/api/soccer-api"
+import { Season } from '../../utils/league-types';
+import { getSeasons } from '../../utils/api/apis';
+
 import { capitalizeFirstLetter } from '../../utils/utils';
 type Props = {
   soccerSeasons: Season[],
@@ -119,10 +120,10 @@ export async function getServerSideProps() {
 
   let soccerSeasons: Season[]=[];
   let defaultSeason: Season = {season_id: 0, season_name: 'none', year: 0};
-  let defaultSport: string = "";
+  let defaultSport: string = 'soccer';
 
   try {
-    soccerSeasons = await getSeasons();
+    soccerSeasons = await getSeasons('soccer');
     defaultSeason = soccerSeasons.slice(-1)[0];
     defaultSport = 'soccer';
   } catch (e) {
