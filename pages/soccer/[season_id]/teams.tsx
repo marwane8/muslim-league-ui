@@ -9,8 +9,10 @@ import DropDown from "../../../components/widgets/drop-down"
 import Badge from '../../../components/widgets/badge'
 import RosterTable from '../../../components/tables/roster-table'
 
-import { Season, Player, Team, makeSeasonOptions, makeTeamOptions, makeRoster,} from '../../../utils/soccer-types'
-import { getRoster, getSeasons, getStandings } from '../../../utils/api/soccer-api'
+import { Season, makeSeasonOptions } from '../../../utils/league-types'
+import { Player, Team, makeTeamOptions, makeRoster,} from '../../../utils/soccer-types'
+import { getSeasons } from '../../../utils/api/apis'
+import { getRoster, getStandings } from '../../../utils/api/soccer-api'
 
 import { UI_URL } from '../../../utils/api/api-utils'
 
@@ -139,7 +141,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
   
   try {
-    seasons = await getSeasons();
+    seasons = await getSeasons('soccer');
 
     teams = await getStandings(season)
     curr_team = teams[0].team_id;

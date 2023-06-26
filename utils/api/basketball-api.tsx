@@ -1,9 +1,9 @@
 import { Player, PlayerStat, Team, TeamName, GameDates, Game, GameStat } from "../bball-types";
 import { getRequest } from "./api-utils";
 
-export async function getStandings(season_id: number): Promise<Team[]> {
+export async function getStandings(season_id: number,useClient=false): Promise<Team[]> {
     const standingsQuery = "/api/v1/bball/teams/" + season_id  + "/standings";
-    return getRequest(standingsQuery);
+    return getRequest(standingsQuery,useClient);
 }
 export async function getTeams(season_id: number): Promise<TeamName[]> {
     const teamsQuery = "/api/v1/bball/teams/" + season_id;

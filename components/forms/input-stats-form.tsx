@@ -8,7 +8,7 @@ import InputStatsTable from "./input-stats-table"
 import { Player } from "../../utils/league-types"
 import { getRoster } from "../../utils/api/soccer-api"
 import { GameStat } from "../../utils/league-types"
-import { insertGamesForSeason } from "../../utils/api/league-apis"
+import { insertGamesForSeason } from "../../utils/api/apis"
 
 
 

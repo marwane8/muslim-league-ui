@@ -1,4 +1,21 @@
 //General Interfaces That are shared amoong all leauges
+export type Season = {
+    season_id: number, 
+    season_name: string, 
+    year: number
+}
+
+export const makeSeasonOptions = (season: Season) => {
+    const season_value = season.season_name.toUpperCase() + " " + season.year
+    let season_option = {
+      key: season.season_id,
+      value: season_value
+    }
+    return season_option
+  }
+
+
+
 export type Game = {
     season_id: number
     game_id: number,

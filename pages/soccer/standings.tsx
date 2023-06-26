@@ -5,8 +5,10 @@ import DropDown from "../../components/widgets/drop-down"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { getSeasons, getStandings } from "../../utils/api/soccer-api"
-import { makeSeasonOptions, Season, Team } from "../../utils/soccer-types"
+import { getSeasons } from "../../utils/api/apis"
+import { getStandings } from "../../utils/api/soccer-api"
+import { Team } from "../../utils/soccer-types"
+import { Season, makeSeasonOptions } from "../../utils/league-types"
 
 
 type Props = {
@@ -92,7 +94,7 @@ export async function getServerSideProps() {
   let default_season: number = 0
 
   try {
-    seasons = await getSeasons();
+    seasons = await getSeasons('soccer');
     default_season = seasons.slice(-1)[0].season_id;
     default_standings = await getStandings(default_season)
   } catch (e) {

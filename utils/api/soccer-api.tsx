@@ -1,14 +1,5 @@
-import { Season, PlayerTotals, Player, Team, Game, GameDates, GameStat } from "../soccer-types";
+import { PlayerTotals, Player, Team, Game, GameDates, GameStat } from "../soccer-types";
 import { getRequest } from "./api-utils";
-
-//-----
-// Season Endpoints
-//-----
-export async function getSeasons(): Promise<Season[]> {
-    const seasonsQuery = "/api/v1/soccer/seasons";
-    return getRequest(seasonsQuery);
-}
-
 
 //-----
 // Team Endpoints
