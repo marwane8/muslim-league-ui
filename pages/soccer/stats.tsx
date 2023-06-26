@@ -6,8 +6,10 @@ import StatTable from "../../components/tables/stat-table"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { getStatLeaders,getSeasons } from "../../utils/api/soccer-api"
-import { PlayerTotals, Season, makeSeasonOptions } from "../../utils/soccer-types"
+import { getSeasons } from "../../utils/api/apis"
+import { getStatLeaders } from "../../utils/api/soccer-api"
+import { PlayerTotals } from "../../utils/soccer-types"
+import { Season, makeSeasonOptions } from "../../utils/league-types"
 
 type Props = {
   season_options: {key: number, value: string}[],
@@ -105,7 +107,7 @@ export async function getServerSideProps() {
   let assistsStats:{id: number, name:  string, stat: number }[] = []
   
   try {
-    seasons = await getSeasons();
+    seasons = await getSeasons('soccer');
     default_season = seasons.slice(-1)[0].season_id;
 
     goalLeaders = await getStatLeaders(default_season,'goals') 

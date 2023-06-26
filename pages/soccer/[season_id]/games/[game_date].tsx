@@ -8,8 +8,11 @@ import Container from '../../../../components/container'
 import GameDatesMenu from '../../../../components/widgets/game-dates-menu'
 import SoccerGameCard from '../../../../components/widgets/soccer-game-card'
 
-import { Season, Game, GameDates, Team, makeSeasonOptions } from '../../../../utils/soccer-types'
-import { getGameDates, getGameForDate, getSeasons, getStandings } from '../../../../utils/api/soccer-api'
+import { Season, makeSeasonOptions } from '../../../../utils/league-types'
+import { Game, GameDates, Team } from '../../../../utils/soccer-types'
+import { getSeasons } from '../../../../utils/api/apis'
+import { getGameDates, getGameForDate, getStandings } from '../../../../utils/api/soccer-api'
+
 import { formatNowToYYYYMMDD,getClosestDate } from '../../../../utils/utils'
 
 type Props = {
@@ -82,7 +85,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     
     try {
-      seasons = await getSeasons();
+      seasons = await getSeasons('soccer');
 
       gameDates = await getGameDates(season)
       standings = await getStandings(season)
