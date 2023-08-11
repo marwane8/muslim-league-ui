@@ -15,9 +15,9 @@ export async function getRoster(team_id: number): Promise< { id: number, name: s
     return getRequest(rosterQuery,true);
 }
 
-export async function getStatLeaders(stat: string): Promise<PlayerStat[]> {
-    const statLeadersQuery = "/api/v1/bball/players/0/stat/" + stat;
-    return getRequest(statLeadersQuery);
+export async function getStatLeaders(season_id: number, stat: string,useClient: boolean=false): Promise<PlayerStat[]> {
+    const statLeadersQuery = "/api/v1/bball/players/" + season_id + "/stat/" + stat;
+    return getRequest(statLeadersQuery,useClient);
 }
 
 export async function getGameDates(): Promise<GameDates> {
