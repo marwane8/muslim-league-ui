@@ -109,8 +109,8 @@ export async function getServerSideProps() {
     seasons = await getSeasons('soccer');
     default_season = seasons.slice(-1)[0].season_id;
 
-    goalLeaders = await getStatLeaders(default_season,'goals') 
-    assistsLeaders = await getStatLeaders(default_season,'assists') 
+    goalLeaders = await getStatLeaders(Sport.SOCCER, default_season,'goals') 
+    assistsLeaders = await getStatLeaders(Sport.SOCCER, default_season,'assists') 
 
     goalStats = goalLeaders.map((player) =>makeSoccerStat(player,GOAL_STAT))
     assistsStats = assistsLeaders.map((player) =>makeSoccerStat(player,ASSIST_STAT))

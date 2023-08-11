@@ -10,12 +10,6 @@ export type Player = {
     pos: string 
 }
 
-export type PlayerStat = {
-    id: number,
-    name: string, 
-    stat: string 
-}
-
 export type TeamName = {
     id: number,
     name: string
