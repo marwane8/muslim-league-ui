@@ -49,7 +49,7 @@ export default function Stats(
         />
    </Panel>
 
-    <Panel title="2022 Summer League Leaders" removeBorder={true}>
+    <Panel title="League Leaders" removeBorder={true}>
 
       <div className="sm:grid mb-3 grid-cols-2 gap-6">
         <StatTable 
