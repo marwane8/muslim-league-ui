@@ -7,7 +7,7 @@ import Panel from '../../../../components/panel'
 import { Game } from '../../../../utils/league-types'
 import { formatDate } from '../../../../utils/utils';
 import InputStatsForm from '../../../../components/forms/input-stats-form';
-import { getGamesForSeason } from '../../../../utils/api/apis';
+import { getGamesForSeason } from '../../../../utils/api/league-api';
 
 type Props = {
   sport: string,

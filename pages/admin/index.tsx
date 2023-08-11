@@ -7,7 +7,7 @@ import Panel from '../../components/panel';
 import Modal from '../../components/modal';
 
 import { Season } from '../../utils/league-types';
-import { getSeasons } from '../../utils/api/apis';
+import { getSeasons } from '../../utils/api/league-api';
 
 import { capitalizeFirstLetter } from '../../utils/utils';
 type Props = {

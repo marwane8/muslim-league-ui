@@ -6,7 +6,7 @@ import Header from '../../components/header'
 import Panel from '../../components/panel'
 
 import { getStandings } from "../../utils/api/basketball-api"
-import { getSeasons } from "../../utils/api/apis"
+import { getSeasons } from "../../utils/api/league-api"
 import { Team } from "../../utils/bball-types"
 
 import { Season,makeSeasonOptions } from "../../utils/league-types"

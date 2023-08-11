@@ -6,10 +6,8 @@ import StatTable from "../../components/tables/stat-table"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { getStatLeaders } from "../../utils/api/basketball-api"
-import { PlayerStat } from "../../utils/bball-types"
-import { Season, makeSeasonOptions } from "../../utils/league-types"
-import { getSeasons } from "../../utils/api/apis"
+import { PlayerStat, Season, makeSeasonOptions } from "../../utils/league-types"
+import { Sport, getSeasons, getStatLeaders } from "../../utils/api/league-api"
 
 type Props = {
   season_options: {key: number, value: string}[],
@@ -17,14 +15,7 @@ type Props = {
   default_points: PlayerStat[],
   default_rebounds: PlayerStat[]
 }
-const makeBasketballStat = (player_stat: PlayerStat, stat_num: number) => {
-  let stat = {
-      id: player_stat.id,
-      name: player_stat.name,
-      stat: player_stat.stat 
-  }
-  return stat 
-}
+
 
 export default function Stats(
     { season_options, default_season, default_points, default_rebounds }: Props) {
@@ -37,8 +28,8 @@ export default function Stats(
     const new_season_id: number = e.target.value;
     setSeason(new_season_id);
 
-    let points = await getStatLeaders(new_season_id,"points",true);
-    let rebounds  = await getStatLeaders(new_season_id,"rebounds",true);
+    let points = await getStatLeaders(Sport.BASKETBALL, new_season_id,"points",true);
+    let rebounds  = await getStatLeaders(Sport.BASKETBALL, new_season_id,"rebounds",true);
 
     setPointsStat(points);
     setReboundStat(rebounds);
@@ -87,10 +78,10 @@ export async function getServerSideProps() {
   let default_rebounds: PlayerStat[] = []
 
   try {
-    seasons = await getSeasons('bball');
+    seasons = await getSeasons(Sport.BASKETBALL);
     default_season = seasons.slice(-1)[0].season_id;
-    default_points = await getStatLeaders(default_season,"points");
-    default_rebounds = await getStatLeaders(default_season,"rebounds");
+    default_points = await getStatLeaders(Sport.BASKETBALL,default_season,"points");
+    default_rebounds = await getStatLeaders(Sport.BASKETBALL,default_season,"rebounds");
   } catch (e) {
     console.error('Unable to get stats data: ' + e);
   }

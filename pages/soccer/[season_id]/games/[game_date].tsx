@@ -10,7 +10,7 @@ import SoccerGameCard from '../../../../components/widgets/soccer-game-card'
 
 import { Season, makeSeasonOptions } from '../../../../utils/league-types'
 import { Game, GameDates, Team } from '../../../../utils/soccer-types'
-import { getSeasons } from '../../../../utils/api/apis'
+import { getSeasons } from '../../../../utils/api/league-api'
 import { getGameDates, getGameForDate, getStandings } from '../../../../utils/api/soccer-api'
 
 import { formatNowToYYYYMMDD,getClosestDate } from '../../../../utils/utils'

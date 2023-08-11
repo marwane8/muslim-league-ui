@@ -6,16 +6,15 @@ import StatTable from "../../components/tables/stat-table"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { getSeasons } from "../../utils/api/apis"
-import { getStatLeaders } from "../../utils/api/soccer-api"
+import { Sport, getSeasons, getStatLeaders } from "../../utils/api/league-api"
 import { PlayerTotals } from "../../utils/soccer-types"
-import { Season, makeSeasonOptions } from "../../utils/league-types"
+import { Season, makeSeasonOptions, PlayerStat } from "../../utils/league-types"
 
 type Props = {
   season_options: {key: number, value: string}[],
   default_season: number,
-  goalStats:{id: number, name:  string, stat: number }[]
-  assistsStats:{id: number, name:  string, stat: number }[]
+  goalStats: PlayerStat[]
+  assistsStats: PlayerStat[]
 }
 
 const GOAL_STAT = 1;
@@ -51,8 +50,8 @@ export default function Standings({season_options, default_season, goalStats,ass
     const new_season_id: number = e.target.value;
     setSeason(new_season_id);
 
-    let goals = await getStatLeaders(new_season_id,'goals',true) 
-    let assists  = await getStatLeaders(new_season_id,'assists',true) 
+    let goals = await getStatLeaders(Sport.SOCCER, new_season_id,'goals',true) 
+    let assists  = await getStatLeaders(Sport.SOCCER, new_season_id,'assists',true) 
 
     const goalStats = goals.map((player) =>makeSoccerStat(player,GOAL_STAT))
     const assistsStats = assists.map((player) =>makeSoccerStat(player,ASSIST_STAT))

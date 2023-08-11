@@ -1,12 +1,12 @@
 import React from "react"
 import { NextPage } from "next"
 
-import { PlayerStat } from "../../utils/bball-types"
+import { PlayerStat } from "../../utils/league-types"
 
 type Props = {
   title: string,
   stat: string,
-  players: {id: number, name:  string, stat: number }[]
+  players: PlayerStat[]
 }
 
 const StatTable: NextPage<Props> = ({title,stat,players}: Props) => {
@@ -17,7 +17,7 @@ const StatTable: NextPage<Props> = ({title,stat,players}: Props) => {
       <table className="w-full text-left">
         <thead className='text-gray-300 border-gray-100 border-t-2 border-b-2'>
           <tr >
-                <th className='pl-3 min-w-[30px]'> Player</th>
+                <th className='pl-3 min-w-[30px]'> Player </th>
                 <th className='w-[40px] pr-2'> {stat} </th>
           </tr>
         </thead>

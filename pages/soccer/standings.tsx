@@ -5,7 +5,7 @@ import DropDown from "../../components/widgets/drop-down"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { getSeasons } from "../../utils/api/apis"
+import { getSeasons } from "../../utils/api/league-api"
 import { getStandings } from "../../utils/api/soccer-api"
 import { Team } from "../../utils/soccer-types"
 import { Season, makeSeasonOptions } from "../../utils/league-types"

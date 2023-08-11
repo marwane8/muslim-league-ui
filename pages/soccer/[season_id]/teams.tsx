@@ -11,7 +11,7 @@ import RosterTable from '../../../components/tables/roster-table'
 
 import { Season, makeSeasonOptions } from '../../../utils/league-types'
 import { Player, Team, makeTeamOptions, makeRoster,} from '../../../utils/soccer-types'
-import { getSeasons } from '../../../utils/api/apis'
+import { getSeasons } from '../../../utils/api/league-api'
 import { getRoster, getStandings } from '../../../utils/api/soccer-api'
 
 import { UI_URL } from '../../../utils/api/api-utils'
