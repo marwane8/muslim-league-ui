@@ -3,12 +3,13 @@ import { NextPage } from "next"
 
 import WinArrowRight from '/public/svgs/win-arrow-right.svg'
 import WinArrowLeft from '/public/svgs/win-arrow-left.svg'
-import { Game, GameStat, Team } from "../../utils/bball-types"
+import {  TeamData } from "../../utils/basketball-types"
+import { GameStats, Game } from "../../utils/league-types"
 import { getGameStats } from "../../utils/api/basketball-api"
 
 
 type GameCardProps = {
-  standings: Team[],
+  standings: TeamData[],
   gameData: Game 
 }
 
@@ -61,27 +62,27 @@ type GameScoreProps = {
 }
 
 function GameScore({gameID,team1ID,team2ID}: GameScoreProps) {
-    const [team1Score,setScore1] = useState<number>(0)
-    const [team2Score,setScore2] = useState<number>(0)
+    const [team1Score,setScore1] = useState<number | string>(0)
+    const [team2Score,setScore2] = useState<number | string>(0)
 
     useEffect(() => {
-      getGameStats(gameID)
-        .then((gameStats: GameStat[]) => {
+       getGameStats(gameID)
+        .then((gameStats: GameStats[]) => {
           let team1 = gameStats.find(team => {return team.team_id === team1ID}) 
           let team2 = gameStats.find(team => {return team.team_id === team2ID}) 
           if (team1 && team2) {
             setScore1(team1.points)
             setScore2(team2.points)
           }
-        })
-    })
+         })
+})
 
  return (
     <div className='flex my-auto justify-between items-center w-[160px] text-center '>
         <div className='text-center my-auto mr-1 text-2xl font-extrabold'> {team1Score} </div>
-          { (team1Score > team2Score) ? <WinArrowLeft className='h-4'/>  :  <div className="text-white"> -- </div> } 
+          { (team1Score > team2Score) ? <WinArrowLeft className='h-4'/>  : <WinArrowLeft className='h-4 fill-white'/> } 
             FINAL
-          { (team1Score < team2Score) ? <WinArrowRight className='h-4'/>  :  <div className="text-white"> -- </div> } 
+          { (team1Score < team2Score) ? <WinArrowRight className='h-4'/>  : <WinArrowRight className='h-4 fill-white'/>  } 
         <div className='text-center my-auto ml-1 text-2xl font-extrabold'> {team2Score} </div>
     </div>
  )
@@ -95,10 +96,10 @@ type GameTimeProps = {
 
 function GameTime({time,court}: GameTimeProps) {
     return (
-                <div className='my-auto w-[160px] text-center '>
-                   <div className='font-extrabold text-xl'> {time} </div>
-                   <div className='text-sm'> COURT {court} </div>
-                </div>
+      <div className='my-auto w-[160px] text-center '>
+          <div className='font-extrabold text-xl'> {time} </div>
+          <div className='text-sm'> COURT {court} </div>
+      </div>
     )
 }
 

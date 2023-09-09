@@ -1,3 +1,7 @@
+export enum SoccerStat {
+    GOALS,
+    ASSISTS
+}
 
 export type Team = {
     team_id: number,

@@ -25,14 +25,14 @@ export default function Navbar() {
     const homeNav = [
         {
             name: 'Basketball',
-            link: '/basketball',
+            link: '/',
             toggle: true,
             sport: Sport.BASKETBALL
         },
 
         {
             name: 'Soccer',
-            link: '/soccer',
+            link: '/',
             toggle: true,
             sport: Sport.SOCCER
         },
@@ -46,7 +46,7 @@ export default function Navbar() {
     const basketballNav = [
         {
             name: 'Games',
-            link: '/basketball/games/20220610',
+            link: '/basketball/2/games/' + formatNowToYYYYMMDD(),
             toggle: false 
         },
 
@@ -62,7 +62,7 @@ export default function Navbar() {
         },
         {
             name: 'Teams',
-            link: '/basketball/teams',
+            link: '/basketball/2/teams',
             toggle: false 
         },
 
@@ -111,7 +111,7 @@ export default function Navbar() {
         if (sport === Sport.SOCCER) {
 
             return  (
-                <NextLink href='/soccer'>
+                <NextLink href='/'>
                     <h1 className='duration-500 hover:text-primary-100 cursor-pointer'>
                         Soccer
                     </h1>
@@ -119,7 +119,7 @@ export default function Navbar() {
             );
         } else if (sport === Sport.BASKETBALL) {
             return  (
-                <NextLink href='/basketball'>
+                <NextLink href='/'>
                     <h1 className='duration-500 hover:text-red cursor-pointer'>
                         Basketball
                     </h1>
@@ -148,16 +148,16 @@ export default function Navbar() {
                     <div className={ 
                       sport===Sport.BASKETBALL ? 'text-red' : 'duration-500 hover:text-red' } 
                       onClick={() => toggleSport(Sport.BASKETBALL)}>
-                    <NextLink href='/basketball'>
+                    <NextLink href='/'>
                          <div>
                          <Basketball className="w-9 mx-1" />
                         </div>
                     </NextLink>
                     </div>
                     <div className={ 
-                      sport===Sport.SOCCER ? 'text-primary-100' : 'duration-500 hover:text-primary-100' } 
+                      sport===Sport.SOCCER ? 'text-primary-500' : 'duration-500 hover:text-primary-500' } 
                       onClick={() => toggleSport(Sport.SOCCER)}>
-                    <NextLink href='/soccer'>
+                    <NextLink href='/'>
                          <div>
                          <Soccer className="w-9 mx-1" />
                         </div>

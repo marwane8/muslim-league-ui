@@ -1,9 +1,10 @@
 import React from "react"
 import { NextPage } from "next"
+import { Player } from "../../utils/league-types"
 
 type Props = {
   title: string,
-  players: { id: number; name: string; number: string; pos: string; }[] 
+  players: Player[] 
 }
 
 
@@ -20,10 +21,10 @@ const RosterTable: NextPage<Props> = ({title,players}: Props) => {
               </tr>
             </thead>
             <tbody>
-              { players.map((team,index) => (
+              { players.map((player,index) => (
                 <tr key={index} className={ index%2 ? 'bg-gray border-b border-gray-100': 'bg-white border-gray-100 border-b' } > 
-                  <td className='pl-3 py-1'> {team.name} </td>
-                  <td className='pl-3 py-1'> {team.pos} </td>
+                  <td className='pl-3 py-1'> {player.name} </td>
+                  <td className='pl-3 py-1'> {player.pos} </td>
                 </tr>
               ))}
             </tbody>

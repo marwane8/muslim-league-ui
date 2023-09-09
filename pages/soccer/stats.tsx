@@ -43,8 +43,8 @@ const makeSoccerStat = (player_stat: PlayerTotals, stat_num: number) => {
 export default function Standings({season_options, default_season, goalStats,assistsStats}: Props) {
 
   const [currSeason,setSeason] = useState<number>(default_season);
-  const [currGoalStats,setGoalStats] = useState(goalStats);
-  const [currAssistStats,setAssistStats] = useState(assistsStats);
+  const [currGoalStats,setGoalStats] = useState<any>(goalStats);
+  const [currAssistStats,setAssistStats] = useState<any>(assistsStats);
 
   const handleSeasonChange = async (e: any) => {
     const new_season_id: number = e.target.value;
@@ -106,7 +106,7 @@ export async function getServerSideProps() {
   let assistsStats:{id: number, name:  string, stat: number }[] = []
   
   try {
-    seasons = await getSeasons('soccer');
+    seasons = await getSeasons(Sport.SOCCER);
     default_season = seasons.slice(-1)[0].season_id;
 
     goalLeaders = await getStatLeaders(Sport.SOCCER, default_season,'goals') 

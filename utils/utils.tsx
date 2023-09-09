@@ -75,3 +75,14 @@ export function getClosestDate(currentDate: number, dateList: number[]): number{
   } 
   return closestDate;
 }
+export function parseParamToInt( param: any) {
+  let int_param = 0;
+  if (typeof param === 'string'){
+        int_param = parseInt(param);
+  } else {
+    console.error('Unable to parse context type: ', typeof param);
+  }
+
+  return int_param;
+}
+

@@ -8,7 +8,7 @@ import FancyButton from '../components/widgets/fancy-button'
 import MiniStandings from '../components/tables/mini-standings'
 
 import { getStandings } from '../utils/api/basketball-api'
-import { Team } from '../utils/bball-types'
+import { Team } from '../utils/basketball-types'
 
 type Props = {
   standings: Team[]

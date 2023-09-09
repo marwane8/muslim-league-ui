@@ -11,7 +11,7 @@ import DropDown from "./drop-down";
 type Props = {
   pageLength: number,
   currentSeason: number,
-  seasonsArray: {key: number, value: string }[],
+  seasonsOptions: {key: number, value: string }[],
   changeSeason?: any,
   currentGame: number,
   changeGame?: any,
@@ -21,7 +21,7 @@ type Props = {
 
 const GameDatesMenu: NextPage<Props> = ({
         pageLength, pageLink,
-        currentSeason, seasonsArray,changeSeason, 
+        currentSeason, seasonsOptions,changeSeason, 
         gameDatesArray, currentGame,changeGame 
       }: Props) => {
 
@@ -81,7 +81,7 @@ const GameDatesMenu: NextPage<Props> = ({
               <h1 className="text-2xl font-bold mb-2"> Muslim League CT Games </h1>
               <DropDown
                 dropDownSize='medium'
-                options={seasonsArray}
+                options={seasonsOptions}
                 currentOption={currentSeason}
                 changeOption={changeSeason}
               />

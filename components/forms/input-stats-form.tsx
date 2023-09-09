@@ -8,7 +8,8 @@ import InputStatsTable from "./input-stats-table"
 import { Player } from "../../utils/league-types"
 import { getRoster } from "../../utils/api/soccer-api"
 import { GameStat } from "../../utils/league-types"
-import { insertGamesForSeason } from "../../utils/api/league-api"
+import { Sport,insertGamesForSeason } from "../../utils/api/league-api"
+
 
 
 
@@ -19,7 +20,7 @@ type PlayerStat = {
 }
 
 type StatProps = {
-  sport: string,
+  sport: Sport,
   game: Game,
   stats: string[], 
   showTable: boolean,

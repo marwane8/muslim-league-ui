@@ -5,17 +5,19 @@ import DropDown from "../../components/widgets/drop-down"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { getStandings } from "../../utils/api/basketball-api"
-import { getSeasons } from "../../utils/api/league-api"
-import { Team } from "../../utils/bball-types"
 
-import { Season,makeSeasonOptions } from "../../utils/league-types"
+import { Sport, Season, makeSeasonOptions } from "../../utils/league-types"
+import { TeamData } from "../../utils/basketball-types"
+
+import { getSeasons } from "../../utils/api/league-api"
+import { getStandings } from "../../utils/api/basketball-api"
+
 import { useState } from "react"
 
 type Props = {
   season_options: {key: number, value: string}[],
   default_season: number,
-  default_standings: Team[]
+  default_standings: TeamData[]
 }
 
 export default function Standings({season_options,default_season,default_standings}: Props) {
@@ -26,7 +28,7 @@ export default function Standings({season_options,default_season,default_standin
   const whiteBG = 'bg-white '
 
   const [currSeason,setSeason] = useState<number>(default_season);
-  const [currStandings,setStandings] = useState<Team[]>(default_standings);
+  const [currStandings,setStandings] = useState<TeamData[]>(default_standings);
 
   const handleSeasonChange = async (e: any) => {
       setSeason(e.target.value);
@@ -86,7 +88,7 @@ export default function Standings({season_options,default_season,default_standin
               <td className=''> {calculateWinPercentage(teams.wins,teams.loss)} </td>
               <td className=''> {teams.points_for} </td>
               <td className=''> {teams.points_against} </td>
-              <td className={ teams.diff<0 ? 'pr-2 text-red-300' : 'pr-2 text-primary'}> {teams.diff} </td>
+              <td className={(teams.points_for - teams.points_against) <0 ? 'pr-2 text-red-300' : 'pr-2 text-primary'}> {(teams.points_for - teams.points_against)} </td>
             </tr>
          ))}
         </tbody>
@@ -99,12 +101,13 @@ export default function Standings({season_options,default_season,default_standin
 
 export async function getServerSideProps() {
 
-  let default_standings: Team[]=[]
+
+  let default_standings: TeamData[]=[]
   let seasons: Season[]=[]
   let default_season: number = 0
 
   try {
-    seasons = await getSeasons('soccer');
+    seasons = await getSeasons(Sport.BASKETBALL);
     default_season = seasons.slice(-1)[0].season_id;
     default_standings = await getStandings(default_season)
   } catch (e) {
