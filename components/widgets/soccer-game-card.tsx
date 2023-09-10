@@ -69,7 +69,7 @@ function GameScore({gameID,team1ID,team2ID}: GameScoreProps) {
     const [team2Score,setScore2] = useState<number | string >(0)
 
     useEffect(() => {
-      getGameStats(gameID)
+      getGameStats(gameID, true)
         .then((gameStats: GameStats[]) => {
           let team1 = gameStats.find(team => {return team.team_id === team1ID}) 
           let team2 = gameStats.find(team => {return team.team_id === team2ID}) 
