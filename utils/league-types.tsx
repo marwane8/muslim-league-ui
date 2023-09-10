@@ -109,3 +109,15 @@ export type GameStats = {
   [key: string]: number | string
 }
 
+export type PlayerGameStats = {
+  game_id: number,
+  team_id: number,
+  team_name: string,
+  player_id: number,
+  stat_id: number,
+  player_name: string,
+  dnp: number,
+  [key: string]: number | string
+}
+
+

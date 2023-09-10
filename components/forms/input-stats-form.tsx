@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { NextPage } from "next"
 
-import { Game } from "../../utils/league-types"
+import { Game, PlayerGameStats } from "../../utils/league-types"
 import { formatDate } from "../../utils/utils"
 import Modal from "../modal"
 import InputStatsTable from "./input-stats-table"
@@ -22,22 +22,22 @@ type PlayerStat = {
 type StatProps = {
   sport: Sport,
   game: Game,
-  stats: string[], 
   showTable: boolean,
   setShowTable: (showTable: boolean) => void
 }
 
-const InputStatsForm: NextPage<StatProps> = ({sport, game,stats, showTable, setShowTable}: StatProps) => {
+const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTable}: StatProps) => {
 
-  const [team1StatData, setTeam1StatData] = useState<any>([]);
-  const [team2StatData, setTeam2StatData] = useState<any>([]);
+  const [team1StatData, setTeam1StatData] = useState<PlayerGameStats[]>();
+  const [team2StatData, setTeam2StatData] = useState<PlayerGameStats[]>();
 
+  let stats= ["points","rebounds"];
   useEffect(() => {
 
     const fetchPlayers = async () => {
       try {
-        const team1Players: Player[] = await getRoster(sport, game.team1_id,true);
-        const team2Players: Player[] = await getRoster(sport, game.team2_id,true);
+        const team1Players: Player[] = [];
+        const team2Players: Player[] = [];
         const statData1 = calculatePlayersStat(team1Players,stats);
         const statData2 = calculatePlayersStat(team2Players,stats);
         setTeam1StatData(statData1);
