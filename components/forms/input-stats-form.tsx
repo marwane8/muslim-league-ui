@@ -36,8 +36,8 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game,stats, showTable, setS
 
     const fetchPlayers = async () => {
       try {
-        const team1Players: Player[] = await getRoster(game.team1_id,true);
-        const team2Players: Player[] = await getRoster(game.team2_id,true);
+        const team1Players: Player[] = await getRoster(sport, game.team1_id,true);
+        const team2Players: Player[] = await getRoster(sport, game.team2_id,true);
         const statData1 = calculatePlayersStat(team1Players,stats);
         const statData2 = calculatePlayersStat(team2Players,stats);
         setTeam1StatData(statData1);
@@ -53,7 +53,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game,stats, showTable, setS
         players.forEach((player) => {
           const playerStat: PlayerStat = {
             player_id: player.player_id,
-            player_name: player.player_name,
+            player_name: player.name,
           };
 
           stats.forEach((stat) => {
@@ -67,7 +67,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game,stats, showTable, setS
     }
     fetchPlayers();
 
-  },[game,stats])
+  },[sport, game,stats])
 
 
   const handleTeam1ValueChange = (index: number, prop: string, value: number) => {
@@ -96,10 +96,10 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game,stats, showTable, setS
  
   function createGameStats(gameId: number, teamStatData: PlayerStat[][]) {
 
-        const gameStatList: GameStat[] = [];
+        const gameStatList: GameStats[] = [];
         teamStatData.forEach((teamStats) => {
           teamStats.forEach((playerStats) => {
-            const gameStat: GameStat = {
+            const gameStat: GameStats = {
               game_id: gameId,
               player_id: playerStats.player_id
 
