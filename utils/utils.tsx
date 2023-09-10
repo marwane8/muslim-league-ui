@@ -1,3 +1,5 @@
+import { Sport } from "./league-types";
+
 export function formatDate(date: number): string {
     const year = Math.floor(date / 10000);
     const month = Math.floor((date % 10000) / 100) - 1;
@@ -35,6 +37,15 @@ function getDaySuffix(day: number): string {
     }
 }
 
+export function formatSport(sport: Sport): string {
+  switch(sport) {
+    case Sport.BASKETBALL:
+      return "Basketball"
+    case Sport.SOCCER:
+      return "Soccer"
+  }
+
+}
 
 export function capitalizeFirstLetter(word: string): string {
   if (typeof word !== 'string' || word.length === 0) {

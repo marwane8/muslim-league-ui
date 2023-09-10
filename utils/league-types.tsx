@@ -15,6 +15,13 @@ export type User = {
     admin: number
 }
 
+export type SportSeason = {
+    sport: Sport
+    season_id: number, 
+    season_name: string, 
+    year: number
+}
+
 export type Season = {
     season_id: number, 
     season_name: string, 
@@ -28,6 +35,18 @@ export const makeSeasonOptions = (season: Season) => {
       value: season_value
     }
     return season_option
+}
+
+export const makeSportSeason = (sport: Sport,season: Season) => {
+
+    let sport_season_option = {
+        sport: sport,
+        season_id: season.season_id, 
+        season_name: season.season_name, 
+        year: season.year 
+    }
+    
+    return sport_season_option
 }
 
 export type Game = {
