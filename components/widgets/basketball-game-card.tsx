@@ -3,8 +3,8 @@ import { NextPage } from "next"
 
 import WinArrowRight from '/public/svgs/win-arrow-right.svg'
 import WinArrowLeft from '/public/svgs/win-arrow-left.svg'
-import {  TeamData } from "../../utils/basketball-types"
-import { GameStats, Game } from "../../utils/league-types"
+
+import { TeamData, GameStats, Game } from "../../utils/league-types"
 import { getGameStats } from "../../utils/api/basketball-api"
 
 
@@ -19,7 +19,7 @@ type GameCardProps = {
     isGamePlayed = true;
 
     const getTeamRecord = (team_id: number) => {
-      let teamStanding = standings.find(team => {return team.id === team_id}) 
+      let teamStanding = standings.find(team => {return team.team_id === team_id}) 
       let teamRecord = teamStanding?.wins + ' - ' + teamStanding?.loss
       return teamRecord
     }

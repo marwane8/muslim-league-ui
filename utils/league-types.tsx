@@ -1,5 +1,5 @@
-import { BBallStat } from "./basketball-types"
-import { SoccerStat } from "./soccer-types"
+import { BBallStat, BballTeamData } from "./basketball-types"
+import { SoccerStat, SoccerTeamData } from "./soccer-types"
 
 //General Interfaces That are shared amoong all leauges
 export enum Sport {
@@ -8,6 +8,7 @@ export enum Sport {
 }
 
 export type Stat = BBallStat | SoccerStat
+export type TeamData = BballTeamData | SoccerTeamData
 
 export type User = {
     username: string,
@@ -43,14 +44,14 @@ export type Game = {
 }
 
 export type TeamName = {
-    id: number,
-    name: string
+    team_id: number,
+    team_name: string
 }
 
 export const makeTeamOptions = (team: TeamName) => {
     let team_option = {
-      key: team.id,
-      value: team.name 
+      key: team.team_id,
+      value: team.team_name 
     }
     return team_option
 }

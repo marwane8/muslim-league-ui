@@ -11,7 +11,7 @@ import GameCard from '../../../../components/widgets/basketball-game-card'
 import { parseParamToInt, formatNowToYYYYMMDD, getClosestDate } from '../../../../utils/utils'
 
 import { Game, Season, Sport, makeSeasonOptions } from '../../../../utils/league-types'
-import { TeamData } from '../../../../utils/basketball-types'
+import { BballTeamData } from '../../../../utils/basketball-types'
 
 import { getGameDates, getGamesForDate, getSeasons } from '../../../../utils/api/league-api'
 import { getStandings } from '../../../../utils/api/basketball-api'
@@ -20,7 +20,7 @@ import { getStandings } from '../../../../utils/api/basketball-api'
 type Props = {
   season_options: {key: number, value: string}[],
   init_season_id: number,
-  season_standings: TeamData[],
+  season_standings: BballTeamData[],
   game_dates: number[],
   games: Game[]
 }
@@ -66,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     let init_season_id: number = parseParamToInt(season_id);
     let init_game_date: number = parseParamToInt(game_date);
 
-    let season_standings: TeamData[] = [];
+    let season_standings: BballTeamData[] = [];
     let game_dates: number[] = [];
     let games: Game[] = [];
 

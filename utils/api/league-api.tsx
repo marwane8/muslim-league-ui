@@ -16,7 +16,7 @@ export async function getTeamNames(sport: Sport,  season_id: number, useClient: 
 }
 
 export async function getRoster(sport: Sport,  team_id: number, useClient: boolean=false): Promise<Player[]> {
-    let sportEndpoint = getEndPoint(sport);
+let sportEndpoint = getEndPoint(sport);
     const rosterQuery = sportEndpoint + "/players/" + team_id;
     return getRequest(rosterQuery,useClient);
 }

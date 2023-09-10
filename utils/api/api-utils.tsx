@@ -53,7 +53,7 @@ export async function getRequest(query: string, useClient: boolean=false) {
     } catch (e) {
         console.log(e)
     }
-    throw Error("Stat not found")
+    throw Error("Stat not found: " + query );
 }
 
 export async function makeAuthorizedPutRequest(jwt_token: string,query: string,body: any, useClient: boolean=false) {

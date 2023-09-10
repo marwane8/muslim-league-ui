@@ -7,7 +7,7 @@ import Panel from '../../components/panel'
 
 
 import { Sport, Season, makeSeasonOptions } from "../../utils/league-types"
-import { TeamData } from "../../utils/basketball-types"
+import { BballTeamData } from "../../utils/basketball-types"
 
 import { getSeasons } from "../../utils/api/league-api"
 import { getStandings } from "../../utils/api/basketball-api"
@@ -17,7 +17,7 @@ import { useState } from "react"
 type Props = {
   season_options: {key: number, value: string}[],
   default_season: number,
-  default_standings: TeamData[]
+  default_standings: BballTeamData[]
 }
 
 export default function Standings({season_options,default_season,default_standings}: Props) {
@@ -28,7 +28,7 @@ export default function Standings({season_options,default_season,default_standin
   const whiteBG = 'bg-white '
 
   const [currSeason,setSeason] = useState<number>(default_season);
-  const [currStandings,setStandings] = useState<TeamData[]>(default_standings);
+  const [currStandings,setStandings] = useState<BballTeamData[]>(default_standings);
 
   const handleSeasonChange = async (e: any) => {
       setSeason(e.target.value);
@@ -81,7 +81,7 @@ export default function Standings({season_options,default_season,default_standin
         <tbody>
           { currStandings.map((teams,index) => (
             <tr key={index} className={ index%2 ? borderStyle + grayBG : borderStyle + whiteBG } > 
-              <td className={ index%2 ? grayBG + teamColStyle : whiteBG + teamColStyle }> <span className="font-bold px-1">{index+1}</span> {teams.name} </td>
+              <td className={ index%2 ? grayBG + teamColStyle : whiteBG + teamColStyle }> <span className="font-bold px-1">{index+1}</span> {teams.team_name} </td>
               <th className= 'px-3 w-1/4 min-w-[175px]'>   </th>
               <td className='py-1'> {teams.wins} </td>
               <td className=''> {teams.loss} </td>
@@ -102,7 +102,7 @@ export default function Standings({season_options,default_season,default_standin
 export async function getServerSideProps() {
 
 
-  let default_standings: TeamData[]=[]
+  let default_standings: BballTeamData[]=[]
   let seasons: Season[]=[]
   let default_season: number = 0
 
