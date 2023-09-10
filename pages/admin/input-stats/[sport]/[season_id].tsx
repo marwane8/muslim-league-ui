@@ -4,13 +4,13 @@ import { GetServerSideProps } from 'next'
 import Header from '../../../../components/header'
 import Container from '../../../../components/container'
 import Panel from '../../../../components/panel'
-import { Game } from '../../../../utils/league-types'
+import { Game, Sport } from '../../../../utils/league-types'
 import { formatDate } from '../../../../utils/utils';
 import InputStatsForm from '../../../../components/forms/input-stats-form';
-import { getGamesForSeason } from '../../../../utils/api/apis';
+import { getGamesForSeason } from '../../../../utils/api/league-api';
 
 type Props = {
-  sport: string,
+  sport: Sport,
   games: Game[]
 }
 
@@ -94,7 +94,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const seasonID = parseInt(seasonIDValue);
 
   try {
-      games = await getGamesForSeason(sportID, seasonID);
+      games = await getGamesForSeason(Sport.SOCCER, seasonID);
   } catch (e) {
     console.error('Unable to fetch season games')
   }

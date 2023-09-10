@@ -15,9 +15,10 @@ export function formatDate(date: number): string {
     const daySuffix = getDaySuffix(day);
 
     return `${dayOfWeek}, ${monthName} ${day}${daySuffix}`;
-  }
+}
 
-  function getDaySuffix(day: number): string {
+
+function getDaySuffix(day: number): string {
     if (day >= 11 && day <= 13) {
       return 'th';
     }
@@ -32,7 +33,8 @@ export function formatDate(date: number): string {
       default:
         return 'th';
     }
-  }
+}
+
 
 export function capitalizeFirstLetter(word: string): string {
   if (typeof word !== 'string' || word.length === 0) {
@@ -73,3 +75,14 @@ export function getClosestDate(currentDate: number, dateList: number[]): number{
   } 
   return closestDate;
 }
+export function parseParamToInt( param: any) {
+  let int_param = 0;
+  if (typeof param === 'string'){
+        int_param = parseInt(param);
+  } else {
+    console.error('Unable to parse context type: ', typeof param);
+  }
+
+  return int_param;
+}
+

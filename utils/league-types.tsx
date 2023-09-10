@@ -1,4 +1,20 @@
+import { BBallStat, BballTeamData } from "./basketball-types"
+import { SoccerStat, SoccerTeamData } from "./soccer-types"
+
 //General Interfaces That are shared amoong all leauges
+export enum Sport {
+    SOCCER = "soccer",
+    BASKETBALL = "bball"
+}
+
+export type Stat = BBallStat | SoccerStat
+export type TeamData = BballTeamData | SoccerTeamData
+
+export type User = {
+    username: string,
+    admin: number
+}
+
 export type Season = {
     season_id: number, 
     season_name: string, 
@@ -12,9 +28,7 @@ export const makeSeasonOptions = (season: Season) => {
       value: season_value
     }
     return season_option
-  }
-
-
+}
 
 export type Game = {
     season_id: number
@@ -29,17 +43,38 @@ export type Game = {
     playoff: number
 }
 
+export type TeamName = {
+    team_id: number,
+    team_name: string
+}
+
+export const makeTeamOptions = (team: TeamName) => {
+    let team_option = {
+      key: team.team_id,
+      value: team.team_name 
+    }
+    return team_option
+}
+
 export type Player = {
     player_id: number, 
     team_id: number, 
     team_name: string, 
-    player_name: string, 
+    name: string, 
+    number: string,
+    pos: string
 }
 
-export type GameStat = {
+export type PlayerStat = {
+    id: number,
+    name: string, 
+    games: number,
+    stat: number 
+}
+
+export type GameStats = {
   game_id: number,
   player_id: number,
   [key: string]: number | string
 }
-
 
