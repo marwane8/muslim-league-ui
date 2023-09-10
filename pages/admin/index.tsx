@@ -6,36 +6,32 @@ import Header from '../../components/header';
 import Panel from '../../components/panel';
 import Modal from '../../components/modal';
 
-import { Season, Sport } from '../../utils/league-types';
+import {  Sport, SportSeason, Season, makeSportSeason } from '../../utils/league-types';
 import { getSeasons } from '../../utils/api/league-api';
 
-import { capitalizeFirstLetter } from '../../utils/utils';
+import { formatSport } from '../../utils/utils';
+
 type Props = {
-  soccerSeasons: Season[],
-  defaultSeason: Season
-  defaultSport: string
+  season_menu: SportSeason[],
+  init_season: SportSeason
 }
 
-export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Props) {
+export default function Admin({season_menu, init_season}: Props) {
 
     const router = useRouter();
     const [showSeasons,setShowSeasons] = useState<boolean>(false);
-    const [season,setSeason] = useState<Season>(defaultSeason);
-    const [sport,setSport] = useState<string>(defaultSport);
+    const [season,setSeason] = useState<SportSeason>(init_season);
  
 
     const handleInsertGamesClick = async () => {
-        const sportId: string = sport;
-        const seasonId: number = season.season_id;
-        const link = '/admin/input-stats/'+ sportId +'/' + seasonId;
+        const link = '/admin/input-stats/'+ season.sport +'/' + season.season_id;
         router.push(link);
     }
 
     const handleSeasonClick = async () => {
         setShowSeasons(true);
     }
-    const handleSelectSeason = (season: Season, sport: string) => {
-        setSport(sport);
+    const handleSelectSeason = (season: SportSeason ) => {
         setSeason(season);
         setShowSeasons(false);
     }
@@ -49,7 +45,7 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
 
             <h1 className='mt-5 py-5 text-4xl font-bold text-center grow  text-primary'>  League Admin </h1>
             <Panel 
-                title={ capitalizeFirstLetter(sport) + " - " + season.season_name + " " + season.year}
+                title={ formatSport(season.sport) + " - " + season.season_name + " " + season.year}
                 titleSize='medium'>
 
             <div className='m-auto grid grid-cols-2 max-w-3xl  gap-4 my-7'>
@@ -68,7 +64,7 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
                     <button className={`font-bold text-3xl rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
                                 onClick={handleInsertGamesClick}>
                        Input Stats
-                       <h2> {capitalizeFirstLetter(sport) + " - "  + season.season_name + " " + season.year + " "} </h2>
+                       <h2> {formatSport(season.sport) + " - "  + season.season_name + " " + season.year + " "} </h2>
                     </button>
                 </div>
             </div> 
@@ -100,12 +96,14 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
             <div className='bg-white container max-w-screen-sm rounded-xl overflow-hidden'>
                 <h1 className='font-bold text-2xl text-center mt-2'> Seasons </h1>
                 <div className='grid grid-cols-2 gap-4 m-4'>
-                    { soccerSeasons.map((season,index) => (
+                    { season_menu.map((season,index) => (
                         <div key={index}
-                         className='bg-primary cursor-pointer hover:bg-primary-100 py-1 text-center font-bold text-lg text-white rounded-md'
-                         onClick={() => handleSelectSeason(season,'soccer')}                         
+                         className= { season.sport === Sport.SOCCER ? 
+                              'bg-primary cursor-pointer hover:bg-primary-100 py-1 text-center font-bold text-lg text-white rounded-md' 
+                            : 'bg-secondary cursor-pointer hover:bg-secondary-100 py-1 text-center font-bold text-lg text-white rounded-md'}
+                         onClick={() => handleSelectSeason(season)}                         
                          > 
-                            {"Soccer - " + season.season_name + " " + season.year}
+                            { formatSport(season.sport) + " | " + season.season_name + " " + season.year}
                         </div>
 
                     ))}
@@ -118,18 +116,23 @@ export default function Admin({soccerSeasons, defaultSeason, defaultSport}: Prop
 
 export async function getServerSideProps() {
 
-  let soccerSeasons: Season[]=[];
-  let defaultSeason: Season = {season_id: 0, season_name: 'none', year: 0};
-  let defaultSport: string = 'soccer';
+  let season_menu:SportSeason[]=[];
+  let init_season: Season = {season_id: 0, season_name: 'none', year: 0};
 
   try {
-    soccerSeasons = await getSeasons(Sport.SOCCER);
-    defaultSeason = soccerSeasons.slice(-1)[0];
-    defaultSport = 'soccer';
+    let soccer_seasons = await getSeasons(Sport.SOCCER);
+    let soccer_menu = soccer_seasons.map((season) => makeSportSeason(Sport.SOCCER,season));
+
+    let bball_seasons = await getSeasons(Sport.BASKETBALL);
+    let bball_menu = bball_seasons.map((season) => makeSportSeason(Sport.BASKETBALL,season));
+    season_menu = soccer_menu.concat(bball_menu);
+
+    init_season = bball_menu.slice(-1)[0];
   } catch (e) {
     console.error('Unable to get data')
   }
 
-  return { props: { soccerSeasons, defaultSeason, defaultSport}}
+
+  return { props: { season_menu, init_season}}
 
 }

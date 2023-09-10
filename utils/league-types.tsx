@@ -7,12 +7,31 @@ export enum Sport {
     BASKETBALL = "bball"
 }
 
+export function stringToEnum(input: string) {
+  switch (input) {
+    case "soccer":
+      return Sport.SOCCER;
+    case "bball":
+      return Sport.BASKETBALL;
+    default:
+      throw new Error(`Invalid input: ${input}`);
+  }
+}
+
+
 export type Stat = BBallStat | SoccerStat
 export type TeamData = BballTeamData | SoccerTeamData
 
 export type User = {
     username: string,
     admin: number
+}
+
+export type SportSeason = {
+    sport: Sport
+    season_id: number, 
+    season_name: string, 
+    year: number
 }
 
 export type Season = {
@@ -28,6 +47,18 @@ export const makeSeasonOptions = (season: Season) => {
       value: season_value
     }
     return season_option
+}
+
+export const makeSportSeason = (sport: Sport,season: Season) => {
+
+    let sport_season_option = {
+        sport: sport,
+        season_id: season.season_id, 
+        season_name: season.season_name, 
+        year: season.year 
+    }
+    
+    return sport_season_option
 }
 
 export type Game = {
