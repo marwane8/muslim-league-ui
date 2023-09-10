@@ -11,11 +11,10 @@ import RosterTable from '../../../components/tables/roster-table'
 
 import { UI_URL } from '../../../utils/api/api-utils'
 
-import { Sport, Season, makeSeasonOptions, TeamName, makeTeamOptions, Player } from '../../../utils/league-types'
-
+import { Sport, Season, makeSeasonOptions, TeamName, makeTeamOptions, Player, Ranking } from '../../../utils/league-types'
+import { BBallStat, BballTeamData } from '../../../utils/basketball-types'
 import { getSeasons, getTeamNames, getRoster } from '../../../utils/api/league-api'
 import { getStandings } from '../../../utils/api/basketball-api'
-import { BBallStat, BballTeamData } from '../../../utils/basketball-types'
 
 type Props = {
   season_options: {key: number, value: string}[],
@@ -25,18 +24,19 @@ type Props = {
   init_season_id: number,
   init_team_id: number,
   init_roster: Player[],
-  init_rank: ranking,
+  init_rank: Ranking
 }
 
 export default function Teams( {season_options, season_standings, teams, team_options, init_season_id, init_team_id, init_roster, init_rank}: Props) {
 
 
   const [currTeam,setTeam] = useState<number>(init_team_id);
-  const [rank,setRank] = useState<ranking>(init_rank);
+  const [rank,setRank] = useState<Ranking>(init_rank);
   const [roster,setRoster] = useState<Player[]>(init_roster);
   
   const handleSeasonChange = async (e: any) => {
     const new_season_id = e.target.value;
+
     const teamsLink = '/basketball/' + new_season_id + '/teams';
     const newUrl = UI_URL + teamsLink
     window.location.assign(newUrl);
@@ -44,6 +44,7 @@ export default function Teams( {season_options, season_standings, teams, team_op
 
   const handleTeamChange = async (e: any) => {
     const team_id = e.target.value;
+    console.log(team_id)
     setTeam(team_id);
     setTeamRankings(team_id);
     const new_roster = await getRoster(Sport.BASKETBALL, e.target.value);
@@ -139,7 +140,6 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
     seasons = await getSeasons(Sport.BASKETBALL);
     season_standings = await getStandings(init_season_id);
     teams = await getTeamNames(Sport.BASKETBALL, init_season_id);
-    console.log(teams);
     init_team_id = teams[0].team_id;
     init_roster = await getRoster(Sport.BASKETBALL, init_team_id);
 
@@ -158,11 +158,12 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
 
 }
 
-type ranking = {
+export type Ranking = {
   ovr: number,
   pts: number,
   reb: number 
 }
+
 
 const getTeamStatRank = (standings: BballTeamData[], team_id: number, stat: BBallStat | null=null) => {
   switch(stat) {
