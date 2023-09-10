@@ -6,7 +6,7 @@ import { GameStats } from "../league-types";
 //-----
 
 export async function getStandings(season_id: number, useClient: boolean=false): Promise<SoccerTeamData[]> {
-    const standingsQuery = "/api/v1/soccer/teams/" + season_id  + "/standings";
+    const standingsQuery = "/api/v1/soccer/teams/" + season_id;
     return getRequest(standingsQuery,useClient);
 }
 
@@ -16,8 +16,7 @@ export async function getStandings(season_id: number, useClient: boolean=false):
 // Games Endpoints
 //-----
 
-
-export async function getGameStats(game_id: number): Promise<GameStat[]> {
+export async function getGameStats(game_id: number): Promise<GameStats[]> {
     const gameStatsQuery = "/api/v1/soccer/games/stats/" + game_id
     return getRequest(gameStatsQuery,true);
 }

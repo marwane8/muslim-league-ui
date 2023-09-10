@@ -1,6 +1,6 @@
 export enum SoccerStat {
-    GOALS,
-    ASSISTS
+    GOALS = "goals",
+    ASSISTS = "assists"
 }
 
 export type SoccerTeamData = {
