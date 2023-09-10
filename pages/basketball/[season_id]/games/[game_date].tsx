@@ -10,10 +10,10 @@ import GameCard from '../../../../components/widgets/basketball-game-card'
 
 import { parseParamToInt, formatNowToYYYYMMDD, getClosestDate } from '../../../../utils/utils'
 
-import { Game, Season, Sport, makeSeasonOptions } from '../../../../utils/league-types'
+import { Sport, Season, makeSeasonOptions, Game } from '../../../../utils/league-types'
 import { BballTeamData } from '../../../../utils/basketball-types'
 
-import { getGameDates, getGamesForDate, getSeasons } from '../../../../utils/api/league-api'
+import { getSeasons, getGameDates, getGamesForDate,} from '../../../../utils/api/league-api'
 import { getStandings } from '../../../../utils/api/basketball-api'
 
 

@@ -19,7 +19,7 @@ type GameCardProps = {
 
     const getTeamRecord = (team_id: number) => {
       let teamStanding = standings.find(team => {return team.team_id === team_id});
-      let teamRecord = teamStanding?.wins + '-' + teamStanding?.draws + '-' + teamStanding?.losses;
+      let teamRecord = teamStanding?.wins + '-' +  teamStanding?.loss + '-' + teamStanding?.draws;
       return teamRecord
     }
    
@@ -30,7 +30,8 @@ type GameCardProps = {
                 <div className='flex w-32'>
                       <div className='flex mx-auto flex-col justify-center text-center'>
                         <h3 className='font-bold'> {gameData.team1} </h3>
-                        <h4 className='text-gray-200'> {getTeamRecord(gameData.team1_id)} </h4>
+                        <h4 className='text-black'> {getTeamRecord(gameData.team1_id)} </h4>
+                        <h4 className='text-gray-200 text-xs'> W L D </h4>
                       </div>
                 </div>
 
@@ -41,7 +42,8 @@ type GameCardProps = {
                 <div className='flex w-32'>
                       <div className='flex mx-auto flex-col justify-center text-center'>
                         <h3 className='font-bold'> {gameData.team2} </h3>
-                        <h4 className='text-gray-200'> {getTeamRecord(gameData.team2_id)} </h4>
+                        <h4 className='text-black'> {getTeamRecord(gameData.team2_id)} </h4>
+                        <h4 className='text-gray-200 text-xs'> W L D </h4>
                       </div>
                 </div>  
               </div>
