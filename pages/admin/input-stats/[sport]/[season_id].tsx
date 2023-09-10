@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next'
 import Header from '../../../../components/header'
 import Container from '../../../../components/container'
 import Panel from '../../../../components/panel'
-import { Game, Sport } from '../../../../utils/league-types'
+import { Game, Sport, stringToEnum } from '../../../../utils/league-types'
 import { formatDate } from '../../../../utils/utils';
 import InputStatsForm from '../../../../components/forms/input-stats-form';
 import { getGamesForSeason } from '../../../../utils/api/league-api';
@@ -43,7 +43,7 @@ const InputStats = ({sport, games}: Props) => {
                 <tbody className="text-center">
                   { games.map((game,index) => (
 
-                    <tr key={index} className={ 'cursor-pointer border-b border-gray-100 hover:bg-gray-100 hover:font-bold ' + (index%2 ?  'bg-gray' : 'bg-white') } 
+                    <tr key={index} className={ 'cursor-pointer border-b border-gray-100 hover:bg-gray-300 hover:text-white ' + (index%2 ?  'bg-gray' : 'bg-white') } 
                                       onClick={() => handleGameClick(game)}> 
                       <td className='flex justify-center py-2'> <span className='my-auto w-6 ml-1 font-bold'> {index+1} </span> <div className='w-full'> {game.team1} </div> </td>
                       <td className=''> {game.team2} </td>
@@ -72,35 +72,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   
   const { sport,season_id } = context.query
 
-
-  console.log("CONTEXT: ", sport,season_id )
-  let games: Game[]= [
-    {
-      "season_id": 2,
-      "game_id": 5,
-      "team1_id": 5,
-      "team1": "Pirates",
-      "team2_id": 6,
-      "team2": "Rangers",
-      "date": 20240710,
-      "start_time": "7:00 PM",
-      "court": 1,
-      "playoff": 0
-    }
-  ]
-
-  const sportID: string = sport as string;
-  const seasonIDValue: string = season_id as string;
-  const seasonID = parseInt(seasonIDValue);
+  let e_sport: Sport = stringToEnum(String(sport));
+  let seasonID = Number(season_id);
+  let games: Game[]= [];
 
   try {
-      games = await getGamesForSeason(Sport.SOCCER, seasonID);
+      games = await getGamesForSeason(e_sport, seasonID);
   } catch (e) {
-    console.error('Unable to fetch season games')
+    console.error('Unable to fetch season games', e)
   }
 
 
-  return { props: { sport: sportID, games }}
+  return { props: { sport: e_sport, games }}
 
 }
 

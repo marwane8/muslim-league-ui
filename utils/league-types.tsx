@@ -7,6 +7,18 @@ export enum Sport {
     BASKETBALL = "bball"
 }
 
+export function stringToEnum(input: string) {
+  switch (input) {
+    case "soccer":
+      return Sport.SOCCER;
+    case "bball":
+      return Sport.BASKETBALL;
+    default:
+      throw new Error(`Invalid input: ${input}`);
+  }
+}
+
+
 export type Stat = BBallStat | SoccerStat
 export type TeamData = BballTeamData | SoccerTeamData
 
