@@ -11,7 +11,7 @@ import RosterTable from '../../../components/tables/roster-table'
 
 import { UI_URL } from '../../../utils/api/api-utils'
 
-import { Sport, Season, makeSeasonOptions, TeamName, makeTeamOptions, Player, Ranking } from '../../../utils/league-types'
+import { Sport, Season, makeSeasonOptions, TeamName, makeTeamOptions, Player } from '../../../utils/league-types'
 import { BBallStat, BballTeamData } from '../../../utils/basketball-types'
 import { getSeasons, getTeamNames, getRoster } from '../../../utils/api/league-api'
 import { getStandings } from '../../../utils/api/basketball-api'

@@ -3,12 +3,14 @@ import { NextPage } from "next"
 
 import WinArrowRight from '/public/svgs/win-arrow-right.svg'
 import WinArrowLeft from '/public/svgs/win-arrow-left.svg'
-import { Game, GameStat, Team } from "../../utils/soccer-types"
+
+import { Game, GameStats } from "../../utils/league-types"
+import { SoccerTeamData  } from "../../utils/soccer-types"
 import { getGameStats } from "../../utils/api/soccer-api"
 
 
 type GameCardProps = {
-  standings: Team[],
+  standings: SoccerTeamData[],
   gameData: Game 
 }
 
@@ -63,12 +65,12 @@ type GameScoreProps = {
 }
 
 function GameScore({gameID,team1ID,team2ID}: GameScoreProps) {
-    const [team1Score,setScore1] = useState<number>(0)
-    const [team2Score,setScore2] = useState<number>(0)
+    const [team1Score,setScore1] = useState<number | string >(0)
+    const [team2Score,setScore2] = useState<number | string >(0)
 
     useEffect(() => {
       getGameStats(gameID)
-        .then((gameStats: GameStat[]) => {
+        .then((gameStats: GameStats[]) => {
           let team1 = gameStats.find(team => {return team.team_id === team1ID}) 
           let team2 = gameStats.find(team => {return team.team_id === team2ID}) 
           if (team1 && team2) {

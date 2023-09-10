@@ -5,10 +5,10 @@ import { Game } from "../../utils/league-types"
 import { formatDate } from "../../utils/utils"
 import Modal from "../modal"
 import InputStatsTable from "./input-stats-table"
-import { Player } from "../../utils/league-types"
-import { getRoster } from "../../utils/api/soccer-api"
-import { GameStat } from "../../utils/league-types"
-import { Sport,insertGamesForSeason } from "../../utils/api/league-api"
+
+import { Sport, Player, GameStats } from "../../utils/league-types"
+
+import { insertGamesForSeason, getRoster } from "../../utils/api/league-api"
 
 
 
