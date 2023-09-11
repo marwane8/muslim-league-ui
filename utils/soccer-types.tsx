@@ -3,6 +3,8 @@ export enum SoccerStat {
     ASSISTS = "assists"
 }
 
+export const SoccerStatCols: string[] = ['goals','assists'];
+
 export type SoccerTeamData = {
     team_id: number,
     season_id: string, 

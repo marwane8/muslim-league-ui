@@ -1,4 +1,6 @@
+import { BballStatCols } from "./basketball-types";
 import { Sport } from "./league-types";
+import { SoccerStatCols } from "./soccer-types";
 
 export function formatDate(date: number): string {
     const year = Math.floor(date / 10000);
@@ -45,6 +47,15 @@ export function formatSport(sport: Sport): string {
       return "Soccer"
   }
 
+}
+
+export function getSportCols(sport: Sport): string[] {
+  switch(sport) {
+    case Sport.BASKETBALL:
+      return BballStatCols; 
+    case Sport.SOCCER:
+      return SoccerStatCols; 
+  }
 }
 
 export function capitalizeFirstLetter(word: string): string {
