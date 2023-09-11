@@ -3,7 +3,7 @@ export enum BBallStat {
     REBOUNDS = "rebounds"
 }
 
-export const BballStatCols: string[] = ['points','rebounds'];
+export const BballStatCols: string[] = ['points','rebounds','fouls'];
 
 export type BballTeamData = {
     team_id: number,

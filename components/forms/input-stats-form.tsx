@@ -9,6 +9,7 @@ import InputStatsTable from "./input-stats-table"
 import { Sport, Player, GameStats } from "../../utils/league-types"
 
 import { insertGamesForSeason, getRoster, getPlayerGameStats } from "../../utils/api/league-api"
+import { assert } from "console"
 
 
 
@@ -102,7 +103,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
 
   };
  
-  function createGameStats(gameId: number, teamStatData: PlayerStat[][]) {
+  function createGameStats(gameId: number, teamStatData: PlayerGameStats[][]) {
 
         const gameStatList: GameStats[] = [];
         teamStatData.forEach((teamStats) => {
@@ -112,8 +113,8 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
               player_id: playerStats.player_id
 
             }
-            stats.forEach((stat) => {
-              gameStat[stat] = playerStats[stat];
+            stat_col.forEach((stat) => {
+                //gameStat[stat] = playerStats[stat];
             });
 
             gameStatList.push(gameStat);
@@ -133,13 +134,13 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
                 <h1 className='text-lg text-center' >  {game.team1}  vs {game.team2} - { formatDate(game.date) } </h1>
                   <InputStatsTable
                       teamName={game.team1}
-                      playerStatsData={team1StatData} 
+                      gameStats={team1StatData} 
                       rowHeaders={stat_col}
                       handleValueChange={handleTeam1ValueChange}
                   />    
                   <InputStatsTable
                       teamName={game.team2}
-                      playerStatsData={team2StatData} 
+                      gameStats={team2StatData} 
                       rowHeaders={stat_col}
                       handleValueChange={handleTeam2ValueChange}
                   />    
