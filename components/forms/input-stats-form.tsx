@@ -9,16 +9,10 @@ import InputStatsTable from "./input-stats-table"
 import { Sport, Player, GameStats } from "../../utils/league-types"
 
 import { insertGamesForSeason, getRoster, getPlayerGameStats } from "../../utils/api/league-api"
-import { assert } from "console"
 
 
 
 
-type PlayerStat = {
-  player_id: number,
-  player_name: string,
-  [key: string]: number | string
-}
 
 type StatProps = {
   sport: Sport,
@@ -58,7 +52,6 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
 
   function mapRosterToPlayerGameStats(game_id: number, roster: Player[], stat_col: string[]): PlayerGameStats[] {
     let playerStatList: PlayerGameStats[] = [];
-    console.log("ROSTER", roster);
     roster.forEach((player) => {
       let playerStat: PlayerGameStats = {
         game_id: game_id,
@@ -66,7 +59,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
         team_name: player.team_name,
         player_id: player.player_id,
         player_name: player.name,
-        dnp: 1
+        dnp: 1 
       }
 
       stat_col.forEach((stat) => {
@@ -80,14 +73,24 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
   };
 
   const handleTeam1ValueChange = (index: number, prop: string, value: number) => {
-    const updatedPlayers = [...team1StatData];
+    let updatedPlayers = [...team1StatData];
     updatedPlayers[index][prop] = value;
+    if (prop=='dnp' && value==1){
+      stat_col.forEach((stat) => {
+        updatedPlayers[index][stat] = 0;
+      })
+    }
     setTeam1StatData(updatedPlayers);
   };
 
   const handleTeam2ValueChange = (index: number, prop: string, value: number) => {
     const updatedPlayers = [...team2StatData];
     updatedPlayers[index][prop] = value;
+    if (prop=='dnp' && value==1){
+      stat_col.forEach((stat) => {
+        updatedPlayers[index][stat] = 0;
+      })
+    }
     setTeam2StatData(updatedPlayers);
   };
 

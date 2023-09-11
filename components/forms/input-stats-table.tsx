@@ -35,13 +35,20 @@ const InputStatsTable: NextPage<Props> = ({teamName, gameStats,rowHeaders,handle
                         <tr key={playerIndex}>
                         <td className="w-[120px] pl-2 border-t  bg-gray-100 border-gray-200">{player.player_name}</td>
 
-                        <td className="">{player.dnp}</td>
+                        <td className="">
+                            <input 
+                                type="checkbox" 
+                                checked={Boolean(player.dnp)}
+                                onChange={(e) => handleValueChange(playerIndex,"dnp", Number(e.target.checked))}
+                            />
+                        </td>
                         {rowHeaders.map((header, propIndex) => (
                             <td className=' border border-gray-200 border-b-0 border-r-0 text-center' key={propIndex}>
                             <input
                                 className="w-full pl-1"
                                 type="number"
                                 value={player[header]}
+                                disabled={Boolean(player.dnp)}
                                 onChange={(e) => handleValueChange(playerIndex, header, parseInt(e.target.value))}
                             />
                             </td>
