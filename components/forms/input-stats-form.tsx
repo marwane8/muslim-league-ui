@@ -131,10 +131,13 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
   return (
       <Modal isVisible={showTable}
               onClose={() => setShowTable(false)}>
-          <div className='bg-white container max-w-screen-sm rounded-xl'>
+          <div className='bg-gray-100 container max-w-screen-sm rounded-xl'>
 
                 <h1 className='font-bold text-2xl text-center text-primary mt-3'> Insert Game Stats  </h1>
-                <h1 className='text-lg text-center' >  {game.team1}  vs {game.team2} - { formatDate(game.date) } </h1>
+                <h1 className='text-xl text-center ' >  {game.team1}  vs {game.team2} </h1>
+                <h1 className="text-md text-center"> { formatDate(game.date) }  </h1>
+                  <div className="m-auto flex flex-col border-t-2 border-b-2 border-gray-200 bg-white  pt-5 mt-2  w-[600px] max-w-full overflow-y-scroll max-h-[500px]">
+
                   <InputStatsTable
                       teamName={game.team1}
                       gameStats={team1StatData} 
@@ -148,6 +151,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
                       handleValueChange={handleTeam2ValueChange}
                   />    
 
+                  </div>
                   <div>
 
                   </div>

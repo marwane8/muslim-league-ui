@@ -11,9 +11,9 @@ type Props = {
 const InputStatsTable: NextPage<Props> = ({teamName, gameStats,rowHeaders,handleValueChange}: Props) => {
 
     return (
-        <div className='m-5'>
-            <div className='m-auto bg-white rounded-md max-w-[500px] overflow-hidden border border-gray-200'>
-            <table className='w-full'>
+        <div className='mb-5 mx-auto '>
+            <div className='inline-flex bg-white rounded-md overflow-hidden border border-gray-200'>
+            <table className='inline-table'>
                 <thead>
                 <tr>
                     <td className=' border-b border-gray-200 text-lg font-bold text-white text-center bg-primary ' 
@@ -23,8 +23,8 @@ const InputStatsTable: NextPage<Props> = ({teamName, gameStats,rowHeaders,handle
                 </tr>
 
                 <tr className='font-bold bg-gray-100 text-gray-300'> 
-                    <th> name </th>
-                    <th> DNP </th>
+                    <th> NAME </th>
+                    <th className="border-l border-b border-gray-200"> DNP </th>
                     {rowHeaders.map((header, index) => (
                         <th className="border-l border-gray-200" key={index}>{header}</th>
                     ))}
@@ -35,7 +35,7 @@ const InputStatsTable: NextPage<Props> = ({teamName, gameStats,rowHeaders,handle
                         <tr key={playerIndex}>
                         <td className="w-[120px] pl-2 border-t  bg-gray-100 border-gray-200">{player.player_name}</td>
 
-                        <td className="">
+                        <td className="text-center w-[30px] border-t border-l border-gray-200">
                             <input 
                                 type="checkbox" 
                                 checked={Boolean(player.dnp)}
@@ -43,9 +43,9 @@ const InputStatsTable: NextPage<Props> = ({teamName, gameStats,rowHeaders,handle
                             />
                         </td>
                         {rowHeaders.map((header, propIndex) => (
-                            <td className=' border border-gray-200 border-b-0 border-r-0 text-center' key={propIndex}>
+                            <td className=' border w-[60px] border-gray-200 border-b-0 border-r-0 text-center' key={propIndex}>
                             <input
-                                className="w-full pl-1"
+                                className="w-full disabled:text-gray-200 pl-1"
                                 type="number"
                                 value={player[header]}
                                 disabled={Boolean(player.dnp)}
