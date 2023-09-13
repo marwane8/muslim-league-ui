@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { NextPage } from "next"
 
-import { Game, PlayerGameStats } from "../../utils/league-types"
+import { Game, InsertGameStats, PlayerGameStats } from "../../utils/league-types"
 import { formatDate, getSportStats  } from "../../utils/utils"
 import Modal from "../modal"
 import InputStatsTable from "./input-stats-table"
@@ -118,35 +118,41 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
 
 
   // -- FORM SUBMISSION --
-  const handleGameSubmit = async () => {
-    const gameStats = createGameStats(game.game_id,[team1StatData,team2StatData]);
-    const insertGamesResponse = await insertGamesForSeason(sport, gameStats,true);
+  const handleGameSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    let ans = confirm("Are you ready to submit?");
+    if (ans === true) {
+      const insertStats = createInsertStats([team1StatData,team2StatData]);
+      const insertGamesResponse = await insertGamesForSeason(sport, insertStats,true);
 
-    if (insertGamesResponse) {
-      window.alert(JSON.stringify(insertGamesResponse.message));
-      setShowTable(false);
+      if (insertGamesResponse) {
+        window.alert(JSON.stringify(insertGamesResponse.message));
+        setShowTable(false);
+      }
+
     }
 
+    
   };
  
-  function createGameStats(gameId: number, teamStatData: PlayerGameStats[][]) {
+  function createInsertStats(teamStatData: PlayerGameStats[][]): InsertGameStats[] {
+      const gameStatList: InsertGameStats[] = [];
 
-        const gameStatList: GameStats[] = [];
-        teamStatData.forEach((teamStats) => {
-          teamStats.forEach((playerStats) => {
-            const gameStat: GameStats = {
-              game_id: gameId,
-              player_id: playerStats.player_id
-
-            }
-            stat_col.forEach((stat) => {
-                //gameStat[stat] = playerStats[stat];
-            });
-
-            gameStatList.push(gameStat);
-          });
-
-      });
+      for(let i = 0 ; i < 2; i ++) {
+        teamStatData[i].forEach((gstat) => {
+          let gameStat: InsertGameStats = {
+            game_id: gstat.game_id,
+            player_id: gstat.player_id,
+            dnp: gstat.dnp
+          }; 
+          if (gstat.stat_id) {
+            gameStat.stat_id = gstat.stat_id
+          }
+          stat_col.forEach((stat) => {
+            gameStat[stat] = gstat[stat];
+          })
+          gameStatList.push(gameStat);
+        });
+      }
 
       return gameStatList;
   }
@@ -186,7 +192,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
                             Back 
                     </button>
                     <button className=' bg-primary py-1 px-3 font-bold text-white rounded-md hover:bg-primary-100'
-                            onClick={handleGameSubmit}> 
+                            onClick={(e) => handleGameSubmit(e)}> 
                             Submit 
                     </button>
                   </div>

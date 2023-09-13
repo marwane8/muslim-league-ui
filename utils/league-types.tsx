@@ -106,6 +106,7 @@ export type PlayerStat = {
 export type GameStats = {
   game_id: number,
   player_id: number,
+  dnp: number,
   [key: string]: number | string
 }
 
@@ -116,6 +117,15 @@ export type PlayerGameStats = {
   player_id: number,
   player_name: string,
   stat_id?: number,
+  dnp: number,
+  [key: string]: number | string | undefined,
+}
+
+
+export type InsertGameStats = {
+  stat_id?: number,
+  game_id: number,
+  player_id: number,
   dnp: number,
   [key: string]: number | string | undefined,
 }
