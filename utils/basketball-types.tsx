@@ -1,6 +1,13 @@
 export enum BBallStat {
     POINTS = "points",
-    REBOUNDS = "rebounds"
+    REBOUNDS = "rebounds",
+    FOULS = "fouls"
+}
+
+export const BballABV = {
+    "points" : "PTS",
+    "rebounds" : "REB",
+    "fouls" : "FLS"
 }
 
 export type BballTeamData = {

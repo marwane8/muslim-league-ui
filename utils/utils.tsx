@@ -1,4 +1,6 @@
+import { BBallStat, BballABV } from "./basketball-types";
 import { Sport } from "./league-types";
+import { SoccerABV, SoccerStat } from "./soccer-types";
 
 export function formatDate(date: number): string {
     const year = Math.floor(date / 10000);
@@ -47,6 +49,24 @@ export function formatSport(sport: Sport): string {
 
 }
 
+export function getSportStats(sport: Sport) {
+  switch(sport) {
+    case Sport.BASKETBALL:
+      return BBallStat; 
+    case Sport.SOCCER:
+      return SoccerStat; 
+  }
+}
+
+export function getSportABV(sport: Sport) {
+  switch(sport) {
+    case Sport.BASKETBALL:
+      return BballABV; 
+    case Sport.SOCCER:
+      return SoccerABV; 
+  }
+}
+
 export function capitalizeFirstLetter(word: string): string {
   if (typeof word !== 'string' || word.length === 0) {
     // Return the input as it is if it's not a string or empty
@@ -86,14 +106,5 @@ export function getClosestDate(currentDate: number, dateList: number[]): number{
   } 
   return closestDate;
 }
-export function parseParamToInt( param: any) {
-  let int_param = 0;
-  if (typeof param === 'string'){
-        int_param = parseInt(param);
-  } else {
-    console.error('Unable to parse context type: ', typeof param);
-  }
 
-  return int_param;
-}
 

@@ -8,7 +8,7 @@ import Container from '../../../../components/container'
 import GameDatesMenu from '../../../../components/widgets/game-dates-menu'
 import GameCard from '../../../../components/widgets/basketball-game-card'
 
-import { parseParamToInt, formatNowToYYYYMMDD, getClosestDate } from '../../../../utils/utils'
+import { formatNowToYYYYMMDD, getClosestDate } from '../../../../utils/utils'
 
 import { Sport, Season, makeSeasonOptions, Game } from '../../../../utils/league-types'
 import { BballTeamData } from '../../../../utils/basketball-types'
@@ -63,8 +63,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const { season_id, game_date } = context.query
 
     let seasons: Season[] = [];
-    let init_season_id: number = parseParamToInt(season_id);
-    let init_game_date: number = parseParamToInt(game_date);
+    let init_season_id: number = Number(season_id); 
+    let init_game_date: number = Number(game_date);
 
     let season_standings: BballTeamData[] = [];
     let game_dates: number[] = [];

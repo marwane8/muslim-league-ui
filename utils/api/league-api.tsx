@@ -1,4 +1,4 @@
-import { Sport, Season, TeamName, Game, Stat, GameStats,Player,PlayerStat } from "../league-types";
+import { Sport, Season, TeamName, Game, Stat, GameStats,Player,PlayerStat, PlayerGameStats } from "../league-types";
 import { getRequest, makeAuthorizedPutRequest } from "./api-utils";
 import Cookie from "js-cookie";
 
@@ -52,6 +52,11 @@ export async function insertGamesForSeason(sport: Sport, gameStats: GameStats[],
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,gameStats,useClient);
 }
 
+export async function getPlayerGameStats(sport: Sport, game_id: number, useClient: boolean=false): Promise<PlayerGameStats[]> { 
+    let sportEndpoint = getEndPoint(sport);
+    const gamePlayerStatsquery = sportEndpoint + "/games/stats/players/" + game_id;
+    return getRequest(gamePlayerStatsquery,useClient);
+}
 function getEndPoint(sport: Sport): string {
     let query = "/api/v1/"
     return query + sport;

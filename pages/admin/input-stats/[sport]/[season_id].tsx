@@ -61,7 +61,6 @@ const InputStats = ({sport, games}: Props) => {
       <InputStatsForm
         sport={sport}
         game={currGame}
-        stats={['goals','assists']}
         showTable={showGameTable}
         setShowTable={setShowGameTable} />
     </>
