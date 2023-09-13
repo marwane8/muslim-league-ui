@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react"
 import { NextPage } from "next"
 
 import { Game, PlayerGameStats } from "../../utils/league-types"
-import { formatDate, getSportCols } from "../../utils/utils"
+import { formatDate, getSportStats  } from "../../utils/utils"
 import Modal from "../modal"
 import InputStatsTable from "./input-stats-table"
 
 import { Sport, Player, GameStats } from "../../utils/league-types"
 
 import { insertGamesForSeason, getRoster, getPlayerGameStats } from "../../utils/api/league-api"
+import { BBallStat } from "../../utils/basketball-types"
 
 
 
@@ -25,24 +26,29 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
 
   const [team1StatData, setTeam1StatData] = useState<PlayerGameStats[]>([]);
   const [team2StatData, setTeam2StatData] = useState<PlayerGameStats[]>([]);
-  const stat_col = getSportCols(sport);
+  const sportStat = getSportStats(sport);
+  const stat_col = Object.values(sportStat);
 
+  //Make a useEffect call ONLY on a new game state
   useEffect(() => {
-    initTeamStatData(sport,game.game_id, game.team1_id,stat_col)
+    initTeamStatData(sport,game.game_id, game.team1_id)
       .then((team1Data: PlayerGameStats[]) => {
         setTeam1StatData(team1Data);
       })
-    initTeamStatData(sport,game.game_id, game.team2_id,stat_col)
+    initTeamStatData(sport,game.game_id, game.team2_id)
       .then((team2Data: PlayerGameStats[]) => {
         setTeam2StatData(team2Data);
       })
   },[game]);
 
-  const initTeamStatData = async (sport: Sport,game_id: number, team_id: number, stat_col: string[]) => {
+  // -- FORM INITIALIZATION --
+  const initTeamStatData = async (sport: Sport,game_id: number, team_id: number) => {
     let initPlayerStats: PlayerGameStats[] = []
     try {
       const players: Player[] = await getRoster(sport,team_id,true);
-      const teamStatData: PlayerGameStats[] = mapRosterToPlayerGameStats(game_id, players, stat_col);
+      const currGameData: PlayerGameStats[] = await getPlayerGameStats(sport, game.game_id, true);
+      let teamStatData: PlayerGameStats[] = mapRosterToPlayerGameStats(game_id, players);
+      fillTeamGameData(teamStatData, currGameData);
       initPlayerStats = teamStatData;
     } catch (e) {
       console.error('Error Fetching Team Data: ', e)
@@ -50,7 +56,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
     return initPlayerStats;
   }
 
-  function mapRosterToPlayerGameStats(game_id: number, roster: Player[], stat_col: string[]): PlayerGameStats[] {
+  function mapRosterToPlayerGameStats(game_id: number, roster: Player[]): PlayerGameStats[] {
     let playerStatList: PlayerGameStats[] = [];
     roster.forEach((player) => {
       let playerStat: PlayerGameStats = {
@@ -72,6 +78,26 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
     return(playerStatList);
   };
 
+
+  function fillTeamGameData(team_data: PlayerGameStats[], game_data: PlayerGameStats[]): void{
+    for(let i = 0; i < team_data.length; i++) {
+      const playerID = team_data[i].player_id;
+      let p_stat = game_data.find((player: PlayerGameStats) => player.player_id === playerID);
+      if (p_stat) {
+        team_data[i].stat_id = p_stat.stat_id;
+        team_data[i].dnp = p_stat.dnp;
+
+        stat_col.forEach((stat) => {
+          if (p_stat && p_stat[stat]) {
+            team_data[i][stat] = p_stat[stat];
+          }
+        })
+      }
+    }
+  };
+
+
+  // -- FORM VALUE CHANGING --
   const handleTeam1ValueChange = (index: number, prop: string, value: number) => {
     let updatedPlayers = [...team1StatData];
     updatedPlayers[index][prop] = value;
@@ -95,6 +121,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
   };
 
 
+  // -- FORM SUBMISSION --
   const handleGameSubmit = async () => {
     const gameStats = createGameStats(game.game_id,[team1StatData,team2StatData]);
     const insertGamesResponse = await insertGamesForSeason(sport, gameStats,true);
@@ -139,12 +166,14 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
                   <div className="m-auto flex flex-col border-t-2 border-b-2 border-gray-200 bg-white  pt-5 mt-2  w-[600px] max-w-full overflow-y-scroll max-h-[500px]">
 
                   <InputStatsTable
+                      sport={sport}
                       teamName={game.team1}
                       gameStats={team1StatData} 
                       rowHeaders={stat_col}
                       handleValueChange={handleTeam1ValueChange}
                   />    
                   <InputStatsTable
+                      sport={sport}
                       teamName={game.team2}
                       gameStats={team2StatData} 
                       rowHeaders={stat_col}

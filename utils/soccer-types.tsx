@@ -3,7 +3,10 @@ export enum SoccerStat {
     ASSISTS = "assists"
 }
 
-export const SoccerStatCols: string[] = ['GLS','AST'];
+export const SoccerABV = {
+    "goals" : "GLS",
+    "assists" : "AST"
+}
 
 export type SoccerTeamData = {
     team_id: number,

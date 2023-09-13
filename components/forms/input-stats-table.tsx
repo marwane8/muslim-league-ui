@@ -1,15 +1,17 @@
 import React from "react"
 import { NextPage } from "next"
-import { PlayerGameStats } from "../../utils/league-types"
+import { PlayerGameStats, Sport } from "../../utils/league-types"
+import { getSportABV } from "../../utils/utils"
 
 type Props = {
+  sport: Sport
   teamName: string
   gameStats: PlayerGameStats[],
   rowHeaders: string[],
   handleValueChange: (playerIndex: number, header: string, value: number) => void
 }
-const InputStatsTable: NextPage<Props> = ({teamName, gameStats,rowHeaders,handleValueChange}: Props) => {
-
+const InputStatsTable: NextPage<Props> = ({sport, teamName, gameStats,rowHeaders,handleValueChange}: Props) => {
+    const sportABV: any = getSportABV(sport);
     return (
         <div className='mb-5 mx-auto '>
             <div className='inline-flex bg-white rounded-md overflow-hidden border border-gray-200'>
@@ -26,7 +28,7 @@ const InputStatsTable: NextPage<Props> = ({teamName, gameStats,rowHeaders,handle
                     <th> NAME </th>
                     <th className="border-l border-b border-gray-200"> DNP </th>
                     {rowHeaders.map((header, index) => (
-                        <th className="border-l border-gray-200" key={index}>{header}</th>
+                        <th className="border-l border-gray-200" key={index}>{sportABV[header]}</th>
                     ))}
                 </tr>
                 </thead>
