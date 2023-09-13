@@ -17,5 +17,5 @@ export type BballTeamData = {
     loss: number,
     points_for: number,
     points_against: number,
-    rebounds_total: number,
+    rebounds_total: number
 }
