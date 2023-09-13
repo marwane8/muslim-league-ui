@@ -163,7 +163,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
                 <h1 className='font-bold text-2xl text-center text-primary mt-3'> Insert Game Stats  </h1>
                 <h1 className='text-xl text-center ' >  {game.team1}  vs {game.team2} </h1>
                 <h1 className="text-md text-center"> { formatDate(game.date) }  </h1>
-                  <div className="m-auto flex flex-col border-t-2 border-b-2 border-gray-200 bg-white  pt-5 mt-2  w-[600px] max-w-full overflow-y-scroll max-h-[500px]">
+                  <div className="m-auto flex flex-col border-t-2 border-b-2 border-gray-200 bg-white  pt-5 mt-2  w-[600px] max-w-full overflow-y-scroll  max-h-[400px]">
 
                   <InputStatsTable
                       sport={sport}
@@ -184,8 +184,12 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
                   <div>
 
                   </div>
-                  <div className="flex my-5">
-                    <button className='m-auto bg-primary py-1 px-3 font-bold text-white rounded-md hover:bg-primary-100'
+                  <div className="flex w-1/2 m-auto justify-around my-3">
+                    <button className=' bg-secondary py-1 px-3 font-bold text-white rounded-md hover:bg-secondary-100'
+                            onClick={() => setShowTable(false)}> 
+                            Back 
+                    </button>
+                    <button className=' bg-primary py-1 px-3 font-bold text-white rounded-md hover:bg-primary-100'
                             onClick={handleGameSubmit}> 
                             Submit 
                     </button>
