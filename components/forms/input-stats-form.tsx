@@ -9,10 +9,6 @@ import InputStatsTable from "./input-stats-table"
 import { Sport, Player, GameStats } from "../../utils/league-types"
 
 import { insertGamesForSeason, getRoster, getPlayerGameStats } from "../../utils/api/league-api"
-import { BBallStat } from "../../utils/basketball-types"
-
-
-
 
 
 type StatProps = {

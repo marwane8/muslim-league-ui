@@ -8,6 +8,6 @@ export async function getStandings(season_id: number,useClient=false): Promise<B
 }
 
 export async function getGameStats(game_id: number, useClient: boolean=false): Promise<GameStats[]> {
-    const gameStatsQuery = "/api/v1/bball/games/stats/" + game_id
+    const gameStatsQuery = "/api/v1/bball/games/stats/teams/" + game_id
     return getRequest(gameStatsQuery,useClient);
 }
