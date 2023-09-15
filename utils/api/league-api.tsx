@@ -46,7 +46,6 @@ export async function getGamesForDate( sport: Sport, date: number, useClient: bo
 }
 
 export async function insertGamesForSeason(sport: Sport, gameStats: InsertGameStats[], useClient: boolean=false): Promise<any> {
-    console.log(gameStats)
     const jwt: string = Cookie.get('token');
     let sportEndpoint = getEndPoint(sport);
     const statLeadersQuery = sportEndpoint + "/stats/upsert";

@@ -44,7 +44,6 @@ export default function Teams( {season_options, season_standings, teams, team_op
 
   const handleTeamChange = async (e: any) => {
     const team_id = e.target.value;
-    console.log(team_id)
     setTeam(team_id);
     setTeamRankings(team_id);
     const new_roster = await getRoster(Sport.BASKETBALL, team_id, true);

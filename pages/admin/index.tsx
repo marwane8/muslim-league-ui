@@ -24,7 +24,7 @@ export default function Admin({season_menu, init_season}: Props) {
  
 
     const handleInsertGamesClick = async () => {
-        const link = '/admin/input-stats/'+ season.sport +'/' + season.season_id;
+        const link = '/admin/'+ season.sport +'/' + season.season_id + '/input-stats';
         router.push(link);
     }
 
