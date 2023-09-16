@@ -22,11 +22,16 @@ export default function Admin({season_menu, init_season}: Props) {
     const [showSeasons,setShowSeasons] = useState<boolean>(false);
     const [season,setSeason] = useState<SportSeason>(init_season);
  
-
-    const handleInsertGamesClick = async () => {
-        const link = '/admin/'+ season.sport +'/' + season.season_id + '/input-stats';
+    const handleEditRostersClick = async () => {
+        const link = '/admin/'+ season.sport +'/' + season.season_id + '/edit-roster';
         router.push(link);
     }
+
+    const handleInsertGamesClick = async () => {
+        const link = '/admin/'+ season.sport +'/' + season.season_id + '/edit-stats';
+        router.push(link);
+    }
+
 
     const handleSeasonClick = async () => {
         setShowSeasons(true);
@@ -46,16 +51,18 @@ export default function Admin({season_menu, init_season}: Props) {
             <h1 className='mt-5 py-5 text-4xl font-bold text-center grow  text-primary'>  League Admin </h1>
             <Panel 
                 title={ formatSport(season.sport) + " - " + season.season_name + " " + season.year}
-                titleSize='medium'>
+                titleSize='large'>
 
             <div className='m-auto grid grid-cols-2 max-w-3xl  gap-4 my-7'>
                 <div className='h-24'> 
-                    <button className='font-bold text-xl rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
+                    <button className={`font-bold text-xl px-2 rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
+                                onClick={handleEditRostersClick}>
+
                         Edit {season.season_name} {season.year} Rosters
                     </button>
                 </div>
                 <div className='h-24'> 
-                    <button className='font-bold  text-xl  rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
+                    <button className='font-bold px-2 text-xl  rounded-xl text-gray-200 w-full h-full bg-gray-100 cursor-default' >
                         Edit {season.season_name} {season.year} Schedule 
                     </button>
                 </div>
@@ -63,8 +70,7 @@ export default function Admin({season_menu, init_season}: Props) {
                 <div className='h-24 col-span-2'>
                     <button className={`font-bold text-3xl rounded-xl  text-white w-full h-full bg-primary hover:bg-primary-100`}
                                 onClick={handleInsertGamesClick}>
-                       Input Stats
-                       <h2> {formatSport(season.sport) + " - "  + season.season_name + " " + season.year + " "} </h2>
+                       Edit  {season.season_name} {season.year}  Stats
                     </button>
                 </div>
             </div> 

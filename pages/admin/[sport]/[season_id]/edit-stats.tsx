@@ -14,7 +14,7 @@ type Props = {
   games: Game[]
 }
 
-const InputStats = ({sport, games}: Props) => {
+const EditStats = ({sport, games}: Props) => {
 
   const handleGameClick = async (game: Game) =>  {
     setCurrGame(game);
@@ -82,4 +82,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 }
 
-export default InputStats
+export default EditStats
