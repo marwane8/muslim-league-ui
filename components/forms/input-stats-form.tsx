@@ -59,6 +59,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
         game_id: game_id,
         team_id: player.team_id,
         team_name: player.team_name,
+        //@ts-ignore
         player_id: player.player_id,
         player_name: player.name,
         dnp: 1 
