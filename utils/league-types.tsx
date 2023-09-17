@@ -88,9 +88,12 @@ export const makeTeamOptions = (team: TeamName) => {
 }
 
 export type Player = {
-    player_id: number, 
+    player_id?: number, 
     team_id: number, 
     team_name: string, 
+    active: number,
+    f_name: string, 
+    l_name: string, 
     name: string, 
     number: string,
     pos: string

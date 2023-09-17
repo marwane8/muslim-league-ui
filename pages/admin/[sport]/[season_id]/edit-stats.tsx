@@ -14,7 +14,7 @@ type Props = {
   games: Game[]
 }
 
-const InputStats = ({sport, games}: Props) => {
+const EditStats = ({sport, games}: Props) => {
 
   const handleGameClick = async (game: Game) =>  {
     setCurrGame(game);
@@ -36,8 +36,6 @@ const InputStats = ({sport, games}: Props) => {
                         <th className='min-w-[100px]'> Home </th>
                         <th className='min-w-[80px]'> Away </th>
                         <th className='min-w-[120px]'> Date </th>
-                        <th className='min-w-[80px]'> Time </th>
-                        <th className=''> Court </th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
@@ -48,8 +46,6 @@ const InputStats = ({sport, games}: Props) => {
                       <td className='flex justify-center py-2'> <span className='my-auto w-6 ml-1 font-bold'> {index+1} </span> <div className='w-full'> {game.team1} </div> </td>
                       <td className=''> {game.team2} </td>
                       <td className=''>  {formatDate(game.date)} </td>
-                      <td className=''> {game.start_time} </td>
-                      <td className=''> {game.court} </td>
                     </tr>
                 ))}
                 </tbody>
@@ -86,4 +82,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 }
 
-export default InputStats
+export default EditStats
