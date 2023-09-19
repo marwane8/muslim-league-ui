@@ -59,7 +59,10 @@ export default function EditRoster( {sport, team_options, init_team_id, init_tea
   const handleSubmit = async () =>  {
     let ans = confirm("Are you ready to submit?");
     if (ans === true) {
+      roster.forEach((player) => (populateFullName(player)));
+      console.log(roster)
       const insertRosterResponse = await insertRoster(sport, roster,true);
+      // const insertRosterResponse = { message: roster};
 
       if (insertRosterResponse) {
         window.alert(JSON.stringify(insertRosterResponse.message));
@@ -67,6 +70,10 @@ export default function EditRoster( {sport, team_options, init_team_id, init_tea
 
     }
   };
+
+  function populateFullName(player: Player) {
+    player.name = player.f_name + " " + player.l_name;
+  }
 
 
     return (
