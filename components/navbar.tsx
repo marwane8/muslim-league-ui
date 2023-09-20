@@ -46,7 +46,7 @@ export default function Navbar() {
     const basketballNav = [
         {
             name: 'Games',
-            link: '/basketball/2/games/' + formatNowToYYYYMMDD(),
+            link: '/basketball/3/games/' + formatNowToYYYYMMDD(),
             toggle: false 
         },
 
@@ -62,7 +62,7 @@ export default function Navbar() {
         },
         {
             name: 'Teams',
-            link: '/basketball/2/teams',
+            link: '/basketball/3/teams',
             toggle: false 
         },
 

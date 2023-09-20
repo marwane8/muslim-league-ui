@@ -90,21 +90,19 @@ export function formatNowToYYYYMMDD() {
   return formattedDate;
 }
 
-export function getClosestDate(currentDate: number, dateList: number[]): number{
+export function getNextGameDate(currentDate: number, dateList: number[]): {index: number, date: number} {
 
-  let closestDate = dateList[0];
-  let closestDiff = Math.abs(dateList[0] - currentDate);
+  let nextDate ={ index: 0, date: dateList[0]};
 
   for (let i = 1; i < dateList.length; i++) {
-
-    const diff = Math.abs(dateList[i] - currentDate);
-    if (diff < closestDiff) {
-      closestDate = dateList[i]
-      closestDiff = diff
+    nextDate.index = 1;
+    nextDate.date = dateList[i];
+    if (nextDate.date > currentDate) {
+      return nextDate;
     }
 
   } 
-  return closestDate;
+  return nextDate;
 }
 
 

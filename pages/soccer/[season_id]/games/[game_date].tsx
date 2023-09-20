@@ -8,7 +8,7 @@ import Container from '../../../../components/container'
 import GameDatesMenu from '../../../../components/widgets/game-dates-menu'
 import SoccerGameCard from '../../../../components/widgets/soccer-game-card'
 
-import { formatNowToYYYYMMDD,getClosestDate } from '../../../../utils/utils'
+import { formatNowToYYYYMMDD,getNextGameDate } from '../../../../utils/utils'
 
 import { Sport, Season, makeSeasonOptions, Game } from '../../../../utils/league-types'
 import {  SoccerTeamData } from '../../../../utils/soccer-types'
@@ -23,11 +23,12 @@ type Props = {
   season_standings: SoccerTeamData[],
   game_dates: number[],
   init_game_date: number,
+  init_game_index: number,
   games: Game[]
 }
 
 
-const Games = ({ season_options, init_season_id, season_standings, game_dates, init_game_date, games}: Props) => {
+const Games = ({ season_options, init_season_id, season_standings, game_dates, init_game_date, init_game_index, games}: Props) => {
 
   const router = useRouter()
 
@@ -50,10 +51,11 @@ const Games = ({ season_options, init_season_id, season_standings, game_dates, i
         <GameDatesMenu 
           pageLength={4} 
           pageLink='/soccer'
+          startIndex={init_game_index}
           seasonsOptions={season_options}
           currentSeason={init_season_id}
           changeSeason={handleSeasonChange}
-          currentGame={currGameDay} 
+          currentDate={currGameDay} 
           changeGame={setGameDay} 
           gameDatesArray={game_dates}
           />
@@ -71,6 +73,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     let seasons: Season[]=[]
     let init_season_id: number = Number(season_id);
     let init_game_date: number = Number(game_date);
+    let init_game_index: number = 0;
 
     let season_standings: SoccerTeamData[] = []
     let game_dates: number[] = [];
@@ -82,7 +85,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       season_standings = await getStandings(init_season_id);
 
       game_dates = await getGameDates(Sport.SOCCER, init_season_id);
-      init_game_date = getClosestDate(init_game_date,game_dates);
+      let nextGameDate = getNextGameDate(init_game_date,game_dates);
+
+
+      init_game_index = Math.floor(nextGameDate.index/4) * 4 ;
+
+      init_game_date = nextGameDate.date; 
+
 
       games = await getGamesForDate(Sport.SOCCER,init_game_date);
 
@@ -91,7 +100,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     let season_options = seasons.map((season) => makeSeasonOptions(season))
-    return { props: {season_options, init_season_id, season_standings, game_dates, init_game_date, games}}
+    return { props: {season_options, init_season_id, season_standings, game_dates, init_game_date, init_game_index, games}}
 
 }
 
