@@ -90,21 +90,28 @@ export function formatNowToYYYYMMDD() {
   return formattedDate;
 }
 
-export function getClosestDate(currentDate: number, dateList: number[]): number{
+export function getNextGameDate(currentDate: number, dateList: number[]): {index: number, date: number} {
 
-  let closestDate = dateList[0];
-  let closestDiff = Math.abs(dateList[0] - currentDate);
+  let nextDate ={ index: 0, date: dateList[0]};
 
-  for (let i = 1; i < dateList.length; i++) {
-
-    const diff = Math.abs(dateList[i] - currentDate);
-    if (diff < closestDiff) {
-      closestDate = dateList[i]
-      closestDiff = diff
+  for (let i = 0; i < dateList.length; i++) {
+    nextDate.index = i;
+    nextDate.date = dateList[i];
+    if (nextDate.date >= currentDate) {
+      return nextDate;
     }
 
   } 
-  return closestDate;
+  return nextDate;
 }
 
 
+export function getValueByKey(key: number, options: {key: number, value: string}[]) {
+  for (let i=0;i<options.length;i++){
+      if (options[i].key === key) {
+        return options[i].value;
+      }
+  }
+
+  return "";
+}

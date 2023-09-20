@@ -10,23 +10,24 @@ import DropDown from "./drop-down";
 
 type Props = {
   pageLength: number,
+  startIndex: number,
   currentSeason: number,
   seasonsOptions: {key: number, value: string }[],
   changeSeason?: any,
-  currentGame: number,
+  currentDate: number,
   changeGame?: any,
   gameDatesArray: number[] 
   pageLink: string
 }
 
 const GameDatesMenu: NextPage<Props> = ({
-        pageLength, pageLink,
+        pageLength, pageLink, startIndex,
         currentSeason, seasonsOptions,changeSeason, 
-        gameDatesArray, currentGame,changeGame 
+        gameDatesArray, currentDate,changeGame 
       }: Props) => {
 
-    const [pageStart, setStart] = useState<number>(0);
-    const [pageEnd, setEnd] = useState<number>(pageLength);
+    const [pageStart, setStart] = useState<number>(startIndex);
+    const [pageEnd, setEnd] = useState<number>(pageStart + pageLength);
 
     let isFirstPage = (pageStart <= 0);
     let isLastPage = (pageEnd >= gameDatesArray.length);
@@ -43,8 +44,9 @@ const GameDatesMenu: NextPage<Props> = ({
 
     const pageBack = () => {
       if (!isFirstPage) {
-        let nextPageStart = pageStart - pageLength;
-        let nextPageEnd = pageEnd - pageLength;
+        let pageDiff = pageStart - pageLength;
+        let nextPageStart = (pageDiff >= 0) ? pageDiff : 0;
+        let nextPageEnd = nextPageStart + pageLength;
         setStart(nextPageStart);
         setEnd(nextPageEnd);
         changeGame(null);
@@ -52,7 +54,7 @@ const GameDatesMenu: NextPage<Props> = ({
     }
 
     function formatWeekday(date: number): string {
-      const weekdays: string[] = ["MON","TUE","WED","THU","FRI","SAT","SUN"]
+      const weekdays: string[] = ["SUN","MON","TUE","WED","THU","FRI","SAT"]
       const weekdayIndex = convertDate(date).getDay();
       const weekday = weekdays[weekdayIndex]
       return weekday
@@ -97,10 +99,10 @@ const GameDatesMenu: NextPage<Props> = ({
                   <NextLink href={ pageLink + '/' + currentSeason + '/games/' + date } key={index}>
 
                     <div className={ 
-                      index===currentGame
+                      date===currentDate
                       ? "flex flex-col w-20 my-auto text-center cursor-pointer font-bold text-primary"
                       : "flex flex-col w-20 my-auto text-center cursor-pointer hover:font-bold"
-                    } onClick={() => changeGame(index)}>
+                    } onClick={() => changeGame(date)}>
                         <h3 className='text-sm'> {formatWeekday(date)} </h3>
                         <h4 className='text-xs'> {formatMonthDay(date)}</h4>
                     </div> 
