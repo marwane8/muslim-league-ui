@@ -52,7 +52,7 @@ const GameDatesMenu: NextPage<Props> = ({
     }
 
     function formatWeekday(date: number): string {
-      const weekdays: string[] = ["MON","TUE","WED","THU","FRI","SAT","SUN"]
+      const weekdays: string[] = ["SUN","MON","TUE","WED","THU","FRI","SAT"]
       const weekdayIndex = convertDate(date).getDay();
       const weekday = weekdays[weekdayIndex]
       return weekday

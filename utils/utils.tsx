@@ -108,3 +108,12 @@ export function getClosestDate(currentDate: number, dateList: number[]): number{
 }
 
 
+export function getValueByKey(key: number, options: {key: number, value: string}[]) {
+  for (let i=0;i<options.length;i++){
+      if (options[i].key === key) {
+        return options[i].value;
+      }
+  }
+
+  return "";
+}
