@@ -94,10 +94,10 @@ export function getNextGameDate(currentDate: number, dateList: number[]): {index
 
   let nextDate ={ index: 0, date: dateList[0]};
 
-  for (let i = 1; i < dateList.length; i++) {
-    nextDate.index = 1;
+  for (let i = 0; i < dateList.length; i++) {
+    nextDate.index = i;
     nextDate.date = dateList[i];
-    if (nextDate.date > currentDate) {
+    if (nextDate.date >= currentDate) {
       return nextDate;
     }
 

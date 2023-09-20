@@ -15,8 +15,7 @@ type GameCardProps = {
 
  const GameCard: NextPage<GameCardProps> = ({gameData,standings}: GameCardProps) => {
 
-    let isGamePlayed;
-    isGamePlayed = true;
+    let isGamePlayed = Boolean(gameData.played);
 
     const getTeamRecord = (team_id: number) => {
       let teamStanding = standings.find(team => {return team.team_id === team_id}) 
@@ -74,8 +73,8 @@ function GameScore({gameID,team1ID,team2ID}: GameScoreProps) {
             setScore1(team1.points)
             setScore2(team2.points)
           }
-         })
-})
+        })
+    })
 
  return (
     <div className='flex my-auto justify-between items-center w-[160px] text-center '>

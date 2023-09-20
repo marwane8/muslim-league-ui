@@ -67,7 +67,6 @@ export default function EditRoster( {sport, team_options, init_team_id, init_tea
     let ans = confirm("Are you ready to submit?");
     if (ans === true) {
       roster.forEach((player) => (populateFullName(player)));
-      console.log(roster)
       const insertRosterResponse = await insertRoster(sport, roster,true);
       // const insertRosterResponse = { message: roster};
 

@@ -97,7 +97,7 @@ export default function Navbar() {
         if (sport === Sport.BASKETBALL) {
             setNavLinks(basketballNav);
             setSport(Sport.BASKETBALL);
-        } else if ( sport === Sport.SOCCER) {
+        } else if (sport === Sport.SOCCER) {
             setNavLinks(soccerNav);
             setSport(Sport.SOCCER);
         } else {

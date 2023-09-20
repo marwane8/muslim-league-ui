@@ -71,7 +71,8 @@ export type Game = {
     date: number,
     start_time: string,
     court: number,
-    playoff: number
+    playoff: number,
+    played: number
 }
 
 export type TeamName = {
