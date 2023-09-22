@@ -8,7 +8,7 @@ import InputStatsTable from "./input-stats-table"
 
 import { Sport, Player, GameStats } from "../../utils/league-types"
 
-import { insertGamesForSeason, getRoster, getPlayerGameStats } from "../../utils/api/league-api"
+import { insertGamesForSeason, getRoster, getPlayerGameStats, updateTeamStats } from "../../utils/api/league-api"
 
 
 type StatProps = {
@@ -123,11 +123,17 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
     let ans = confirm("Are you ready to submit?");
     if (ans === true) {
       const insertStats = createInsertStats([team1StatData,team2StatData]);
-      const insertGamesResponse = await insertGamesForSeason(sport, insertStats,true);
+      const teamIDList = [game.team1_id,game.team2_id]
+      try {
+        const insertGamesResponse = await insertGamesForSeason(sport, insertStats,true);
+        await updateTeamStats(sport,teamIDList,true);
+        if (insertGamesResponse) {
+          window.alert(JSON.stringify(insertGamesResponse.message));
+          setShowTable(false);
+        }
 
-      if (insertGamesResponse) {
-        window.alert(JSON.stringify(insertGamesResponse.message));
-        setShowTable(false);
+      } catch (e) {
+        window.alert(e);
       }
 
     }
