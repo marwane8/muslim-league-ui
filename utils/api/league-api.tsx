@@ -68,3 +68,10 @@ export async function insertRoster(sport: Sport, roster: Player[], useClient: bo
     const statLeadersQuery = sportEndpoint + "/roster/upsert";
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,roster,useClient);
 }
+
+export async function updateTeamStats(sport: Sport, teams: number[], useClient: boolean=false): Promise<any> {
+    const jwt: string = Cookie.get('token');
+    let sportEndpoint = getEndPoint(sport);
+    const statLeadersQuery = sportEndpoint + "/stats/teams";
+    return makeAuthorizedPutRequest(jwt,statLeadersQuery,teams,useClient);
+}
