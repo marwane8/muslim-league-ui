@@ -9,7 +9,7 @@ import Panel from '../../components/panel'
 
 import { Season, TeamData, makeSeasonOptions } from "../../utils/league-types"
 
-import { getSeasons, getStandings } from "../../utils/api/league-api"
+import { getSeasons, getTeams } from "../../utils/api/league-api"
 
 import { useState } from "react"
 
@@ -110,7 +110,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     seasons = await getSeasons(String(sport));
     console.log(seasons);
     default_season = seasons.slice(-1)[0].id;
-    default_standings = await getStandings(default_season)
+    default_standings = await getTeams(default_season)
   } catch (e) {
     console.error('Unable to get data')
   }

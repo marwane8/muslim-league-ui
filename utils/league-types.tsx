@@ -34,6 +34,19 @@ export type TeamData = {
 
 export type TeamStats = BballTeamStats | SoccerTeamStats
 
+export type TeamName = {
+    id: number,
+    name: string
+}
+
+export const makeTeamOptions = (team: TeamName) => {
+    let team_option = {
+      key: team.id,
+      value: team.name 
+    }
+    return team_option
+}
+
 type BballTeamStats = {
   wins: number,
   losses: number,
@@ -105,18 +118,7 @@ export type Game = {
     played: number
 }
 
-export type TeamName = {
-    team_id: number,
-    team_name: string
-}
 
-export const makeTeamOptions = (team: TeamName) => {
-    let team_option = {
-      key: team.team_id,
-      value: team.team_name 
-    }
-    return team_option
-}
 
 export type Player = {
     player_id?: number, 

@@ -12,20 +12,14 @@ export async function getSeasons(sport: string, useClient: boolean=false): Promi
     return getRequest(seasonsQuery,useClient);
 }
 
-export async function getStandings(season_id: number,useClient=false): Promise<TeamData[]> {
+export async function getTeams(season_id: number,useClient=false): Promise<TeamData[]> {
     const standingsQuery = "/api/v1/teams/" + season_id;
     return getRequest(standingsQuery,useClient);
 }
 
-export async function getTeamNames(sport: Sport,  season_id: number, useClient: boolean=false): Promise<TeamName[]> {
-    let sportEndpoint = getEndPoint(sport);
-    const teamNamesQuery = sportEndpoint + "/teams/" + season_id;
-    return getRequest(teamNamesQuery, useClient);
-}
 
-export async function getRoster(sport: Sport,  team_id: number, useClient: boolean=false): Promise<Player[]> {
-let sportEndpoint = getEndPoint(sport);
-    const rosterQuery = sportEndpoint + "/players/" + team_id;
+export async function getRoster(team_id: number, useClient: boolean=false): Promise<Player[]> {
+    const rosterQuery = "/api/v1/players/" + team_id;
     return getRequest(rosterQuery,useClient);
 }
 

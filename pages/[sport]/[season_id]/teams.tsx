@@ -11,14 +11,13 @@ import RosterTable from '../../../components/tables/roster-table'
 
 import { UI_URL } from '../../../utils/api/api-utils'
 
-import { Sport, Season, makeSeasonOptions, TeamName, makeTeamOptions, Player } from '../../../utils/league-types'
-import { BBallStat, BballTeamData } from '../../../utils/basketball-types'
-import { getSeasons, getTeamNames, getRoster } from '../../../utils/api/league-api'
-import { getStandings } from '../../../utils/api/basketball-api'
+import { Season, makeSeasonOptions, TeamData, TeamName, makeTeamOptions, Player } from '../../../utils/league-types'
+import { BBallStat } from '../../../utils/basketball-types'
+import { getSeasons, getTeams, getRoster } from '../../../utils/api/league-api'
 
 type Props = {
   season_options: {key: number, value: string}[],
-  season_standings: BballTeamData[],
+  season_standings: TeamData[],
   teams: TeamName[];
   team_options: {key: number, value: string}[],
   init_season_id: number,
@@ -26,6 +25,13 @@ type Props = {
   init_roster: Player[],
   init_rank: Ranking
 }
+
+export type Ranking = {
+  ovr: number,
+  pts: number,
+  reb: number 
+}
+
 
 export default function Teams( {season_options, season_standings, teams, team_options, init_season_id, init_team_id, init_roster, init_rank}: Props) {
 
@@ -46,14 +52,14 @@ export default function Teams( {season_options, season_standings, teams, team_op
     const team_id = e.target.value;
     setTeam(team_id);
     setTeamRankings(team_id);
-    const new_roster = await getRoster(Sport.BASKETBALL, team_id, true);
+    const new_roster = await getRoster(team_id, true);
     setRoster(new_roster)
   }  
  
   const setTeamRankings = (team_id: number) => {
 
     // create a shallow copy inorder to sort 
-    let standings: BballTeamData[]  = [...season_standings];
+    let standings: TeamData[]  = [...season_standings];
     const overall = getTeamStatRank(standings, team_id);
     const points = getTeamStatRank(standings, team_id, BBallStat.POINTS);
     const rebounds = getTeamStatRank(standings, team_id, BBallStat.REBOUNDS);
@@ -113,21 +119,34 @@ export default function Teams( {season_options, season_standings, teams, team_op
  )
 }
 
+const getTeamStatRank = (standings: TeamData[], team_id: number, stat: BBallStat | null=null) => {
+  switch(stat) {
+    case BBallStat.POINTS:
+      standings.sort((team1,team2) =>  team2.stats_obj.points_for - team1.stats_obj.points_for)
+      break;
+    case BBallStat.REBOUNDS:
+      standings.sort((team1,team2) =>  team2.stats_obj.rebounds_total - team1.stats_obj.rebounds_total)
+      break;
+  }
+
+  for (let i = 0; i<standings.length;i++){
+    if (team_id == standings[i].id) {
+      return i+1
+    }
+  }
+  return 0;
+}
+
+
 
 export const getServerSideProps: GetServerSideProps = async(context) => {
  
   // season_id is parsed from the URL
-  const { season_id } = context.query;
-  let init_season_id = 0;
+  const { sport, season_id } = context.query;
+  let init_season_id = Number(season_id);
 
-  if (typeof season_id === 'string') {
-    init_season_id = parseInt(season_id);
-  } else {
-    console.error('Unable to parse season_id: ', typeof season_id);
-  }
- 
   let seasons: Season[] = [];
-  let season_standings: BballTeamData[] = []; 
+  let season_standings: TeamData[] = []; 
   let teams: TeamName[] = [];
   let init_team_id = 1;
   let init_roster: Player[] = []
@@ -136,11 +155,11 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
 
   try {
 
-    seasons = await getSeasons(Sport.BASKETBALL);
-    season_standings = await getStandings(init_season_id);
-    teams = await getTeamNames(Sport.BASKETBALL, init_season_id);
-    init_team_id = teams[0].team_id;
-    init_roster = await getRoster(Sport.BASKETBALL, init_team_id);
+    seasons = await getSeasons(String(sport));
+    teams = await getTeams(init_season_id);
+    season_standings = await getTeams(init_season_id);
+    init_team_id = teams[0].id;
+    init_roster = await getRoster(init_team_id);
 
   } catch (e) {
     console.error('Unable to get data', e);
@@ -155,30 +174,5 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
   let team_options = teams.map((team) => makeTeamOptions(team));
   return { props: {season_options, season_standings, teams, team_options, init_season_id, init_team_id, init_roster, init_rank}}
 
-}
-
-export type Ranking = {
-  ovr: number,
-  pts: number,
-  reb: number 
-}
-
-
-const getTeamStatRank = (standings: BballTeamData[], team_id: number, stat: BBallStat | null=null) => {
-  switch(stat) {
-    case BBallStat.POINTS:
-      standings.sort((team1,team2) =>  team2.points_for - team1.points_for)
-      break;
-    case BBallStat.REBOUNDS:
-      standings.sort((team1,team2) =>  team2.rebounds_total - team1.rebounds_total)
-      break;
-  }
-
-  for (let i = 0; i<standings.length;i++){
-    if (team_id == standings[i].team_id) {
-      return i+1
-    }
-  }
-  return 0;
 }
 
