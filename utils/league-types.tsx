@@ -7,6 +7,50 @@ export enum Sport {
     BASKETBALL = "bball"
 }
 
+export type Season = {
+    id: number, 
+    sport_id: number,
+    name: string, 
+    year: number
+}
+
+export const makeSeasonOptions = (season: Season) => {
+    const season_value = season.name.toUpperCase() + " " + season.year
+    let season_option = {
+      key: season.id,
+      value: season_value
+    }
+    return season_option
+}
+
+export type TeamData = {
+    id: number,
+    season_id: number,
+    name: string,
+    captain_id: number,
+    year: number
+    stats_obj: TeamStats
+}
+
+export type TeamStats = BballTeamStats | SoccerTeamStats
+
+type BballTeamStats = {
+  wins: number,
+  losses: number,
+  points_for: number,
+  points_against: number,
+  rebounds: number,
+  fouls: number
+}
+type SoccerTeamStats = {
+  wins: number,
+  losses: number,
+  goals_for: number,
+  goals_against: number,
+  assists: number,
+  points: number
+}
+
 export function stringToEnum(input: string) {
   switch (input) {
     case "soccer":
@@ -20,7 +64,6 @@ export function stringToEnum(input: string) {
 
 
 export type Stat = BBallStat | SoccerStat
-export type TeamData = BballTeamData | SoccerTeamData
 
 export type User = {
     username: string,
@@ -34,27 +77,14 @@ export type SportSeason = {
     year: number
 }
 
-export type Season = {
-    season_id: number, 
-    season_name: string, 
-    year: number
-}
 
-export const makeSeasonOptions = (season: Season) => {
-    const season_value = season.season_name.toUpperCase() + " " + season.year
-    let season_option = {
-      key: season.season_id,
-      value: season_value
-    }
-    return season_option
-}
 
 export const makeSportSeason = (sport: Sport,season: Season) => {
 
     let sport_season_option = {
         sport: sport,
-        season_id: season.season_id, 
-        season_name: season.season_name, 
+        season_id: season.id, 
+        season_name: season.name, 
         year: season.year 
     }
     

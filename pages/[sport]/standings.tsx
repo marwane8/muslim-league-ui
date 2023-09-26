@@ -1,23 +1,22 @@
 import React from "react"
+import { GetServerSideProps } from "next"
+
 import Container from "../../components/container"
 import DropDown from "../../components/widgets/drop-down"
-
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
 
-import { Sport, Season, makeSeasonOptions } from "../../utils/league-types"
-import { BballTeamData } from "../../utils/basketball-types"
+import { Season, TeamData, makeSeasonOptions } from "../../utils/league-types"
 
-import { getSeasons } from "../../utils/api/league-api"
-import { getStandings } from "../../utils/api/basketball-api"
+import { getSeasons, getStandings } from "../../utils/api/league-api"
 
 import { useState } from "react"
 
 type Props = {
   season_options: {key: number, value: string}[],
   default_season: number,
-  default_standings: BballTeamData[]
+  default_standings: TeamData[]
 }
 
 export default function Standings({season_options,default_season,default_standings}: Props) {
@@ -28,7 +27,7 @@ export default function Standings({season_options,default_season,default_standin
   const whiteBG = 'bg-white '
 
   const [currSeason,setSeason] = useState<number>(default_season);
-  const [currStandings,setStandings] = useState<BballTeamData[]>(default_standings);
+  const [currStandings,setStandings] = useState<TeamData[]>(default_standings);
 
   const handleSeasonChange = async (e: any) => {
       setSeason(e.target.value);
@@ -81,14 +80,14 @@ export default function Standings({season_options,default_season,default_standin
         <tbody>
           { currStandings.map((teams,index) => (
             <tr key={index} className={ index%2 ? borderStyle + grayBG : borderStyle + whiteBG } > 
-              <td className={ index%2 ? grayBG + teamColStyle : whiteBG + teamColStyle }> <span className="font-bold px-1">{index+1}</span> {teams.team_name} </td>
+              <td className={ index%2 ? grayBG + teamColStyle : whiteBG + teamColStyle }> <span className="font-bold px-1">{index+1}</span> {teams.name} </td>
               <th className= 'px-3 w-1/4 min-w-[175px]'>   </th>
-              <td className='py-1'> {teams.wins} </td>
-              <td className=''> {teams.loss} </td>
-              <td className=''> {calculateWinPercentage(teams.wins,teams.loss)} </td>
-              <td className=''> {teams.points_for} </td>
-              <td className=''> {teams.points_against} </td>
-              <td className={(teams.points_for - teams.points_against) <0 ? 'pr-2 text-red-300' : 'pr-2 text-primary'}> {(teams.points_for - teams.points_against)} </td>
+              <td className='py-1'> {teams.stats_obj.wins} </td>
+              <td className=''> {teams.stats_obj.losses} </td>
+              <td className=''> {calculateWinPercentage(teams.stats_obj.wins,teams.stats_obj.losses)} </td>
+              <td className=''> {teams.stats_obj.points_for} </td>
+              <td className=''> {teams.stats_obj.points_against} </td>
+              <td className={(teams.stats_obj.points_for - teams.stats_obj.points_against) <0 ? 'pr-2 text-red-300' : 'pr-2 text-primary'}> {(teams.stats_obj.points_for - teams.stats_obj.points_against)} </td>
             </tr>
          ))}
         </tbody>
@@ -99,16 +98,18 @@ export default function Standings({season_options,default_season,default_standin
   )
 }
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  
+  const { sport } = context.query
 
-
-  let default_standings: BballTeamData[]=[]
-  let seasons: Season[]=[]
-  let default_season: number = 0
-
+  let default_standings: TeamData[]=[];
+  let seasons: Season[]=[];
+  let default_season: number = 0;
+  console.log(sport);
   try {
-    seasons = await getSeasons(Sport.BASKETBALL);
-    default_season = seasons.slice(-1)[0].season_id;
+    seasons = await getSeasons(String(sport));
+    console.log(seasons);
+    default_season = seasons.slice(-1)[0].id;
     default_standings = await getStandings(default_season)
   } catch (e) {
     console.error('Unable to get data')

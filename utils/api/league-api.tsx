@@ -1,4 +1,4 @@
-import { Sport, Season, TeamName, Game, Stat, GameStats,Player,PlayerStat, PlayerGameStats, InsertGameStats } from "../league-types";
+import { Sport, Season, TeamName, TeamData, Game, Stat, GameStats,Player,PlayerStat, PlayerGameStats, InsertGameStats } from "../league-types";
 import { getRequest, makeAuthorizedPutRequest } from "./api-utils";
 import Cookie from "js-cookie";
 
@@ -7,10 +7,14 @@ function getEndPoint(sport: Sport): string {
     return query + sport;
 }
 
-export async function getSeasons(sport: Sport, useClient: boolean=false): Promise<Season[]> {
-    let sportEndpoint = getEndPoint(sport);
-    const seasonsQuery = sportEndpoint + "/seasons";
+export async function getSeasons(sport: string, useClient: boolean=false): Promise<Season[]> {
+    const seasonsQuery = "/api/v1/seasons/" + sport;
     return getRequest(seasonsQuery,useClient);
+}
+
+export async function getStandings(season_id: number,useClient=false): Promise<TeamData[]> {
+    const standingsQuery = "/api/v1/teams/" + season_id;
+    return getRequest(standingsQuery,useClient);
 }
 
 export async function getTeamNames(sport: Sport,  season_id: number, useClient: boolean=false): Promise<TeamName[]> {
@@ -25,9 +29,8 @@ let sportEndpoint = getEndPoint(sport);
     return getRequest(rosterQuery,useClient);
 }
 
-export async function getStatLeaders(sport: Sport, season_id: number, stat: Stat,useClient: boolean=false): Promise<PlayerStat[]> {
-    let sportEndpoint = getEndPoint(sport);
-    let statLeadersQuery =  sportEndpoint + "/players/" + season_id + "/stat/" + stat;
+export async function getStatLeaders(season_id: number, stat: Stat,useClient: boolean=false): Promise<PlayerStat[]> {
+    let statLeadersQuery =  "/api/v1/players/" + season_id + "/stat/" + stat;
     return getRequest(statLeadersQuery, useClient);
 }
 
