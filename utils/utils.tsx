@@ -39,15 +39,6 @@ function getDaySuffix(day: number): string {
     }
 }
 
-export function formatSport(sport: Sport): string {
-  switch(sport) {
-    case Sport.BASKETBALL:
-      return "Basketball"
-    case Sport.SOCCER:
-      return "Soccer"
-  }
-
-}
 
 export function getSportStats(sport: Sport) {
   switch(sport) {
@@ -92,7 +83,7 @@ export function formatNowToYYYYMMDD() {
 
 export function getNextGameDate(currentDate: number, dateList: number[]): {index: number, date: number} {
 
-  let nextDate ={ index: 0, date: dateList[0]};
+  let nextDate ={ index: 0, date: 0 };
 
   for (let i = 0; i < dateList.length; i++) {
     nextDate.index = i;

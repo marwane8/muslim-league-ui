@@ -1,10 +1,7 @@
-import { BBallStat, BballTeamData } from "./basketball-types"
-import { SoccerStat, SoccerTeamData } from "./soccer-types"
 
-//General Interfaces That are shared amoong all leauges
-export enum Sport {
-    SOCCER = "soccer",
-    BASKETBALL = "bball"
+export type User = {
+    username: string,
+    admin: number
 }
 
 export type Season = {
@@ -32,14 +29,12 @@ export type TeamData = {
     stats_obj: TeamStats
 }
 
-export type TeamStats = BballTeamStats | SoccerTeamStats
-
 export type TeamName = {
     id: number,
     name: string
 }
 
-export const makeTeamOptions = (team: TeamName) => {
+export const makeTeamOptions = (team: TeamName | TeamStats ) => {
     let team_option = {
       key: team.id,
       value: team.name 
@@ -47,7 +42,11 @@ export const makeTeamOptions = (team: TeamName) => {
     return team_option
 }
 
-type BballTeamStats = {
+export type TeamStats = BballTeamStats | SoccerTeamStats
+export type BballTeamStats = {
+  id: number,
+  season_id: number,
+  name: string
   wins: number,
   losses: number,
   points_for: number,
@@ -56,6 +55,9 @@ type BballTeamStats = {
   fouls: number
 }
 type SoccerTeamStats = {
+  id: number,
+  season_id: number,
+  name: string
   wins: number,
   losses: number,
   goals_for: number,
@@ -64,47 +66,20 @@ type SoccerTeamStats = {
   points: number
 }
 
-export function stringToEnum(input: string) {
-  switch (input) {
-    case "soccer":
-      return Sport.SOCCER;
-    case "bball":
-      return Sport.BASKETBALL;
-    default:
-      throw new Error(`Invalid input: ${input}`);
-  }
-}
-
-
-export type Stat = BBallStat | SoccerStat
-
-export type User = {
-    username: string,
-    admin: number
-}
-
-export type SportSeason = {
-    sport: Sport
-    season_id: number, 
-    season_name: string, 
-    year: number
-}
-
-
-
-export const makeSportSeason = (sport: Sport,season: Season) => {
-
-    let sport_season_option = {
-        sport: sport,
-        season_id: season.id, 
-        season_name: season.name, 
-        year: season.year 
-    }
-    
-    return sport_season_option
+export type Player = {
+    player_id?: number, 
+    team_id: number, 
+    team_name: string, 
+    active: number,
+    f_name: string, 
+    l_name: string, 
+    name: string, 
+    number: string,
+    pos: string
 }
 
 export type Game = {
+    sport_id: number
     season_id: number
     game_id: number,
     team1_id: number,
@@ -119,51 +94,55 @@ export type Game = {
 }
 
 
-
-export type Player = {
-    player_id?: number, 
-    team_id: number, 
-    team_name: string, 
-    active: number,
-    f_name: string, 
-    l_name: string, 
-    name: string, 
-    number: string,
-    pos: string
-}
-
 export type PlayerStat = {
-    id: number,
+    season_id: number,
+    player_id: number,
     name: string, 
-    games: number,
+    stat_records: number,
+    dnp: number,
+    type: string,
     stat: number 
 }
 
-export type GameStats = {
-  game_id: number,
-  player_id: number,
-  dnp: number,
-  [key: string]: number | string
+export type TeamGameStats = {
+  t_id: number,
+  team_name: string,
+  g_id: number,
+  type1: number,
+  stat1_total: number,
+  type2: number,
+  stat2_total: number,
+  type3: number,
+  stat3_total : number
 }
 
 export type PlayerGameStats = {
-  game_id: number,
-  team_id: number,
-  team_name: string,
-  player_id: number,
-  player_name: string,
-  stat_id?: number,
-  dnp: number,
-  [key: string]: number | string | undefined,
+    game_id : number,
+    team_id : number,
+    team_name : string,
+    player_id : number,
+    stat_id : number,
+    player_name : string,
+    type1 : string,
+    stat1 : number,
+    type2 : string,
+    stat2 : number,
+    type3 : string,
+    stat3  : number
 }
 
-
-export type InsertGameStats = {
-  stat_id?: number,
-  game_id: number,
-  player_id: number,
-  dnp: number,
-  [key: string]: number | string | undefined,
+export type StatUpsert = {
+    id?: number,
+    sport_id: number,
+    game_id: number,
+    player_id: number,
+    dnp: number,
+    stat1_type: number,
+    stat1: number,
+    stat2_type: number,
+    stat2: number,
+    stat3_type: number,
+    stat3: number
 }
 
 

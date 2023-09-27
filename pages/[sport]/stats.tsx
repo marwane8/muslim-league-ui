@@ -7,7 +7,7 @@ import StatTable from "../../components/tables/stat-table"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { Sport, Season, makeSeasonOptions, PlayerStat } from "../../utils/league-types"
+import { Season, makeSeasonOptions, PlayerStat } from "../../utils/league-types"
 import { BBallStat } from "../../utils/basketball-types"
 
 import { getSeasons, getStatLeaders } from "../../utils/api/league-api"
