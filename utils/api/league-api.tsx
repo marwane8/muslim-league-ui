@@ -43,29 +43,25 @@ export async function getGamesForDate( date: number, useClient: boolean=false): 
     return getRequest(gamesForDateQuery, useClient);
 }
 
-export async function getPlayerGameStats(sport: Sport, game_id: number, useClient: boolean=false): Promise<PlayerGameStats[]> { 
-    let sportEndpoint = getEndPoint(sport);
-    const gamePlayerStatsquery = sportEndpoint + "/games/stats/players/" + game_id;
+export async function getPlayerGameStats(game_id: number, useClient: boolean=false): Promise<PlayerGameStats[]> { 
+    const gamePlayerStatsquery = "/api/v1/games/stats/players/" + game_id;
     return getRequest(gamePlayerStatsquery,useClient);
 }
 
-export async function insertGamesForSeason(sport: Sport, gameStats: InsertGameStats[], useClient: boolean=false): Promise<any> {
+export async function insertGamesForSeason(gameStats: InsertGameStats[], useClient: boolean=false): Promise<any> {
     const jwt: string = Cookie.get('token');
-    let sportEndpoint = getEndPoint(sport);
-    const statLeadersQuery = sportEndpoint + "/stats/upsert";
+    const statLeadersQuery = "/api/v1/stats/upsert";
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,gameStats,useClient);
 }
 
-export async function insertRoster(sport: Sport, roster: Player[], useClient: boolean=false): Promise<any> {
+export async function upsertRoster(roster: Player[], useClient: boolean=false): Promise<any> {
     const jwt: string = Cookie.get('token');
-    let sportEndpoint = getEndPoint(sport);
-    const statLeadersQuery = sportEndpoint + "/roster/upsert";
+    const statLeadersQuery =  "/api/v1/roster/upsert";
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,roster,useClient);
 }
 
-export async function updateTeamStats(sport: Sport, teams: number[], useClient: boolean=false): Promise<any> {
+export async function updateTeamStats(teams: number[], useClient: boolean=false): Promise<any> {
     const jwt: string = Cookie.get('token');
-    let sportEndpoint = getEndPoint(sport);
-    const statLeadersQuery = sportEndpoint + "/stats/teams";
+    const statLeadersQuery =  "/api/v1/stats/teams";
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,teams,useClient);
 }

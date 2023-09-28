@@ -4,17 +4,17 @@ import { GetServerSideProps } from 'next'
 import Header from '../../../../components/header'
 import Container from '../../../../components/container'
 import Panel from '../../../../components/panel'
-import { Game, Sport, stringToEnum } from '../../../../utils/league-types'
+import { Game } from '../../../../utils/league-types'
 import { formatDate } from '../../../../utils/utils';
 import InputStatsForm from '../../../../components/forms/input-stats-form';
 import { getGamesForSeason } from '../../../../utils/api/league-api';
 
 type Props = {
-  sport: Sport,
+  init_sport: string,
   games: Game[]
 }
 
-const EditStats = ({sport, games}: Props) => {
+const EditStats = ({init_sport, games}: Props) => {
 
   const handleGameClick = async (game: Game) =>  {
     setCurrGame(game);
@@ -55,7 +55,7 @@ const EditStats = ({sport, games}: Props) => {
       </Container>
 
       <InputStatsForm
-        sport={sport}
+        sport={init_sport}
         game={currGame}
         showTable={showGameTable}
         setShowTable={setShowGameTable} />
@@ -65,20 +65,20 @@ const EditStats = ({sport, games}: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   
-  const { sport,season_id } = context.query
+  const { sport, season_id } = context.query
 
-  let e_sport: Sport = stringToEnum(String(sport));
-  let seasonID = Number(season_id);
-  let games: Game[]= [];
+  let init_sport = String(sport);
+  let init_season_id = Number(season_id);
+  let games: Game[] = [];
 
   try {
-      games = await getGamesForSeason(e_sport, seasonID);
+      games = await getGamesForSeason(init_season_id);
   } catch (e) {
     console.error('Unable to fetch season games', e)
   }
 
 
-  return { props: { sport: e_sport, games }}
+  return { props: { init_sport, games }}
 
 }
 

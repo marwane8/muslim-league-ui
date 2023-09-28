@@ -4,6 +4,16 @@ export type User = {
     admin: number
 }
 
+export const Sport: { [key: number]: string } = {
+    1: "basketball",
+    2: "soccer"
+}
+
+export const SportID: { [key: string]: number } = {
+    "basketball" : 1,
+    "soccer" : 2
+}
+
 export type Season = {
     id: number, 
     sport_id: number,
@@ -123,6 +133,7 @@ export type PlayerGameStats = {
     player_id : number,
     stat_id : number,
     player_name : string,
+    dnp: number,
     type1 : string,
     stat1 : number,
     type2 : string,
@@ -137,11 +148,11 @@ export type StatUpsert = {
     game_id: number,
     player_id: number,
     dnp: number,
-    stat1_type: number,
+    stat1_type: string,
     stat1: number,
-    stat2_type: number,
+    stat2_type: string,
     stat2: number,
-    stat3_type: number,
+    stat3_type: string,
     stat3: number
 }
 

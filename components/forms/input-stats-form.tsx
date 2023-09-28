@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react"
 import { NextPage } from "next"
 
-import { Game, InsertGameStats, PlayerGameStats } from "../../utils/league-types"
-import { formatDate, getSportStats  } from "../../utils/utils"
+import { Game, StatUpsert, PlayerGameStats, SportID } from "../../utils/league-types"
+import { addBballTypes, addSoccerTypes, formatDate, getSportStats  } from "../../utils/utils"
 import Modal from "../modal"
 import InputStatsTable from "./input-stats-table"
 
-import { Sport, Player, GameStats } from "../../utils/league-types"
+import { Player } from "../../utils/league-types"
 
 import { insertGamesForSeason, getRoster, getPlayerGameStats, updateTeamStats } from "../../utils/api/league-api"
 
 
 type StatProps = {
-  sport: Sport,
+  sport: string,
   game: Game,
   showTable: boolean,
   setShowTable: (showTable: boolean) => void
@@ -22,8 +22,6 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
 
   const [team1StatData, setTeam1StatData] = useState<PlayerGameStats[]>([]);
   const [team2StatData, setTeam2StatData] = useState<PlayerGameStats[]>([]);
-  const sportStat = getSportStats(sport);
-  const stat_col = Object.values(sportStat);
 
   //Make a useEffect call ONLY on a new game state
   useEffect(() => {
@@ -38,12 +36,12 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
   },[game]);
 
   // -- FORM INITIALIZATION --
-  const initTeamStatData = async (sport: Sport,game_id: number, team_id: number) => {
+  const initTeamStatData = async (sport: string,game_id: number, team_id: number) => {
     let initPlayerStats: PlayerGameStats[] = []
     try {
-      const players: Player[] = await getRoster(sport,team_id,true);
-      const currGameData: PlayerGameStats[] = await getPlayerGameStats(sport, game.game_id, true);
-      let teamStatData: PlayerGameStats[] = mapRosterToPlayerGameStats(game_id, players);
+      const players: Player[] = await getRoster(team_id,true);
+      const currGameData: PlayerGameStats[] = await getPlayerGameStats(game.game_id, true);
+      let teamStatData: PlayerGameStats[] = mapRosterToPlayerGameStats(sport, game_id, players);
       fillTeamGameData(teamStatData, currGameData);
       initPlayerStats = teamStatData;
     } catch (e) {
@@ -52,9 +50,11 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
     return initPlayerStats;
   }
 
-  function mapRosterToPlayerGameStats(game_id: number, roster: Player[]): PlayerGameStats[] {
+  function mapRosterToPlayerGameStats(sport: string, game_id: number, roster: Player[]): PlayerGameStats[] {
     let playerStatList: PlayerGameStats[] = [];
+
     roster.forEach((player) => {
+
       let playerStat: PlayerGameStats = {
         game_id: game_id,
         team_id: player.team_id,
@@ -62,16 +62,28 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
         //@ts-ignore
         player_id: player.player_id,
         player_name: player.name,
-        dnp: 1 
+        dnp: 1, 
+        stat1: 0,
+        stat2: 0,
+        stat3: 0
       }
 
-      stat_col.forEach((stat) => {
-        playerStat[stat] = 0;
-      
-      })
+      switch(sport) {
+        case "basketball":
+          playerStat.type1 = "points";
+          playerStat.type2 = "rebounds";
+          playerStat.type3 = "fouls";
+          break;
+        case "soccer":
+          playerStat.type1 = "goals";
+          playerStat.type2 = "assists";
+          playerStat.type3 = "NA";
+          break;
 
+      }
       playerStatList.push(playerStat);
     })
+
     return(playerStatList);
   };
 
@@ -83,12 +95,9 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
       if (p_stat) {
         team_data[i].stat_id = p_stat.stat_id;
         team_data[i].dnp = p_stat.dnp;
-
-        stat_col.forEach((stat) => {
-          if (p_stat && p_stat[stat]) {
-            team_data[i][stat] = p_stat[stat];
-          }
-        })
+        team_data[i].stat1 = p_stat.stat1;
+        team_data[i].stat2 = p_stat.stat2;
+        team_data[i].stat3 = p_stat.stat3;
       }
     }
   };
@@ -97,22 +106,25 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
   // -- FORM VALUE CHANGING --
   const handleTeam1ValueChange = (index: number, prop: string, value: number) => {
     let updatedPlayers = [...team1StatData];
+    //@ts-ignore
     updatedPlayers[index][prop] = value;
     if (prop=='dnp' && value==1){
-      stat_col.forEach((stat) => {
-        updatedPlayers[index][stat] = 0;
-      })
+      updatedPlayers[index].stat1 = 0;
+      updatedPlayers[index].stat2 = 0;
+      updatedPlayers[index].stat3 = 0;
     }
     setTeam1StatData(updatedPlayers);
   };
 
   const handleTeam2ValueChange = (index: number, prop: string, value: number) => {
-    const updatedPlayers = [...team2StatData];
+    let updatedPlayers = [...team2StatData];
+    //@ts-ignore
     updatedPlayers[index][prop] = value;
+
     if (prop=='dnp' && value==1){
-      stat_col.forEach((stat) => {
-        updatedPlayers[index][stat] = 0;
-      })
+      updatedPlayers[index].stat1 = 0;
+      updatedPlayers[index].stat2 = 0;
+      updatedPlayers[index].stat3 = 0;
     }
     setTeam2StatData(updatedPlayers);
   };
@@ -122,11 +134,12 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
   const handleGameSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     let ans = confirm("Are you ready to submit?");
     if (ans === true) {
-      const insertStats = createInsertStats([team1StatData,team2StatData]);
+      const insertStats = createInsertStats(sport, [team1StatData,team2StatData]);
+      console.log("INSERT ", insertStats);
       const teamIDList = [game.team1_id,game.team2_id]
       try {
-        const insertGamesResponse = await insertGamesForSeason(sport, insertStats,true);
-        await updateTeamStats(sport,teamIDList,true);
+        const insertGamesResponse = await insertGamesForSeason(insertStats,true);
+        await updateTeamStats(teamIDList,true);
         if (insertGamesResponse) {
           window.alert(JSON.stringify(insertGamesResponse.message));
           setShowTable(false);
@@ -141,22 +154,29 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
     
   };
  
-  function createInsertStats(teamStatData: PlayerGameStats[][]): InsertGameStats[] {
-      const gameStatList: InsertGameStats[] = [];
+  function createInsertStats(sport: string, teamStatData: PlayerGameStats[][]): StatUpsert[] {
+      const gameStatList: StatUpsert[] = [];
+
+      const curr_sport_id = SportID[sport];
 
       for(let i = 0 ; i < 2; i ++) {
         teamStatData[i].forEach((gstat) => {
-          let gameStat: InsertGameStats = {
+          let gameStat: StatUpsert = {
+            sport_id: curr_sport_id,
             game_id: gstat.game_id,
             player_id: gstat.player_id,
-            dnp: gstat.dnp
+            dnp: gstat.dnp,
+            stat1_type: gstat.type1,
+            stat1: gstat.stat1,
+            stat2_type: gstat.type2,
+            stat2: gstat.stat2,
+            stat3_type: gstat.type3,
+            stat3: gstat.stat3
           }; 
+
           if (gstat.stat_id) {
-            gameStat.stat_id = gstat.stat_id
+            gameStat.id = gstat.stat_id
           }
-          stat_col.forEach((stat) => {
-            gameStat[stat] = gstat[stat];
-          })
           gameStatList.push(gameStat);
         });
       }
@@ -178,14 +198,12 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
                       sport={sport}
                       teamName={game.team1}
                       gameStats={team1StatData} 
-                      rowHeaders={stat_col}
                       handleValueChange={handleTeam1ValueChange}
                   />    
                   <InputStatsTable
                       sport={sport}
                       teamName={game.team2}
                       gameStats={team2StatData} 
-                      rowHeaders={stat_col}
                       handleValueChange={handleTeam2ValueChange}
                   />    
 
