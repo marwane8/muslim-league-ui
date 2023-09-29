@@ -1,17 +1,16 @@
 import React from "react"
 import { NextPage } from "next"
-import { PlayerGameStats, Sport } from "../../utils/league-types"
-import { getSportABV } from "../../utils/utils"
+import { PlayerGameStats } from "../../utils/league-types"
+import { getSportSchema } from "../../utils/utils"
 
 type Props = {
-  sport: Sport
+  sport: string
   teamName: string
   gameStats: PlayerGameStats[],
-  rowHeaders: string[],
   handleValueChange: (playerIndex: number, header: string, value: number) => void
 }
-const InputStatsTable: NextPage<Props> = ({sport, teamName, gameStats,rowHeaders,handleValueChange}: Props) => {
-    const sportABV: any = getSportABV(sport);
+const InputStatsTable: NextPage<Props> = ({sport, teamName, gameStats, handleValueChange}: Props) => {
+    const sportSchema = getSportSchema(sport);
     return (
         <div className='mb-5 mx-auto '>
             <div className='inline-flex bg-white rounded-md overflow-hidden border border-gray-200'>
@@ -19,7 +18,7 @@ const InputStatsTable: NextPage<Props> = ({sport, teamName, gameStats,rowHeaders
                 <thead>
                 <tr>
                     <td className=' border-b border-gray-200 text-lg font-bold text-white text-center bg-primary ' 
-                        colSpan={rowHeaders.length + 2}> 
+                        colSpan={5}> 
                             {teamName} 
                     </td>
                 </tr>
@@ -27,9 +26,9 @@ const InputStatsTable: NextPage<Props> = ({sport, teamName, gameStats,rowHeaders
                 <tr className='font-bold bg-gray-100 text-gray-300'> 
                     <th> NAME </th>
                     <th className="border-l border-b border-gray-200"> DNP </th>
-                    {rowHeaders.map((header, index) => (
-                        <th className="border-l border-gray-200" key={index}>{sportABV[header]}</th>
-                    ))}
+                    <th className="border-l border-gray-200">{sportSchema.type1}</th>
+                    <th className="border-l border-gray-200">{sportSchema.type2}</th>
+                    <th className="border-l border-gray-200">{sportSchema.type3}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,17 +43,33 @@ const InputStatsTable: NextPage<Props> = ({sport, teamName, gameStats,rowHeaders
                                 onChange={(e) => handleValueChange(playerIndex,"dnp", Number(e.target.checked))}
                             />
                         </td>
-                        {rowHeaders.map((header, propIndex) => (
-                            <td className=' border w-[60px] border-gray-200 border-b-0 border-r-0 text-center' key={propIndex}>
+                        <td className=' border w-[60px] border-gray-200 border-b-0 border-r-0 text-center'>
                             <input
                                 className="w-full disabled:text-gray-200 pl-1"
                                 type="number"
-                                value={player[header]}
+                                value={player.stat1}
                                 disabled={Boolean(player.dnp)}
-                                onChange={(e) => handleValueChange(playerIndex, header, parseInt(e.target.value))}
+                                onChange={(e) => handleValueChange(playerIndex, "stat1", parseInt(e.target.value))}
                             />
-                            </td>
-                        ))}
+                        </td>
+                        <td className=' border w-[60px] border-gray-200 border-b-0 border-r-0 text-center'>
+                            <input
+                                className="w-full disabled:text-gray-200 pl-1"
+                                type="number"
+                                value={player.stat2}
+                                disabled={Boolean(player.dnp)}
+                                onChange={(e) => handleValueChange(playerIndex, "stat2", parseInt(e.target.value))}
+                            />
+                        </td>
+                        <td className=' border w-[60px] border-gray-200 border-b-0 border-r-0 text-center'>
+                            <input
+                                className="w-full disabled:text-gray-200 pl-1"
+                                type="number"
+                                value={player.stat3}
+                                disabled={Boolean(player.dnp)}
+                                onChange={(e) => handleValueChange(playerIndex, "stat3", parseInt(e.target.value))}
+                            />
+                        </td>
                         </tr>
                     ))}
                 </tbody>

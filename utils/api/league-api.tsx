@@ -1,77 +1,72 @@
-import { Sport, Season, TeamName, Game, Stat, GameStats,Player,PlayerStat, PlayerGameStats, InsertGameStats } from "../league-types";
+import { Season, TeamData, Game, StatUpsert, Player, PlayerStat, PlayerGameStats, TeamStats, TeamGameStats } from "../league-types";
 import { getRequest, makeAuthorizedPutRequest } from "./api-utils";
 import Cookie from "js-cookie";
 
-function getEndPoint(sport: Sport): string {
-    let query = "/api/v1/"
-    return query + sport;
-}
 
-export async function getSeasons(sport: Sport, useClient: boolean=false): Promise<Season[]> {
-    let sportEndpoint = getEndPoint(sport);
-    const seasonsQuery = sportEndpoint + "/seasons";
+export async function getSeasons(sport: string, useClient: boolean=false): Promise<Season[]> {
+    const seasonsQuery = "/api/v1/seasons/" + sport;
     return getRequest(seasonsQuery,useClient);
 }
 
-export async function getTeamNames(sport: Sport,  season_id: number, useClient: boolean=false): Promise<TeamName[]> {
-    let sportEndpoint = getEndPoint(sport);
-    const teamNamesQuery = sportEndpoint + "/teams/" + season_id;
-    return getRequest(teamNamesQuery, useClient);
+export async function getTeams(season_id: number,useClient=false): Promise<TeamData[]> {
+    const standingsQuery = "/api/v1/teams/" + season_id;
+    return getRequest(standingsQuery,useClient);
 }
 
-export async function getRoster(sport: Sport,  team_id: number, useClient: boolean=false): Promise<Player[]> {
-let sportEndpoint = getEndPoint(sport);
-    const rosterQuery = sportEndpoint + "/players/" + team_id;
+export async function getStandings(sport: string,season_id: number,useClient=false): Promise<TeamStats[]> {
+    const standingsQuery = "/api/v1/teams/" + season_id + "/" + sport;
+    return getRequest(standingsQuery,useClient);
+}
+
+export async function getRoster(team_id: number, useClient: boolean=false): Promise<Player[]> {
+    const rosterQuery = "/api/v1/players/" + team_id;
     return getRequest(rosterQuery,useClient);
 }
 
-export async function getStatLeaders(sport: Sport, season_id: number, stat: Stat,useClient: boolean=false): Promise<PlayerStat[]> {
-    let sportEndpoint = getEndPoint(sport);
-    let statLeadersQuery =  sportEndpoint + "/players/" + season_id + "/stat/" + stat;
+export async function getStatLeaders(season_id: number, stat: string, useClient: boolean=false): Promise<PlayerStat[]> {
+    let statLeadersQuery =  "/api/v1/players/" + season_id + "/stat/" + stat;
     return getRequest(statLeadersQuery, useClient);
 }
 
-export async function getGamesForSeason(sport: Sport, season_id: number,useClient: boolean=false): Promise<Game[]> {
-    let sportEndpoint = getEndPoint(sport);
-    const statLeadersQuery = sportEndpoint + "/games/season/" + season_id;
-    return getRequest(statLeadersQuery,useClient);
+export async function getGamesForSeason(season_id: number,useClient: boolean=false): Promise<Game[]> {
+    const gamesQuery = "/api/v1/games/season/" + season_id;
+    return getRequest(gamesQuery,useClient);
 }
 
-export async function getGameDates(sport: Sport, season_id: number,useClient: boolean=false): Promise<number[]> {
-    let sportEndpoint = getEndPoint(sport);
-    const gameDatesQuery = sportEndpoint + "/games/" + season_id + "/dates";
+export async function getGameDates(season_id: number,useClient: boolean=false): Promise<number[]> {
+    const gameDatesQuery = "/api/v1/games/" + season_id + "/dates";
     return getRequest(gameDatesQuery,useClient);
 }
 
-export async function getGamesForDate( sport: Sport, date: number, useClient: boolean=false): Promise<Game[]> {
-    let sportEndpoint = getEndPoint(sport);
-    const gamesForDateQuery = sportEndpoint + "/games/" + date;
+export async function getGamesForDate( date: number, useClient: boolean=false): Promise<Game[]> {
+    const gamesForDateQuery = "/api/v1/games/" + date;
     return getRequest(gamesForDateQuery, useClient);
 }
 
-export async function getPlayerGameStats(sport: Sport, game_id: number, useClient: boolean=false): Promise<PlayerGameStats[]> { 
-    let sportEndpoint = getEndPoint(sport);
-    const gamePlayerStatsquery = sportEndpoint + "/games/stats/players/" + game_id;
+export async function getTeamGameStats(game_id: number, useClient: boolean=false): Promise<TeamGameStats[]> { 
+    const gameTeamStatsquery = "/api/v1/games/stats/teams/" + game_id;
+    return getRequest(gameTeamStatsquery,useClient);
+}
+
+export async function getPlayerGameStats(game_id: number, useClient: boolean=false): Promise<PlayerGameStats[]> { 
+    const gamePlayerStatsquery = "/api/v1/games/stats/players/" + game_id;
     return getRequest(gamePlayerStatsquery,useClient);
 }
 
-export async function insertGamesForSeason(sport: Sport, gameStats: InsertGameStats[], useClient: boolean=false): Promise<any> {
+export async function insertGamesForSeason(gameStats: StatUpsert[], useClient: boolean=false): Promise<any> {
     const jwt: string = Cookie.get('token');
-    let sportEndpoint = getEndPoint(sport);
-    const statLeadersQuery = sportEndpoint + "/stats/upsert";
+    const statLeadersQuery = "/api/v1/stats/upsert";
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,gameStats,useClient);
 }
 
-export async function insertRoster(sport: Sport, roster: Player[], useClient: boolean=false): Promise<any> {
+export async function upsertRoster(roster: Player[], useClient: boolean=false): Promise<any> {
     const jwt: string = Cookie.get('token');
-    let sportEndpoint = getEndPoint(sport);
-    const statLeadersQuery = sportEndpoint + "/roster/upsert";
+    const statLeadersQuery =  "/api/v1/roster/upsert";
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,roster,useClient);
 }
 
-export async function updateTeamStats(sport: Sport, teams: number[], useClient: boolean=false): Promise<any> {
+export async function updateTeamStats(teams: number[], useClient: boolean=false): Promise<any> {
     const jwt: string = Cookie.get('token');
-    let sportEndpoint = getEndPoint(sport);
-    const statLeadersQuery = sportEndpoint + "/stats/teams";
+    const statLeadersQuery =  "/api/v1/stats/teams";
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,teams,useClient);
 }

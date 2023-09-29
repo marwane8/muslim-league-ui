@@ -4,12 +4,12 @@ import { NextPage } from "next"
 import WinArrowRight from '/public/svgs/win-arrow-right.svg'
 import WinArrowLeft from '/public/svgs/win-arrow-left.svg'
 
-import { TeamData, GameStats, Game } from "../../utils/league-types"
-import { getGameStats } from "../../utils/api/basketball-api"
+import { Game, TeamGameStats, TeamStats } from "../../utils/league-types"
+import { getTeamGameStats } from "../../utils/api/league-api"
 
 
 type GameCardProps = {
-  standings: TeamData[],
+  standings: TeamStats[],
   gameData: Game 
 }
 
@@ -18,8 +18,8 @@ type GameCardProps = {
     let isGamePlayed = Boolean(gameData.played);
 
     const getTeamRecord = (team_id: number) => {
-      let teamStanding = standings.find(team => {return team.team_id === team_id}) 
-      let teamRecord = teamStanding?.wins + ' - ' + teamStanding?.loss
+      let teamStanding = standings.find(team => {return team.id === team_id}) 
+      let teamRecord = teamStanding?.wins + ' - ' + teamStanding?.losses
       return teamRecord
     }
    
@@ -65,13 +65,13 @@ function GameScore({gameID,team1ID,team2ID}: GameScoreProps) {
     const [team2Score,setScore2] = useState<number | string>(0)
 
     useEffect(() => {
-       getGameStats(gameID, true)
-        .then((gameStats: GameStats[]) => {
-          let team1 = gameStats.find(team => {return team.team_id === team1ID}) 
-          let team2 = gameStats.find(team => {return team.team_id === team2ID}) 
+       getTeamGameStats(gameID, true)
+        .then((gameStats: TeamGameStats[]) => {
+          let team1 = gameStats.find(team => {return team.t_id === team1ID}) 
+          let team2 = gameStats.find(team => {return team.t_id === team2ID}) 
           if (team1 && team2) {
-            setScore1(team1.points)
-            setScore2(team2.points)
+            setScore1(team1.stat1_total)
+            setScore2(team2.stat1_total)
           }
         })
     })

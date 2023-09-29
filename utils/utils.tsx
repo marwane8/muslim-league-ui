@@ -1,6 +1,6 @@
-import { BBallStat, BballABV } from "./basketball-types";
-import { Sport } from "./league-types";
-import { SoccerABV, SoccerStat } from "./soccer-types";
+import { BBallStat } from "./basketball-types";
+import { PlayerGameStats } from "./league-types";
+import { SoccerStat } from "./soccer-types";
 
 export function formatDate(date: number): string {
     const year = Math.floor(date / 10000);
@@ -39,35 +39,57 @@ function getDaySuffix(day: number): string {
     }
 }
 
-export function formatSport(sport: Sport): string {
-  switch(sport) {
-    case Sport.BASKETBALL:
-      return "Basketball"
-    case Sport.SOCCER:
-      return "Soccer"
-  }
 
-}
-
-export function getSportStats(sport: Sport) {
+export function getSportStats(sport: string) {
   switch(sport) {
-    case Sport.BASKETBALL:
+    case "basketball":
       return BBallStat; 
-    case Sport.SOCCER:
+    case "soccer":
       return SoccerStat; 
   }
 }
 
-export function getSportABV(sport: Sport) {
+export function getSportSchema(sport: string) {
+  const schema = {
+        type1: "NA",
+        type2: "NA",
+        type3: "NA",
+  }; 
+ 
   switch(sport) {
-    case Sport.BASKETBALL:
-      return BballABV; 
-    case Sport.SOCCER:
-      return SoccerABV; 
+    case "basketball":
+      schema.type1 = "PTS";
+      schema.type2 = "REB";
+      schema.type3 = "FLS";
+      break; 
+    case "soccer":
+      schema.type1 = "GLS";
+      schema.type2 = "AST";
+      break; 
   }
+
+  return schema;
 }
 
-export function capitalizeFirstLetter(word: string): string {
+export function addBballTypes(playerStat: PlayerGameStats) {
+  playerStat.type1 = "points";
+  playerStat.stat1 = 0;
+  playerStat.type2 = "rebounds";
+  playerStat.stat2 = 0;
+  playerStat.type3 = "fouls";
+  playerStat.stat3 = 0;
+}
+
+export function addSoccerTypes(playerStat: PlayerGameStats) {
+  playerStat.type1 = "goals";
+  playerStat.stat1 = 0;
+  playerStat.type2 = "assists";
+  playerStat.stat2 = 0;
+  playerStat.type3 = "";
+  playerStat.stat3 = 0;
+}
+
+export function capFirstLetter(word: string): string {
   if (typeof word !== 'string' || word.length === 0) {
     // Return the input as it is if it's not a string or empty
     return word;
@@ -92,7 +114,7 @@ export function formatNowToYYYYMMDD() {
 
 export function getNextGameDate(currentDate: number, dateList: number[]): {index: number, date: number} {
 
-  let nextDate ={ index: 0, date: dateList[0]};
+  let nextDate ={ index: 0, date: 0 };
 
   for (let i = 0; i < dateList.length; i++) {
     nextDate.index = i;

@@ -5,22 +5,21 @@ import Container from "../../../../components/container"
 import Header from "../../../../components/header"
 import Panel from "../../../../components/panel"
 import DropDown from "../../../../components/widgets/drop-down"
-import { Sport, Player, stringToEnum, TeamName, makeTeamOptions } from "../../../../utils/league-types"
-import { getTeamNames, getRoster, insertRoster } from "../../../../utils/api/league-api"
+import { Player, makeTeamOptions, TeamData } from "../../../../utils/league-types"
+import { getTeams, getRoster, upsertRoster } from "../../../../utils/api/league-api"
 import { getValueByKey } from "../../../../utils/utils"
 
 type Props = {
-  sport: Sport,
   team_options: {key: number, value: string}[],
   init_team_id: number,
   init_team_name: string,
-  init_team: Player[]
+  init_roster: Player[]
 }
 
-export default function EditRoster( {sport, team_options, init_team_id, init_team_name, init_team}: Props) {
+export default function EditRoster( { team_options, init_team_id, init_team_name, init_roster }: Props) {
   const [currTeam,setTeam] = useState<number>(init_team_id);
   const [currName,setName] = useState<string>(init_team_name);
-  const [roster,setRoster] = useState<Player[]>(init_team);
+  const [roster,setRoster] = useState<Player[]>(init_roster);
 
   const handleTeamChange = async (e: any) => {
     const team_id = e.target.value;
@@ -29,7 +28,7 @@ export default function EditRoster( {sport, team_options, init_team_id, init_tea
 
     setTeam(team_id);
     setName(team_name);
-    const new_roster = await getRoster(sport, team_id, true);
+    const new_roster = await getRoster(team_id, true);
     setRoster(new_roster);
   }  
  
@@ -59,7 +58,7 @@ export default function EditRoster( {sport, team_options, init_team_id, init_tea
 
 
   const handleReset = async () =>  {
-    const orig_roster = await getRoster(sport, currTeam, true);
+    const orig_roster = await getRoster(currTeam, true);
     setRoster(orig_roster);
   };
 
@@ -67,7 +66,7 @@ export default function EditRoster( {sport, team_options, init_team_id, init_tea
     let ans = confirm("Are you ready to submit?");
     if (ans === true) {
       roster.forEach((player) => (populateFullName(player)));
-      const insertRosterResponse = await insertRoster(sport, roster,true);
+      const insertRosterResponse = await upsertRoster(roster,true);
       // const insertRosterResponse = { message: roster};
 
       if (insertRosterResponse) {
@@ -196,28 +195,27 @@ export default function EditRoster( {sport, team_options, init_team_id, init_tea
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   
-  const { sport,season_id } = context.query
+  const { sport, season_id } = context.query
 
-  let e_sport: Sport = stringToEnum(String(sport));
-  let seasonID = Number(season_id);
-  let teams: TeamName[] = [];
+  let init_sport = String(sport);
+  let init_season_id = Number(season_id);
+  let teams: TeamData[] = [];
   let init_team_id = 1;
   let init_team_name = "";
-  let init_team: Player[]=[];
+  let init_roster: Player[]=[];
 
   try {
-    teams = await getTeamNames(e_sport, seasonID);
-    init_team_id = teams[0].team_id;
-    init_team_name = teams[0].team_name;
-
-    init_team = await getRoster(e_sport, init_team_id);
+    teams = await getTeams(init_season_id);
+    init_team_id = teams[0].id;
+    init_team_name = teams[0].name;
+    init_roster = await getRoster(init_team_id);
   } catch (e) {
     console.error('Unable to fetch: ', e);
   }
 
   let team_options = teams.map((team) => makeTeamOptions(team));
 
-  return { props: { sport: e_sport, team_options, init_team_id, init_team_name, init_team }}
+  return { props: { team_options, init_team_id, init_team_name, init_roster }}
 
 }
 

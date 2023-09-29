@@ -7,11 +7,11 @@ import ImageCard from '../components/widgets/image-card'
 import FancyButton from '../components/widgets/fancy-button'
 import MiniStandings from '../components/tables/mini-standings'
 
-import { getStandings } from '../utils/api/basketball-api'
-import { BballTeamData } from '../utils/basketball-types'
+import { TeamData } from '../utils/league-types'
+import { getStandings } from '../utils/api/league-api'
 
 type Props = {
-  standings: BballTeamData[]
+  standings: TeamData[]
 } 
 
 const Home = ({standings}: Props) => {
@@ -50,10 +50,10 @@ const Home = ({standings}: Props) => {
 
 export async function getServerSideProps() {
 
-  let standings_data: BballTeamData[] = []
+  let standings_data: TeamData[] = []
 
   try {
-    standings_data = await getStandings(3)
+    //standings_data = await getStandings("basketball",))
   } catch (e) {
     console.error('Unable to get data')
   }

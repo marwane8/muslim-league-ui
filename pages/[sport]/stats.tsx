@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { GetServerSideProps } from "next"
 import Container from "../../components/container"
 import DropDown from "../../components/widgets/drop-down"
 import StatTable from "../../components/tables/stat-table"
@@ -6,7 +7,7 @@ import StatTable from "../../components/tables/stat-table"
 import Header from '../../components/header'
 import Panel from '../../components/panel'
 
-import { Sport, Season, makeSeasonOptions, PlayerStat } from "../../utils/league-types"
+import { Season, makeSeasonOptions, PlayerStat } from "../../utils/league-types"
 import { BBallStat } from "../../utils/basketball-types"
 
 import { getSeasons, getStatLeaders } from "../../utils/api/league-api"
@@ -30,9 +31,8 @@ export default function Stats(
     const new_season_id: number = e.target.value;
     setSeason(new_season_id);
 
-    let points = await getStatLeaders(Sport.BASKETBALL, new_season_id, BBallStat.POINTS, true);
-    let rebounds  = await getStatLeaders(Sport.BASKETBALL, new_season_id, BBallStat.REBOUNDS, true);
-
+    let points = await getStatLeaders(new_season_id, BBallStat.POINTS, true);
+    let rebounds  = await getStatLeaders(new_season_id, BBallStat.REBOUNDS, true);
     setPointsStat(points);
     setReboundStat(rebounds);
   }
@@ -57,7 +57,7 @@ export default function Stats(
         <StatTable 
         title="Scoring Leaders"
         players={currPointsStat}
-        stat="PTS"
+        stat={"PTS"}
         />
 
         <StatTable 
@@ -72,7 +72,9 @@ export default function Stats(
   )
 }
 
-export async function getServerSideProps() {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+
+  const { sport } = context.query
 
   let seasons: Season[]=[]
   let default_season: number = 0
@@ -80,10 +82,10 @@ export async function getServerSideProps() {
   let default_rebounds: PlayerStat[] = []
 
   try {
-    seasons = await getSeasons(Sport.BASKETBALL);
-    default_season = seasons.slice(-1)[0].season_id;
-    default_points = await getStatLeaders(Sport.BASKETBALL,default_season, BBallStat.POINTS);
-    default_rebounds = await getStatLeaders(Sport.BASKETBALL,default_season, BBallStat.REBOUNDS);
+    seasons = await getSeasons(String(sport));
+    default_season = seasons.slice(-1)[0].id;
+    default_points = await getStatLeaders(default_season, BBallStat.POINTS);
+    default_rebounds = await getStatLeaders(default_season, BBallStat.REBOUNDS);
   } catch (e) {
     console.error('Unable to get stats data: ' + e);
   }
