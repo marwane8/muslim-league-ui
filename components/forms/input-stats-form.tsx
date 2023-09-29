@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { NextPage } from "next"
 
 import { Game, StatUpsert, PlayerGameStats, SportID } from "../../utils/league-types"
-import { addBballTypes, addSoccerTypes, formatDate, getSportStats  } from "../../utils/utils"
+import { formatDate } from "../../utils/utils"
 import Modal from "../modal"
 import InputStatsTable from "./input-stats-table"
 

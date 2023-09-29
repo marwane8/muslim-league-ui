@@ -1,6 +1,6 @@
-import { BBallStat, BballABV } from "./basketball-types";
+import { BBallStat } from "./basketball-types";
 import { PlayerGameStats } from "./league-types";
-import { SoccerABV, SoccerStat } from "./soccer-types";
+import { SoccerStat } from "./soccer-types";
 
 export function formatDate(date: number): string {
     const year = Math.floor(date / 10000);

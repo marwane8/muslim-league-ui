@@ -5,19 +5,18 @@ import Container from "../../../../components/container"
 import Header from "../../../../components/header"
 import Panel from "../../../../components/panel"
 import DropDown from "../../../../components/widgets/drop-down"
-import { Sport, Player, stringToEnum, TeamName, makeTeamOptions, TeamData } from "../../../../utils/league-types"
+import { Player, makeTeamOptions, TeamData } from "../../../../utils/league-types"
 import { getTeams, getRoster, upsertRoster } from "../../../../utils/api/league-api"
 import { getValueByKey } from "../../../../utils/utils"
 
 type Props = {
-  init_sport: string,
   team_options: {key: number, value: string}[],
   init_team_id: number,
   init_team_name: string,
   init_roster: Player[]
 }
 
-export default function EditRoster( {init_sport, team_options, init_team_id, init_team_name, init_roster }: Props) {
+export default function EditRoster( { team_options, init_team_id, init_team_name, init_roster }: Props) {
   const [currTeam,setTeam] = useState<number>(init_team_id);
   const [currName,setName] = useState<string>(init_team_name);
   const [roster,setRoster] = useState<Player[]>(init_roster);
@@ -216,7 +215,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   let team_options = teams.map((team) => makeTeamOptions(team));
 
-  return { props: { init_sport, team_options, init_team_id, init_team_name, init_roster }}
+  return { props: { team_options, init_team_id, init_team_name, init_roster }}
 
 }
 

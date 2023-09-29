@@ -1,11 +1,11 @@
 import React from "react"
 import { NextPage } from "next"
 
-import { TeamData } from "../../utils/league-types"
+import { TeamStats } from "../../utils/league-types"
 
 type Props = {
   title: string,
-  standings: TeamData[] 
+  standings: TeamStats[] 
 }
 
 
@@ -40,10 +40,10 @@ const MiniStandings: NextPage<Props> = ({title,standings}: Props) => {
                 <tbody>
                 { standings.map((teams,index) => (
                     <tr key={index} className="border-t border-gray-200" > 
-                    <td data-testid={`team-name-${index}`} className='px-1 py-2 text-left'><span className='font-bold'>{index+1}</span> {teams.team_name} </td>
+                    <td data-testid={`team-name-${index}`} className='px-1 py-2 text-left'><span className='font-bold'>{index+1}</span> {teams.name} </td>
                     <td data-testid={`team-wins-${index}`} className='px-1 py-2'> {teams.wins}  </td>
-                    <td data-testid={`team-loss-${index}`} className='px-1 py-2'> {teams.loss} </td>
-                    <td data-testid={`team-pct-${index}`} className='px-1 py-2 text-sm'> {calculateWinPercentage(teams.wins,teams.loss)} </td>
+                    <td data-testid={`team-loss-${index}`} className='px-1 py-2'> {teams.losses} </td>
+                    <td data-testid={`team-pct-${index}`} className='px-1 py-2 text-sm'> {calculateWinPercentage(teams.wins,teams.losses)} </td>
                     </tr>
                 ))}
                 </tbody>

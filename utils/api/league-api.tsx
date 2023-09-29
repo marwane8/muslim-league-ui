@@ -1,4 +1,4 @@
-import { Sport, Season, TeamName, TeamData, Game, Stat, GameStats,Player,PlayerStat, PlayerGameStats, InsertGameStats, TeamStats } from "../league-types";
+import { Season, TeamData, Game, StatUpsert, Player, PlayerStat, PlayerGameStats, TeamStats, TeamGameStats } from "../league-types";
 import { getRequest, makeAuthorizedPutRequest } from "./api-utils";
 import Cookie from "js-cookie";
 
@@ -23,7 +23,7 @@ export async function getRoster(team_id: number, useClient: boolean=false): Prom
     return getRequest(rosterQuery,useClient);
 }
 
-export async function getStatLeaders(season_id: number, stat: Stat,useClient: boolean=false): Promise<PlayerStat[]> {
+export async function getStatLeaders(season_id: number, stat: string, useClient: boolean=false): Promise<PlayerStat[]> {
     let statLeadersQuery =  "/api/v1/players/" + season_id + "/stat/" + stat;
     return getRequest(statLeadersQuery, useClient);
 }
@@ -43,12 +43,17 @@ export async function getGamesForDate( date: number, useClient: boolean=false): 
     return getRequest(gamesForDateQuery, useClient);
 }
 
+export async function getTeamGameStats(game_id: number, useClient: boolean=false): Promise<TeamGameStats[]> { 
+    const gameTeamStatsquery = "/api/v1/games/stats/teams/" + game_id;
+    return getRequest(gameTeamStatsquery,useClient);
+}
+
 export async function getPlayerGameStats(game_id: number, useClient: boolean=false): Promise<PlayerGameStats[]> { 
     const gamePlayerStatsquery = "/api/v1/games/stats/players/" + game_id;
     return getRequest(gamePlayerStatsquery,useClient);
 }
 
-export async function insertGamesForSeason(gameStats: InsertGameStats[], useClient: boolean=false): Promise<any> {
+export async function insertGamesForSeason(gameStats: StatUpsert[], useClient: boolean=false): Promise<any> {
     const jwt: string = Cookie.get('token');
     const statLeadersQuery = "/api/v1/stats/upsert";
     return makeAuthorizedPutRequest(jwt,statLeadersQuery,gameStats,useClient);
