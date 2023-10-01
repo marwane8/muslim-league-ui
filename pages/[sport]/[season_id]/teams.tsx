@@ -155,7 +155,6 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
 
     seasons = await getSeasons(String(sport));
     init_standings = await getStandings(init_sport,init_season_id);
-    console.log(seasons);
     init_team_id = init_standings[0].id;
     init_roster = await getRoster(init_team_id);
 
