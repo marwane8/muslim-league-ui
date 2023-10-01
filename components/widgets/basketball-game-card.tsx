@@ -10,10 +10,11 @@ import { getTeamGameStats } from "../../utils/api/league-api"
 
 type GameCardProps = {
   standings: TeamStats[],
-  gameData: Game 
+  gameData: Game,
+  handleBoxScoreClick: (g: Game) => void
 }
 
- const GameCard: NextPage<GameCardProps> = ({gameData,standings}: GameCardProps) => {
+ const GameCard: NextPage<GameCardProps> = ({gameData,standings, handleBoxScoreClick}: GameCardProps) => {
 
     let isGamePlayed = Boolean(gameData.played);
 
@@ -25,28 +26,33 @@ type GameCardProps = {
    
     return (
           <>
-          <div className='bg-white max-w-lg my-5 rounded-md mx-auto overflow-hidden'> 
+          <div className='max-w-lg mx-auto my-5 overflow-hidden bg-white rounded-md'> 
               <div className='flex justify-center h-32'>
                 <div className='flex w-32'>
-                      <div className='flex mx-auto flex-col justify-center text-center'>
+                      <div className='flex flex-col justify-center mx-auto text-center'>
                         <h3 className='font-bold'> {gameData.team1} </h3>
                         <h4 className='text-gray-200'> {getTeamRecord(gameData.team1_id)} </h4>
                       </div>
                 </div>
 
-                <div className='flex my-auto justify-between items-center w-42 text-center '>
+                <div className='flex items-center justify-between my-auto text-center w-42 '>
                     {isGamePlayed ? <GameScore gameID={gameData.game_id} team1ID={gameData.team1_id} team2ID={gameData.team2_id} /> : <GameTime time={gameData.start_time} court={gameData.court}/>}
                 </div>
 
                 <div className='flex w-32'>
-                      <div className='flex mx-auto flex-col justify-center text-center'>
+                      <div className='flex flex-col justify-center mx-auto text-center'>
                         <h3 className='font-bold'> {gameData.team2} </h3>
                         <h4 className='text-gray-200'> {getTeamRecord(gameData.team2_id)} </h4>
                       </div>
                 </div>  
               </div>
 
-            <div className='border-t py-1 text-center border-gray-100 my-auto text-gray-200'> BOX SCORE </div>
+            <button className='w-full py-1 my-auto font-bold text-center text-white bg-gray-200 border-t disabled:font-normal hover:bg-gray-300 bo disabled:bg-white disabled:border-gray-100 disabled:text-gray-200'
+                  disabled={Boolean(!gameData.played)} 
+                  onClick={(e) => handleBoxScoreClick(gameData)}
+            >
+                {Boolean(gameData.played) ? "BOX SCORE": "TBD" } 
+            </button>
           </div>
         </>
     )
@@ -78,11 +84,11 @@ function GameScore({gameID,team1ID,team2ID}: GameScoreProps) {
 
  return (
     <div className='flex my-auto justify-between items-center w-[160px] text-center '>
-        <div className='text-center my-auto mr-1 text-2xl font-extrabold'> {team1Score} </div>
+        <div className='my-auto mr-1 text-2xl font-extrabold text-center'> {team1Score} </div>
           { (team1Score > team2Score) ? <WinArrowLeft className='h-4'/>  : <WinArrowLeft className='h-4 fill-white'/> } 
             FINAL
           { (team1Score < team2Score) ? <WinArrowRight className='h-4'/>  : <WinArrowRight className='h-4 fill-white'/>  } 
-        <div className='text-center my-auto ml-1 text-2xl font-extrabold'> {team2Score} </div>
+        <div className='my-auto ml-1 text-2xl font-extrabold text-center'> {team2Score} </div>
     </div>
  )
 }
@@ -96,7 +102,7 @@ type GameTimeProps = {
 function GameTime({time,court}: GameTimeProps) {
     return (
       <div className='my-auto w-[160px] text-center '>
-          <div className='font-extrabold text-xl'> {time} </div>
+          <div className='text-xl font-extrabold'> {time} </div>
           <div className='text-sm'> COURT {court} </div>
       </div>
     )
