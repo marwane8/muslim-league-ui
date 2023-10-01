@@ -27,16 +27,16 @@ const Home = ({standings}: Props) => {
 
       <Container>
 
-        <Panel title='2023 Soccer Season Live!'>
+        <Panel title='2024 Basketball Season Live!'>
           <p className='text-l'> 
-            Visit the soccer page for live updates on the Muslim League Soccer League 
+            Visit the basketball pages for live updates on the Muslim League Basketball League 
           </p>
         </Panel> 
 
 
-        <Panel title='2023 Basketball Season Coming Soon'>
+        <Panel title='Soccer Season Updates Coming Soon'>
           <p className='text-l'> 
-            Details for the 2023  Season will roll out next month Inshallah.
+            Details for soccer will roll out soon inshallah.
             <span className='hidden pl-1 sm:inline'>
               Come back for updates and visit our social media for the latest content.
             </span>
