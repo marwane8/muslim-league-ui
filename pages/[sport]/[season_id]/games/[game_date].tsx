@@ -30,7 +30,7 @@ type Props = {
 const Games = ({season_options, init_season_id, standings,game_dates,init_game_date, init_game_index, games, init_game}: Props) => {
 
   const [currGameDay,setGameDay] = useState<number>(init_game_date);
-  const [showBoxScore,setShowBoxScore] = useState<boolean>(true);
+  const [showBoxScore,setShowBoxScore] = useState<boolean>(false);
   const [currGame,setGame] = useState<Game>(init_game);
 
 
