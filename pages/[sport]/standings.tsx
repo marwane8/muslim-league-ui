@@ -37,17 +37,19 @@ export default function Standings({init_sport, season_options, init_season, init
   }
 
   function calculateWinPercentage(wins: number, losses: number): string {
-
-      let winPct = (wins/(wins+losses));
+      let winPct = (wins/(wins+losses)).toFixed(3);
       let num = winPct.toString();
-      if (num == '1'){
-        return '1.00'
-      } else if (num == '0') {
-        return '0.00'
+      if (num == '1.000'){
+        return '1.00';
+      } else if (num == '0.000') {
+        return '0.00';
       } 
 
-      let placeholder = 5 - num.length 
+      let placeholder = 5 - num.length;
+
+      console.log(num, placeholder);
       return num.substring(1) + '0'.repeat(placeholder)
+
   }
 
   return(
@@ -66,7 +68,7 @@ export default function Standings({init_sport, season_options, init_season, init
     <Panel title="Rankings" removeBorder={true}>
       <div className="w-full mb-3 overflow-y-auto">
       <table className="w-full text-right">
-        <thead className='text-gray-300 border-gray-100 border-t-2 border-b-2'>
+        <thead className='text-gray-300 border-t-2 border-b-2 border-gray-100'>
           <tr >
                 <td className='absolute  pl-2 border-r-2 min-w-[180px] w-[25vw] max-w-[280px] bg-white text-gray-300 font-bold text-center  border-gray-100'> Teams </td>
                 <th className= 'px-3 w-1/4 min-w-[175px]'>   </th>
@@ -81,7 +83,7 @@ export default function Standings({init_sport, season_options, init_season, init
         <tbody>
           { currStandings.map((teams,index) => (
             <tr key={index} className={ index%2 ? borderStyle + grayBG : borderStyle + whiteBG } > 
-              <td className={ index%2 ? grayBG + teamColStyle : whiteBG + teamColStyle }> <span className="font-bold px-1">{index+1}</span> {teams.name} </td>
+              <td className={ index%2 ? grayBG + teamColStyle : whiteBG + teamColStyle }> <span className="px-1 font-bold">{index+1}</span> {teams.name} </td>
               <th className= 'px-3 w-1/4 min-w-[175px]'>   </th>
               <td className='py-1'> {teams.wins} </td>
               <td className=''> {teams.losses} </td>
