@@ -22,6 +22,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
 
   const [team1StatData, setTeam1StatData] = useState<PlayerGameStats[]>([]);
   const [team2StatData, setTeam2StatData] = useState<PlayerGameStats[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     initTeamStatData(sport,game.game_id, game.team1_id)
@@ -135,6 +136,7 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
   const handleGameSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     let ans = confirm("Are you ready to submit?");
     if (ans === true) {
+      setLoading(true);
       const insertStats = createInsertStats(sport, [team1StatData,team2StatData]);
       const teamIDList = [game.team1_id,game.team2_id]
       try {
@@ -148,7 +150,8 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
       } catch (e) {
         window.alert(e);
       }
-
+      setLoading(false);
+      
     }
 
     
@@ -216,8 +219,10 @@ const InputStatsForm: NextPage<StatProps> = ({sport, game, showTable, setShowTab
                             onClick={() => setShowTable(false)}> 
                             Back 
                     </button>
-                    <button className='px-3 py-1 font-bold text-white rounded-md bg-primary hover:bg-primary-100'
-                            onClick={(e) => handleGameSubmit(e)}> 
+                    <button className='px-3 py-1 font-bold text-white rounded-md disabled:bg-gray-200 disabled:text-gray-300 bg-primary hover:bg-primary-100'
+                            onClick={(e) => handleGameSubmit(e)}
+                            disabled={loading} 
+                            > 
                             Submit 
                     </button>
                   </div>
