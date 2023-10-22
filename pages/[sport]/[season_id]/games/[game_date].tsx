@@ -65,6 +65,14 @@ const Games = ({season_options, init_season_id, standings,game_dates,init_game_d
           changeGame={setGameDay} 
           gameDatesArray={game_dates} 
           />
+        <div className='max-w-sm py-2 m-auto text-center text-yellow-300 border border-yellow-300 rounded-md text-md bg-yellow-50'> 
+          <h3>
+            REMAINING MATCHES LOCATED AT:  
+          </h3>
+          <h3 className='font-bold'>
+            75 Neal Court,  Plainville CT 06062
+          </h3>
+        </div>
 
         {
           games.map((game,index) => (
